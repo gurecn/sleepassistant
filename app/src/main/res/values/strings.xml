@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Sleep assistant</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="main_hello_word"> Welcome to this application</string>
+    <string name="navigation_header_welcome_word">devdroid:\nSharing makes technology more perfect.</string>
+    <string name="navigation_header_welcome_email">gurecn@gmail.com</string>
+    <!--正文增加的提醒-->
+    <string name="feedback_content">The following are the system information required to resolve your problem. We will never collect any of your personal information.</string>
+    <!--未发现手机上的邮件APP-->
+    <string name="activity_setting_feedback_no_email">No Email APP found</string>
+
+    <!--反馈信息页面下拉菜单-->
+    <string name="activity_setting_feedback_common">Common Feedback</string>
+    <string name="activity_setting_feedback_suggestion">Suggestion I Got</string>
+    <string name="activity_setting_feedback_problem">Problem I Found</string>
+    <string name="activity_setting_feedback_forceinstall">Forced/Tricked Installation</string>
+    <string name="no_contain_setting_feedback">Hi,say something?</string>
+    <!--菜单feedback-->
+    <string name="title_feedback_setting">Feedback</string>
+    <string name="container_hint_setting_feedback">Please write your comments here, provide as much detail as you can. We are always listening and improving.</string>
+    <string name="mial_hint_setting_feedback">Email</string>
+    <string name="notice_setting_feedback">Phone model and version will be collected for diagnosing your issue.We will never collect personal information without your permission.</string>
+    <string name="sendok_setting_feedback">Thanks for your feedback!</string>
+    <string name="checknet_setting_feedback">Please check your network connection.</string>
+    <!--关于界面-->
+    <string name="about_rights">\@2014–2016 devdroid Dev Team. All Rights Reserved.</string>
+    <string name="about_policy">Privacy Policy</string>
+    <!--侧滑菜单-->
+    <string name="nav_string_text">Text</string>
+    <string name="nav_string_image">Image</string>
+    <string name="nav_string_voide">Video</string>
+    <string name="nav_string_other">Other</string>
+    <string name="nav_string_share">Share</string>
+    <string name="nav_string_feedback">FeedBack</string>
+    <string name="nav_string_about">About</string>
+    <string name="nav_string_setting_net">Offline Mode</string>
+
+    <string name="string_request_phone_state">Need access to mobile phone state after Android6.0 to get the data properly, please authorize.</string>
+    <string name="string_no_phone_state">Unable to get phone status information, can not get the data</string>
+    <string name="share_app_text">Here is a very fun application, we can experience.</string>
+
+    <!--日历控件时间-->
+    <string name="sunday">Sun</string>
+    <string name="monday">Mon</string>
+    <string name="thesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
+    <string name="saturday">Sat</string>
+
+</resources>

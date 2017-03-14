@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--应用主题背景-->
+    <color name="app_main_background">#f1e5c9</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="about_bg_darker">#fefefe</color>
+    <color name="white">#ffffffff</color>
+    <!-- about 页面 -->
+    <color name="about_app_name">#434a54</color>
+    <color name="about_text_sub_color">#aab2bd</color>
+</resources>
