@@ -9,6 +9,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="channel"
+            android:value="${COM_DEVDROID_CHANNEL_VALUE}" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"

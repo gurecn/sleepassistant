@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
-
+def dateTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+8"))
+}
 android {
     compileSdkVersion 24
     buildToolsVersion "25.0.0"
@@ -9,12 +11,62 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "200"]
     }
+    signingConfigs {
+        release {
+            storeFile file("devdroid.jks")
+            storePassword "devdroid110"
+            keyAlias "devdroid"
+            keyPassword "devdroid110"
+        }
+        debug {
+            storeFile file("devdroid.jks")
+            storePassword "devdroid110"
+            keyAlias "devdroid"
+            keyPassword "devdroid110"
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 混淆
+            minifyEnabled true
+            // zipAlign优化
+            zipAlignEnabled true
+            // 移除无用的资源文件文件
+            shrinkResources true
+            // 加载默认混淆配置文件，PS:将proguard.cfg放置在主Module目录下
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.cfg'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
+            // 签名
+            signingConfig signingConfigs.release
+            // 定义APK名称格式
+            applicationVariants.all { variant ->
+                if (variant.buildType.name == "debug") return;
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        def fileName = "${defaultConfig.applicationId}_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${variant.productFlavors[0].name}_release_${dateTime()}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+    }
+    //渠道Flavors
+    productFlavors {
+        zhushou360 {
+            manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "360zhushou"]
+        }
+        xiaomi {
+            manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "xiaomi"]
+        }
+        wandoujia {
+            manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "wandoujia"]
+        }
+        huawei {
+            manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "huawei"]
         }
     }
 }
