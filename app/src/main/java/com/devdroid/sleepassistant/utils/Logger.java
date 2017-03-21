@@ -11,10 +11,6 @@ public class Logger {
 
     public static boolean DEBUG = BuildConfig.DEBUG;
 
-    public static final void setDEBUG(boolean debug) {
-        DEBUG = debug;
-    }
-
     /**
      * @param tag 标识符
      * @param msg 打印信息

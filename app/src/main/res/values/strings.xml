@@ -50,5 +50,6 @@
     <string name="thursday">Thu</string>
     <string name="friday">Fri</string>
     <string name="saturday">Sat</string>
+    <string name="title_activity_guide">GuideActivity</string>
 
 </resources>

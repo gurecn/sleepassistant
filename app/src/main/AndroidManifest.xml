@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.devdroid.sleepassistant">
-
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"></uses-permission>
     <application
         android:name=".application.TheApplication"
         android:allowBackup="true"
@@ -9,7 +9,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="channel"
             android:value="${COM_DEVDROID_CHANNEL_VALUE}" />
@@ -22,6 +21,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.GuideActivity"
+            android:label="@string/title_activity_guide"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 守护 START -->
+        <!-- 守护SDK整合 常驻进程需要配置一个service和一个receiver，另外需要一个辅助进程，同样要配置一个service和一个receiver。 -->
+        <!-- 守护进程 -->
+        <service android:name=".service.GuardService" />
+        <!-- 守护进程receiver -->
+        <receiver android:name=".receiver.DaemonReceiver" />
+        <!-- 守护辅助进程 -->
+        <service
+            android:name=".service.DaemonHelperService"
+            android:process=":DaemonHelperService" />
+        <!-- 守护辅助进程receiver -->
+        <receiver
+            android:name=".receiver.DaemonHelperReceiver"
+            android:process=":DaemonHelperService" />
     </application>
 
 </manifest>

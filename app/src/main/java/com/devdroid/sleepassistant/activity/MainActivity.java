@@ -13,6 +13,7 @@ import com.devdroid.sleepassistant.adapter.CalendarViewAdapter;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.listener.NavigationItemSelectedListener;
 import com.devdroid.sleepassistant.mode.CustomDate;
+import com.devdroid.sleepassistant.utils.Logger;
 import com.devdroid.sleepassistant.view.CalendarCard;
 
 /**
@@ -35,6 +36,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        Logger.d("MainActivity", "MainActivity");
     }
 
     private void initView() {
