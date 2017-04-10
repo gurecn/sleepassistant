@@ -16,6 +16,8 @@ public class CustomDate implements Serializable{
     public int month;
     public int day;
     public int week;
+    private long sleepTime = 0;
+    private int sleepType;
 
     public CustomDate(int year,int month,int day){
         if(month > 12){
@@ -92,7 +94,6 @@ public class CustomDate implements Serializable{
         if (month != that.month) return false;
         if (week != that.week) return false;
         if (year != that.year) return false;
-
         return true;
     }
 

@@ -36,7 +36,6 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        Logger.d("MainActivity", "MainActivity");
     }
 
     private void initView() {
@@ -114,11 +113,11 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     // 日历点击
     @Override
     public void clickDate(CustomDate date) {
-
+        Logger.d("点击日历clickDate", "年月：" + date.getYearMonth() + "日：" + date.getDay());
     }
 
     @Override
     public void changeDate(CustomDate date) {
-
+        Logger.d("改变日历changeDate", "年月：" + date.getYearMonth() + "日：" + date.getDay());
     }
 }

@@ -33,30 +33,31 @@
                 <TextView
                     style="@style/dateStyle"
                     android:text="@string/thesday"/>
-
                 <TextView
                     style="@style/dateStyle"
                     android:text="@string/wednesday"/>
-
                 <TextView
                     style="@style/dateStyle"
                     android:text="@string/thursday"/>
-
                 <TextView
                     style="@style/dateStyle"
                     android:text="@string/friday"/>
-
                 <TextView
                     style="@style/dateStyle"
                     android:text="@string/saturday"/>
             </TableRow>
         </TableLayout>
     </LinearLayout>
-
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center" >
     </android.support.v4.view.ViewPager>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff0000"
+        android:text="这是测试"
+        android:textColor="@color/about_bg_darker"/>
 </LinearLayout>

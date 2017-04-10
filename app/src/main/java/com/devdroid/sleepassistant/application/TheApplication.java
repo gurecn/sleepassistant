@@ -58,11 +58,11 @@ public class TheApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        if (BuildConfig.DEBUG) {
-            DaemonClient.getInstance().setDebugMode();
-        }
-        DaemonClient.getInstance().init(createDaemonConfigurations());
-        DaemonClient.getInstance().onAttachBaseContext(base);
+//        if (BuildConfig.DEBUG) {
+//            DaemonClient.getInstance().setDebugMode();
+//        }
+//        DaemonClient.getInstance().init(createDaemonConfigurations());
+//        DaemonClient.getInstance().onAttachBaseContext(base);
     }
 
     /**

@@ -97,7 +97,7 @@ public class CalendarCard extends View {
 
     private void initDate() {
         mShowDate = new CustomDate();
-        fillDate();//
+        fillDate();
     }
 
     private void fillDate() {
@@ -130,30 +130,18 @@ public class CalendarCard extends View {
                     }
 
                     if (isCurrentMonth && day > monthDay) { // 如果比这个月的今天要大，表示还没到
-                        rows[j].cells[i] = new Cell(
-                                date,
-                                State.UNREACH_DAY, i, j);
+                        rows[j].cells[i] = new Cell(date, State.UNREACH_DAY, i, j);
                     }
-
                     if((currentROW == j&&currentCol == i)||date.equals(clickData)){
                         rows[j].cells[i] = new Cell(date, State.CLICK_DAY, i, j);
                     }
-
                     // 过去一个月
                 } else if (position < firstDayWeek) {
-                    rows[j].cells[i] = new Cell(new CustomDate(mShowDate.year,
-                            mShowDate.month - 1, lastMonthDays
-                            - (firstDayWeek - position - 1)),
-                            State.PAST_MONTH_DAY, i, j);
+                    rows[j].cells[i] = new Cell(new CustomDate(mShowDate.year, mShowDate.month - 1, lastMonthDays - (firstDayWeek - position - 1)), State.PAST_MONTH_DAY, i, j);
                     // 下个月
                 } else if (position >= firstDayWeek + currentMonthDays) {
-                    rows[j].cells[i] = new Cell((new CustomDate(mShowDate.year,
-                            mShowDate.month + 1, position - firstDayWeek
-                            - currentMonthDays + 1)),
-                            State.NEXT_MONTH_DAY, i, j);
+                    rows[j].cells[i] = new Cell((new CustomDate(mShowDate.year, mShowDate.month + 1, position - firstDayWeek - currentMonthDays + 1)), State.NEXT_MONTH_DAY, i, j);
                 }
-
-
             }
         }
         mCellClickListener.changeDate(mShowDate);
@@ -387,39 +375,23 @@ public class CalendarCard extends View {
     }
     private void getSignInfoMonth(String dataString){
         signDateList.clear();
-        update();
-//        RESTHttpUtils httpUtils = new RESTHttpUtils(getContext(),
-//                new RESTHttpUtils.NetWorkUtilCallBack() {
-//                    @Override
-//                    public <T> void loadDone(T entity) {}
-//                    @Override
-//                    public void respCode(String code) {}
-//                    @Override
-//                    public <T> void loadDone(List<T> list) {
-//                        if(list!=null&&list.size()>0){
-//                            ArrayList<String> signList = (ArrayList<String>) list;
-//                            for(String day:signList){
-//                                String[] in = day.split("-");
-//                                CustomDate da = new CustomDate(Integer.valueOf(in[0]),Integer.valueOf(in[1]),Integer.valueOf(in[2]));
-//                                signDateList.add(da);
-//                            }
-//                            update();
-//                        }
-//                    }
-//                    @Override
-//                    public void respErrorMsg(String msg) {
-//                    }
-//                }, false);
-//        String url = String.format(ApiConstant.POST_GROUP_SIGN_MONTH,groupId, SharedPreferencesUtils.getString(getContext(), "token", ""));
-//        BaseRequestParams para = new BaseRequestParams();
-//        para.add("date",dataString);
-//        RESTHttpUtils.PostTask<String> get = httpUtils.new PostTask<String>(para,String.class);
-//        get.execute(url);
+        CustomDate customDate = new CustomDate(2017, 04,05);
+        signDateList.add(customDate);
+        customDate = new CustomDate(2017, 03,05);
+        signDateList.add(customDate);
+        customDate = new CustomDate(2017, 04,05);
+        signDateList.add(customDate);
+        customDate = new CustomDate(2017, 04,04);
+        signDateList.add(customDate);
+        customDate = new CustomDate(2017, 04,03);
+        signDateList.add(customDate);
+
+//        update();
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
-        super.onMeasure(widthMeasureSpec, expandSpec);
-    }
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+//        super.onMeasure(widthMeasureSpec, expandSpec);
+//    }
 }
