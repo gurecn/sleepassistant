@@ -213,16 +213,12 @@ public class CalendarCard extends View {
             rows[currentROW].cells[currentCol] = new Cell(date, State.CLICK_DAY, currentCol, currentROW);
             mCellClickListener.clickDate(date);
             // 刷新界面
-//            update(true);
-            invalidate();
+            update(true);
         }
     }
 
     /**
      * 组元素
-     *
-     * @author wuwenjie
-     *
      */
     class Row {
         int j;
@@ -243,9 +239,6 @@ public class CalendarCard extends View {
 
     /**
      * 单元格元素
-     *
-     * @author wuwenjie
-     *
      */
     class Cell {
         private SleepDataMode date;
@@ -325,7 +318,6 @@ public class CalendarCard extends View {
     }
 
     /**
-     *
      * @author wuwenjie 单元格的状态 当前月日期，过去的月的日期，下个月的日期
      */
     enum State {

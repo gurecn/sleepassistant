@@ -13,4 +13,21 @@
     tools:context="com.devdroid.sleepassistant.activity.GuideActivity"
     tools:showIn="@layout/activity_guide">
 
+    <ImageView
+        android:id="@+id/iv_zhuopin_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/zhuopin_logo"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/iv_zhuopin_logo"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:textSize="28sp"
+        android:text="睡眠助理\n45\n天"/>
 </RelativeLayout>
