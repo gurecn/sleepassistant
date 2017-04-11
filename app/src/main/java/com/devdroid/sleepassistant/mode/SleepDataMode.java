@@ -1,5 +1,7 @@
 package com.devdroid.sleepassistant.mode;
 
+import com.devdroid.sleepassistant.utils.DateUtil;
+
 /**
  * Created by Gaolei on 2017/3/15.
  */
@@ -8,18 +10,29 @@ public class SleepDataMode {
     private int year;
     private int month;
     private int day;
-    private long sleepTime;
+    private int hour;
+    private int minute;
     private int sleepType;
 
-    public SleepDataMode(int year, int month, int day) {
+
+    public SleepDataMode(){
+        this.year = DateUtil.getYear();
+        this.month = DateUtil.getMonth();
+        this.day = DateUtil.getCurrentMonthDay();
+        this.hour = DateUtil.getHour();
+        this.minute = DateUtil.getMinute();
+    }
+
+    public SleepDataMode(int year, int month, int day, int hour, int minute) {
         this.year = year;
         this.month = month;
         this.day = day;
+        this.hour = hour;
+        this.minute = minute;
     }
 
-    public SleepDataMode(int year, int month, int day, long sleepTime, int sleepType) {
-        this(year, month, day);
-        this.sleepTime = sleepTime;
+    public SleepDataMode(int year, int month, int day, int hour, int minute, int sleepType) {
+        this(year, month, day, hour, minute);
         this.sleepType = sleepType;
     }
 
@@ -35,11 +48,61 @@ public class SleepDataMode {
         return day;
     }
 
-    public long getSleepTime() {
-        return sleepTime;
+    public int getHour() {
+        return hour;
+    }
+
+    public int getMinute() {
+        return minute;
     }
 
     public int getSleepType() {
         return sleepType;
     }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public void setSleepType(int sleepType) {
+        this.sleepType = sleepType;
+    }
+
+    public static SleepDataMode modifiDayForObject(SleepDataMode date,int day){
+        SleepDataMode modifiDate = new SleepDataMode(date.year, date.month, day, date.getHour(), date.getMinute());
+        return modifiDate;
+    }
+
+    @Override
+    public String toString() {
+        return  "" + this.getYear() + this.getMonth() + this.getDay();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SleepDataMode that = (SleepDataMode) o;
+        if (day != that.day) return false;
+        if (month != that.month) return false;
+        if (year != that.year) return false;
+        return true;
+    }
+
 }

@@ -8,9 +8,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import com.devdroid.sleepassistant.mode.CustomDate;
+import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.LauncherModel;
+import com.devdroid.sleepassistant.mode.SleepDataMode;
 import com.devdroid.sleepassistant.utils.DateUtil;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 自定义日历卡
@@ -27,11 +29,9 @@ public class CalendarCard extends View {
     private Paint mCircleClickPaint; // 绘制圆形的画笔
     private Paint mCircleHollowPaint; // 绘制圆形的画笔
     private Paint mTextPaint; // 绘制文本的画笔
-    private int mViewWidth; // 视图的宽度
-    private int mViewHeight; // 视图的高度
     private int mCellSpace; // 单元格间距
     private Row rows[] = new Row[TOTAL_ROW]; // 行数组，每个元素代表一行
-    private static CustomDate mShowDate; // 自定义的日期，包括year,month,day
+    private static SleepDataMode mShowDate; // 自定义的日期，包括year,month,day
     private OnCellClickListener mCellClickListener; // 单元格点击回调事件
     private int touchSlop;
     private boolean callBackCellSpace;
@@ -42,9 +42,9 @@ public class CalendarCard extends View {
     private int currentCol = -1;
     private int currentROW = -1;
     //已签到的时间
-    public ArrayList<CustomDate> signDateList = new ArrayList<CustomDate>();
-    private CustomDate mOldDate;
-    private CustomDate clickData;
+//    public ArrayList<SleepDataMode> signDateList = new ArrayList<>();
+    private SleepDataMode clickData;
+    private List<SleepDataMode> mSleepDataModes;
 
     /**
      * 单元格点击的回调接口
@@ -53,9 +53,9 @@ public class CalendarCard extends View {
      *
      */
     public interface OnCellClickListener {
-        void clickDate(CustomDate date); // 回调点击的日期
+        void clickDate(SleepDataMode date); // 回调点击的日期
 
-        void changeDate(CustomDate date); // 回调滑动ViewPager改变的日期
+        void changeDate(SleepDataMode date); // 回调滑动ViewPager改变的日期
     }
 
     public CalendarCard(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -83,31 +83,35 @@ public class CalendarCard extends View {
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaint.setStyle(Paint.Style.FILL);
-        mCirclePaint.setColor(Color.parseColor("#FFF4CE"));          //签到
+        mCirclePaint.setColor(getResources().getColor(R.color.color_calendar_card_green));
         mCircleClickPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCircleClickPaint.setStyle(Paint.Style.FILL);
-        mCircleClickPaint.setColor(Color.parseColor("#FFCA0A"));      //点击
+        mCircleClickPaint.setColor(getResources().getColor(R.color.color_calendar_card_click));      //点击
         mCircleHollowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCircleHollowPaint.setStrokeWidth((float) 1.5);
         mCircleHollowPaint.setStyle(Paint.Style.STROKE);
-        mCircleHollowPaint.setColor(Color.parseColor("#FFCA0A"));        //画环
+        mCircleHollowPaint.setColor(getResources().getColor(R.color.color_calendar_card_click));       //画环
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         initDate();
     }
 
     private void initDate() {
-        mShowDate = new CustomDate();
-        fillDate();
+        mShowDate = new SleepDataMode();
+        fillDate(false);
     }
 
-    private void fillDate() {
+    private void fillDate(boolean isClick) {
         int monthDay = DateUtil.getCurrentMonthDay(); // 今天
-        int lastMonthDays = DateUtil.getMonthDays(mShowDate.year,mShowDate.month - 1); // 上个月的天数
-        int currentMonthDays = DateUtil.getMonthDays(mShowDate.year,mShowDate.month); // 当前月的天数
-        int firstDayWeek = DateUtil.getWeekDayFromDate(mShowDate.year,mShowDate.month);
+        int lastMonthDays = DateUtil.getMonthDays(mShowDate.getYear(),mShowDate.getMonth() - 1); // 上个月的天数
+        int currentMonthDays = DateUtil.getMonthDays(mShowDate.getYear(),mShowDate.getMonth()); // 当前月的天数
+        int firstDayWeek = DateUtil.getWeekDayFromDate(mShowDate.getYear(),mShowDate.getMonth());
         boolean isCurrentMonth = false;
         if (DateUtil.isCurrentMonth(mShowDate)) {
             isCurrentMonth = true;
+        }
+        if(!isClick){
+            mCellClickListener.changeDate(mShowDate);
+            mSleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(mShowDate.getYear(), mShowDate.getMonth());
         }
         int day = 0;
         for (int j = 0; j < TOTAL_ROW; j++) {
@@ -117,10 +121,10 @@ public class CalendarCard extends View {
                 // 这个月的
                 if (position >= firstDayWeek && position < firstDayWeek + currentMonthDays) {
                     day++;
-                    CustomDate date = CustomDate.modifiDayForObject(mShowDate, day);
+                    SleepDataMode date = SleepDataMode.modifiDayForObject(mShowDate, day);
                     rows[j].cells[i] = new Cell(date, State.CURRENT_MONTH_DAY, i, j);
 
-                    if(signDateList.contains(date)){
+                    if(mSleepDataModes.contains(date)){
                         rows[j].cells[i] = new Cell(date, State.SIGN_DAY, i, j);
                     }
 
@@ -137,28 +141,15 @@ public class CalendarCard extends View {
                     }
                     // 过去一个月
                 } else if (position < firstDayWeek) {
-                    rows[j].cells[i] = new Cell(new CustomDate(mShowDate.year, mShowDate.month - 1, lastMonthDays - (firstDayWeek - position - 1)), State.PAST_MONTH_DAY, i, j);
+                    rows[j].cells[i] = new Cell(new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() - 1, lastMonthDays - (firstDayWeek - position - 1), mShowDate.getHour(), mShowDate.getMinute()), State.PAST_MONTH_DAY, i, j);
                     // 下个月
                 } else if (position >= firstDayWeek + currentMonthDays) {
-                    rows[j].cells[i] = new Cell((new CustomDate(mShowDate.year, mShowDate.month + 1, position - firstDayWeek - currentMonthDays + 1)), State.NEXT_MONTH_DAY, i, j);
+                    rows[j].cells[i] = new Cell((new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() + 1, position - firstDayWeek - currentMonthDays + 1, mShowDate.getHour(), mShowDate.getMinute())), State.NEXT_MONTH_DAY, i, j);
                 }
             }
         }
-        mCellClickListener.changeDate(mShowDate);
         currentCol = -1;
         currentROW = -1;
-        if(mShowDate.getYear()<DateUtil.getYear()||(mShowDate.getYear()== DateUtil.getYear()&&mShowDate.getMonth()<=DateUtil.getMonth()))    {
-            if(mOldDate==null||mShowDate==null||!mOldDate.getYearMonth().equals(mShowDate.getYearMonth())) {
-                mOldDate = new CustomDate(mShowDate.getYear(),mShowDate.getMonth(),mShowDate.getDay());
-                getSignInfoMonth(mShowDate.getYearMonth());
-            }
-        } else{
-            if(mOldDate==null||mShowDate==null||!mOldDate.getYearMonth().equals(mShowDate.getYearMonth())) {
-                mOldDate = new CustomDate(mShowDate.getYear(),mShowDate.getMonth(),mShowDate.getDay());
-                signDateList.clear();
-                update();
-            }
-        }
     }
 
     @Override
@@ -174,9 +165,7 @@ public class CalendarCard extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mViewWidth = w;
-        mViewHeight = h;
-        mCellSpace = Math.min(mViewHeight / TOTAL_ROW, mViewWidth / TOTAL_COL);
+        mCellSpace = Math.min(h / TOTAL_ROW, w / TOTAL_COL);
         if (!callBackCellSpace) {
             callBackCellSpace = true;
         }
@@ -208,8 +197,6 @@ public class CalendarCard extends View {
 
     /**
      * 计算点击的单元格
-     * @param col
-     * @param row
      */
     private void measureClickCell(int col, int row) {
         if (col >= TOTAL_COL || row >= TOTAL_ROW)
@@ -219,14 +206,15 @@ public class CalendarCard extends View {
         }
         if (rows[row] != null) {
             mClickCell = new Cell(rows[row].cells[col].date,rows[row].cells[col].state, rows[row].cells[col].i,rows[row].cells[col].j);
-            CustomDate date = rows[row].cells[col].date;
-            date.week = col;
+            SleepDataMode date = rows[row].cells[col].date;
             currentCol = col;
             currentROW = row;
             clickData = date;
+            rows[currentROW].cells[currentCol] = new Cell(date, State.CLICK_DAY, currentCol, currentROW);
             mCellClickListener.clickDate(date);
             // 刷新界面
-            update();
+//            update(true);
+            invalidate();
         }
     }
 
@@ -237,19 +225,16 @@ public class CalendarCard extends View {
      *
      */
     class Row {
-        public int j;
-
+        int j;
         Row(int j) {
             this.j = j;
         }
-
-        public Cell[] cells = new Cell[TOTAL_COL];
-
+        Cell[] cells = new Cell[TOTAL_COL];
         // 绘制单元格
-        public void drawCells(Canvas canvas) {
-            for (int i = 0; i < cells.length; i++) {
-                if (cells[i] != null) {
-                    cells[i].drawSelf(canvas);
+        void drawCells(Canvas canvas) {
+            for (Cell cell : cells) {
+                if (cell != null) {
+                    cell.drawSelf(canvas);
                 }
             }
         }
@@ -263,12 +248,12 @@ public class CalendarCard extends View {
      *
      */
     class Cell {
-        public CustomDate date;
-        public State state;
-        public int i;
-        public int j;
+        private SleepDataMode date;
+        State state;
+        private int i;
+        private int j;
 
-        public Cell(CustomDate date, State state, int i, int j) {
+        Cell(SleepDataMode date, State state, int i, int j) {
             super();
             this.date = date;
             this.state = state;
@@ -276,15 +261,15 @@ public class CalendarCard extends View {
             this.j = j;
         }
 
-        public void drawSelf(Canvas canvas) {
+        void drawSelf(Canvas canvas) {
             switch (state) {
                 case CLICK_DAY:
-                    CustomDate preDate = new CustomDate(date.getYear(),date.getMonth(),date.getDay()-1);
-                    CustomDate nexDate = new CustomDate(date.getYear(),date.getMonth(),date.getDay()+1);
-                    if(i!=0&&signDateList.contains(preDate)&&signDateList.contains(this.date)){
+                    SleepDataMode preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
+                    SleepDataMode nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
+                    if(i!=0&&mSleepDataModes.contains(preDate)&&mSleepDataModes.contains(this.date)){
                         canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
                     }
-                    if(i!=6&&signDateList.contains(this.date)&&signDateList.contains(nexDate)&&(nexDate.getYear()<DateUtil.getYear()||(nexDate.getYear()== DateUtil.getYear()&&nexDate.getMonth()<DateUtil.getMonth())||(nexDate.getYear()== DateUtil.getYear()&&nexDate.getMonth()==DateUtil.getMonth()&&nexDate.getDay()<=DateUtil.getCurrentMonthDay())) ) {
+                    if(i!=6&&mSleepDataModes.contains(this.date)&&mSleepDataModes.contains(nexDate)) {
                         canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
                     }
                     mTextPaint.setColor(Color.parseColor("#FFFFFF"));
@@ -292,12 +277,12 @@ public class CalendarCard extends View {
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCircleClickPaint);
                     break;
                 case SIGN_DAY:
-                    preDate = new CustomDate(date.getYear(),date.getMonth(),date.getDay()-1);
-                    nexDate = new CustomDate(date.getYear(),date.getMonth(),date.getDay()+1);
-                    if(i!=0&&signDateList.contains(preDate)){
+                    preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
+                    nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
+                    if(i!=0&&mSleepDataModes.contains(preDate)){
                         canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
                     }
-                    if(i!=6&&signDateList.contains(nexDate)&&(nexDate.getYear()<DateUtil.getYear()||(nexDate.getYear()== DateUtil.getYear()&&nexDate.getMonth()<DateUtil.getMonth())||(nexDate.getYear()== DateUtil.getYear()&&nexDate.getMonth()==DateUtil.getMonth()&&nexDate.getDay()<=DateUtil.getCurrentMonthDay())) ) {
+                    if(i!=6&&mSleepDataModes.contains(nexDate)) {
                         canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
                     }
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
@@ -305,12 +290,12 @@ public class CalendarCard extends View {
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case TODAY: // 今天
-                    preDate = new CustomDate(date.getYear(),date.getMonth(),date.getDay()-1);
-                    nexDate = new CustomDate(date.getYear(),date.getMonth(),date.getDay()+1);
-                    if(i!=0&&signDateList.contains(preDate)){
+                    preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
+                    nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
+                    if(i!=0&&mSleepDataModes.contains(preDate)){
                         canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
                     }
-                    if(i!=6&&signDateList.contains(nexDate)&&(nexDate.getYear()<DateUtil.getYear()||(nexDate.getYear()== DateUtil.getYear()&&nexDate.getMonth()<DateUtil.getMonth())||(nexDate.getYear()== DateUtil.getYear()&&nexDate.getMonth()==DateUtil.getMonth()&&nexDate.getDay()<=DateUtil.getCurrentMonthDay())) ) {
+                    if(i!=6&&mSleepDataModes.contains(nexDate)) {
                         canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
                     }
                     mTextPaint.setColor(Color.parseColor("#131313"));
@@ -333,9 +318,9 @@ public class CalendarCard extends View {
                     break;
             }
             // 绘制文字
-            String content = date.day + "";
+            String content = date.getDay() + "";
             canvas.drawText(content,(float) ((i + 0.5) * mCellSpace - mTextPaint.measureText(content) / 2), (float) ((j + 0.7)
-                            * mCellSpace - mTextPaint.measureText(content, 0, 1) / 2), mTextPaint);
+                    * mCellSpace - mTextPaint.measureText(content, 0, 1) / 2), mTextPaint);
         }
     }
 
@@ -344,54 +329,34 @@ public class CalendarCard extends View {
      * @author wuwenjie 单元格的状态 当前月日期，过去的月的日期，下个月的日期
      */
     enum State {
-        TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, SIGN_DAY,CLICK_DAY;
+        TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, SIGN_DAY,CLICK_DAY
     }
 
     // 从左往右划，上一个月
     public void leftSlide() {
-        if (mShowDate.month == 1) {
-            mShowDate.month = 12;
-            mShowDate.year -= 1;
+        if (mShowDate.getMonth() == 1) {
+            mShowDate.setMonth(12);
+            mShowDate.setYear(mShowDate.getYear() - 1);
         } else {
-            mShowDate.month -= 1;
+            mShowDate.setMonth(mShowDate.getMonth() - 1);
         }
-        update();
+        update(false);
     }
 
     // 从右往左划，下一个月
     public void rightSlide() {
-        if (mShowDate.month == 12) {
-            mShowDate.month = 1;
-            mShowDate.year += 1;
+
+        if (mShowDate.getMonth() == 12) {
+            mShowDate.setMonth(1);
+            mShowDate.setYear(mShowDate.getYear() + 1);
         } else {
-            mShowDate.month += 1;
+            mShowDate.setMonth(mShowDate.getMonth() + 1);
         }
-        update();
+        update(false);
     }
 
-    public void update() {
-        fillDate();
+    public void update(boolean isClick) {
+        fillDate(isClick);
         invalidate();
     }
-    private void getSignInfoMonth(String dataString){
-        signDateList.clear();
-        CustomDate customDate = new CustomDate(2017, 04,05);
-        signDateList.add(customDate);
-        customDate = new CustomDate(2017, 03,05);
-        signDateList.add(customDate);
-        customDate = new CustomDate(2017, 04,05);
-        signDateList.add(customDate);
-        customDate = new CustomDate(2017, 04,04);
-        signDateList.add(customDate);
-        customDate = new CustomDate(2017, 04,03);
-        signDateList.add(customDate);
-
-//        update();
-    }
-
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
-//        super.onMeasure(widthMeasureSpec, expandSpec);
-//    }
 }

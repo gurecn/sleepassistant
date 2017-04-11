@@ -27,6 +27,10 @@ public class SleepDataDao {
         return mSnssdkDatabaseHelper.querySleepDataInfo();
     }
 
+    public List<SleepDataMode> querySleepDataInfo(int year, int month) {
+        return mSnssdkDatabaseHelper.querySleepDataInfo(year, month);
+    }
+
     public void insertSleepDataItem(List<SleepDataMode> insertList) {
         mSnssdkDatabaseHelper.insertSleepDataItem(insertList);
     }

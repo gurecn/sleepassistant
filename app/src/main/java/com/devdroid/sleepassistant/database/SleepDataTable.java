@@ -4,11 +4,12 @@ package com.devdroid.sleepassistant.database;
  */
 public class SleepDataTable {
 	public static final String ID = "_id";
-	public static final String SLEEP_YEAR = "sleep_date";
-	public static final String SLEEP_MONTH = "sleep_date";
-	public static final String SLEEP_DAY = "sleep_date";
+	public static final String SLEEP_YEAR = "sleep_year";
+	public static final String SLEEP_MONTH = "sleep_month";
+	public static final String SLEEP_DAY = "sleep_day";
+	public static final String SLEEP_HOUR = "sleep_hour";
+	public static final String SLEEP_MINUTE = "sleep_minute";
 	public static final String SLEEP_TYPE = "sleep_type";
-	public static final String SLEEP_TIME = "sleep_time";
 
 	/**
 	 * ============== 表名 ==============
@@ -23,7 +24,8 @@ public class SleepDataTable {
 			+ SLEEP_YEAR + " Integer,"
 			+ SLEEP_MONTH + " Integer,"
 			+ SLEEP_DAY + " Integer,"
+			+ SLEEP_HOUR + " Integer,"
+			+ SLEEP_MINUTE + " Integer,"
 			+ SLEEP_TYPE + " text,"
-			+ SLEEP_TIME + " text,"
 			+ " PRIMARY KEY("+ID+"))";
 }

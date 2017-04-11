@@ -10,4 +10,11 @@
     <!-- about 页面 -->
     <color name="about_app_name">#434a54</color>
     <color name="about_text_sub_color">#aab2bd</color>
+
+    //日历显示色纸
+
+    <color name="color_calendar_card_green">#00ff00</color>
+    <color name="color_calendar_card_yellow">#FFF4CE</color>
+    <color name="color_calendar_card_red">#ff0000</color>
+    <color name="color_calendar_card_click">#FFCA0A</color>
 </resources>

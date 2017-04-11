@@ -29,13 +29,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switch_nav_header_net"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:layout_marginRight="10dp"
-            android:text="@string/nav_string_setting_net"/>
         <TextView
             android:id="@+id/tv_nav_header_email"
             android:layout_width="wrap_content"

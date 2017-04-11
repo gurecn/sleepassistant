@@ -1,9 +1,7 @@
 package com.devdroid.sleepassistant.utils;
 
 import android.annotation.SuppressLint;
-
-import com.devdroid.sleepassistant.mode.CustomDate;
-
+import com.devdroid.sleepassistant.mode.SleepDataMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -61,11 +59,10 @@ public class DateUtil {
     public static int getMinute() {
         return Calendar.getInstance().get(Calendar.MINUTE);
     }
-    public static CustomDate getNextSunday() {
+    public static SleepDataMode getNextSunday() {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE, 7 - getWeekDay()+1);
-        CustomDate date = new CustomDate(c.get(Calendar.YEAR),
-                c.get(Calendar.MONTH)+1, c.get(Calendar.DAY_OF_MONTH));
+        SleepDataMode date = new SleepDataMode(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.HOUR), c.get(Calendar.MINUTE));
         return date;
     }
 
@@ -104,11 +101,11 @@ public class DateUtil {
         }
         return date;
     }
-    public static boolean isToday(CustomDate date){
-        return(date.year == DateUtil.getYear() && date.month == DateUtil.getMonth() && date.day == DateUtil.getCurrentMonthDay());
+    public static boolean isToday(SleepDataMode date){
+        return(date.getYear() == DateUtil.getYear() && date.getMonth() == DateUtil.getMonth() && date.getDay() == DateUtil.getCurrentMonthDay());
     }
 
-    public static boolean isCurrentMonth(CustomDate date){
-        return(date.year == DateUtil.getYear() && date.month == DateUtil.getMonth());
+    public static boolean isCurrentMonth(SleepDataMode date){
+        return(date.getYear() == DateUtil.getYear() && date.getMonth() == DateUtil.getMonth());
     }
 }
