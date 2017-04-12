@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     private CalendarViewAdapter<CalendarCard> adapter;
     private int mCurrentIndex = 1000;
     private SildeDirection mDirection = SildeDirection.NO_SILDE;
+    private TextView mTvDateLable;
 
     enum SildeDirection {
         RIGHT, LEFT, NO_SILDE
@@ -55,6 +57,8 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         NavigationItemSelectedListener navigationItemSelectedListener = new NavigationItemSelectedListener(this);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
         mViewPager = (ViewPager) this.findViewById(R.id.vp_calendar);
+        mTvDateLable = (TextView) this.findViewById(R.id.tv_content_main_date_lable);
+
         CalendarCard[] views = new CalendarCard[3];
         for (int i = 0; i < 3; i++) {
             views[i] = new CalendarCard(this, this);
@@ -133,5 +137,6 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
 
     @Override
     public void changeDate(SleepDataMode date) {
+        mTvDateLable.setText(date.getYear() + "年" + date.getMonth() + "月");
     }
 }
