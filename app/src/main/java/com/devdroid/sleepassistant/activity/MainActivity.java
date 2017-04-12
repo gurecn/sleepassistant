@@ -3,7 +3,6 @@ package com.devdroid.sleepassistant.activity;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.SwitchCompat;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -32,11 +31,10 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     private ViewPager mViewPager;
     private CalendarViewAdapter<CalendarCard> adapter;
     private int mCurrentIndex = 1000;
-    private CalendarCard[] mShowViews;
     private SildeDirection mDirection = SildeDirection.NO_SILDE;
 
     enum SildeDirection {
-        RIGHT, LEFT, NO_SILDE;
+        RIGHT, LEFT, NO_SILDE
     }
 
     @Override
@@ -51,7 +49,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
         NavigationItemSelectedListener navigationItemSelectedListener = new NavigationItemSelectedListener(this);
@@ -95,7 +93,6 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
 
     /**
      * 计算方向
-     * @param arg0
      */
     private void measureDirection(int arg0) {
         if (arg0 > mCurrentIndex) {
@@ -108,7 +105,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
 
     // 更新日历视图
     private void updateCalendarView(int arg0) {
-        mShowViews = adapter.getAllItems();
+        CalendarCard[] mShowViews = adapter.getAllItems();
         if (mDirection == SildeDirection.RIGHT) {
             mShowViews[arg0 % mShowViews.length].rightSlide();
         } else if (mDirection == SildeDirection.LEFT) {
