@@ -23,7 +23,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            </activity>
+        </activity>
+        <activity android:name=".activity.AboutActivity"/>
+        <activity android:name=".activity.FeedbackActivity"/>
 
         <!-- 守护 START -->
         <!-- 守护SDK整合 常驻进程需要配置一个service和一个receiver，另外需要一个辅助进程，同样要配置一个service和一个receiver。 -->

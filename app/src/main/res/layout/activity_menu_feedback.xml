@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_main_background"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/setting_feedback_menu"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:background="#fefefe">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/setting_feedback_menu_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:textSize="14dp"
+                android:text="@string/activity_setting_feedback_common"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center_vertical|right">
+            <ImageView
+                android:id="@+id/menu_imageview"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="12dp"
+                android:src="@drawable/arrow_07"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/container_setting_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/setting_feedback_menu"
+        android:layout_marginTop="10dp"
+        android:background="#FFFFFF"
+        android:gravity="top"
+        android:hint="@string/container_hint_setting_feedback"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="15dp"
+        android:textColor="#787878"
+        android:textColorHint="#B5B5B5"
+        android:textSize="16dp" />
+    <TextView
+        android:id="@+id/notice_setting_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/container_setting_feedback"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="10dp"
+        android:text="@string/notice_setting_feedback"
+        android:textSize="12dp" />
+</LinearLayout>

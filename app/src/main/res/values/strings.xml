@@ -3,7 +3,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
-
     <string name="main_hello_word"> Welcome to this application</string>
     <string name="navigation_header_welcome_word">devdroid:\nSharing makes technology more perfect.</string>
     <string name="navigation_header_welcome_email">gurecn@gmail.com</string>
@@ -11,7 +10,6 @@
     <string name="feedback_content">The following are the system information required to resolve your problem. We will never collect any of your personal information.</string>
     <!--未发现手机上的邮件APP-->
     <string name="activity_setting_feedback_no_email">No Email APP found</string>
-
     <!--反馈信息页面下拉菜单-->
     <string name="activity_setting_feedback_common">Common Feedback</string>
     <string name="activity_setting_feedback_suggestion">Suggestion I Got</string>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/setting_feedback_menu_suggestion"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/setting_feedback_suggestion"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center|left"
+            android:textColor="#aab2bd"
+            android:textSize="14dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginLeft="1dp"
+            android:paddingLeft="11dp"
+            android:text="@string/activity_setting_feedback_suggestion"/>
+
+        <TextView
+            android:id="@+id/setting_feedback_problem"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center|left"
+            android:textColor="#aab2bd"
+            android:textSize="14dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginLeft="1dp"
+            android:paddingLeft="11dp"
+            android:text="@string/activity_setting_feedback_problem"/>
+
+        <TextView
+            android:id="@+id/setting_feedback_forceinstall"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center|left"
+            android:textColor="#aab2bd"
+            android:textSize="14dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginLeft="1dp"
+            android:paddingLeft="11dp"
+            android:text="@string/activity_setting_feedback_forceinstall"/>
+    </LinearLayout>
+
+    <!--<LinearLayout
+        android:id="@+id/setting_feedback_menu_problem"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/bg_card3"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/setting_feedback_problem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|left"
+            android:textColor="#aab2bd"
+            android:textSize="14dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginLeft="1dp"
+            android:background="@drawable/activity_setting_feedback_background_change"
+            android:paddingLeft="11dp"
+
+            android:text="@string/activity_setting_feedback_problem"/>
+    </LinearLayout>-->
+</LinearLayout>
