@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,7 +55,6 @@ public class CalendarCard extends View {
      */
     public interface OnCellClickListener {
         void clickDate(SleepDataMode date); // 回调点击的日期
-
         void changeDate(SleepDataMode date); // 回调滑动ViewPager改变的日期
     }
 
@@ -83,14 +83,14 @@ public class CalendarCard extends View {
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaint.setStyle(Paint.Style.FILL);
-        mCirclePaint.setColor(getResources().getColor(R.color.color_calendar_card_green));
+        mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_green));
         mCircleClickPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCircleClickPaint.setStyle(Paint.Style.FILL);
-        mCircleClickPaint.setColor(getResources().getColor(R.color.color_calendar_card_click));      //点击
+        mCircleClickPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_click));      //点击
         mCircleHollowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCircleHollowPaint.setStrokeWidth((float) 1.5);
         mCircleHollowPaint.setStyle(Paint.Style.STROKE);
-        mCircleHollowPaint.setColor(getResources().getColor(R.color.color_calendar_card_click));       //画环
+        mCircleHollowPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_click));       //画环
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         initDate();
     }
@@ -123,18 +123,25 @@ public class CalendarCard extends View {
                     day++;
                     SleepDataMode date = SleepDataMode.modifiDayForObject(mShowDate, day);
                     rows[j].cells[i] = new Cell(date, State.CURRENT_MONTH_DAY, i, j);
-
-                    if(mSleepDataModes.contains(date)){
-                        rows[j].cells[i] = new Cell(date, State.SIGN_DAY, i, j);
-                    }
-
                     // 今天
                     if (isCurrentMonth && day == monthDay ) {
                         rows[j].cells[i] = new Cell(date, State.TODAY, i, j);
                     }
-
                     if (isCurrentMonth && day > monthDay) { // 如果比这个月的今天要大，表示还没到
                         rows[j].cells[i] = new Cell(date, State.UNREACH_DAY, i, j);
+                    }
+                    if(mSleepDataModes.contains(date)){
+                        for(SleepDataMode sleepDataMode:mSleepDataModes){
+                            if(sleepDataMode.equals(date)){
+                                if(sleepDataMode.getHour() < 22 || (sleepDataMode.getHour() == 22 && sleepDataMode.getMinute() <= 30)){
+                                    rows[j].cells[i] = new Cell(date, State.GOOD, i, j);
+                                } else {
+                                    rows[j].cells[i] = new Cell(date, State.BAD, i, j);
+                                }
+                            }
+                        }
+
+
                     }
                     if((currentROW == j&&currentCol == i)||date.equals(clickData)){
                         rows[j].cells[i] = new Cell(date, State.CLICK_DAY, i, j);
@@ -279,7 +286,50 @@ public class CalendarCard extends View {
                         canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
                     }
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
-                    mTextPaint.setColor(Color.parseColor("#131313"));
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future));
+                    mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_green));
+                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
+                    break;
+                case GREAT:
+                    preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
+                    nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
+                    if(i!=0&&mSleepDataModes.contains(preDate)){
+                        canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
+                    }
+                    if(i!=6&&mSleepDataModes.contains(nexDate)) {
+                        canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
+                    }
+                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future));
+                    mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_green));
+                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
+                    break;
+                case GOOD:
+                    preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
+                    nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
+                    if(i!=0&&mSleepDataModes.contains(preDate)){
+                        canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
+                    }
+                    if(i!=6&&mSleepDataModes.contains(nexDate)) {
+                        canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
+                    }
+                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future));
+                    mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_green));
+                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
+                    break;
+                case BAD:
+                    preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
+                    nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
+                    if(i!=0&&mSleepDataModes.contains(preDate)){
+                        canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
+                    }
+                    if(i!=6&&mSleepDataModes.contains(nexDate)) {
+                        canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
+                    }
+                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future));
+                    mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_red));
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case TODAY: // 今天
@@ -291,7 +341,7 @@ public class CalendarCard extends View {
                     if(i!=6&&mSleepDataModes.contains(nexDate)) {
                         canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
                     }
-                    mTextPaint.setColor(Color.parseColor("#131313"));
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_yellow));
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     if(mClickCell == null||mClickCell.date.equals(this.date)){
                         canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
@@ -305,7 +355,7 @@ public class CalendarCard extends View {
                     mTextPaint.setColor(Color.parseColor("#999999"));
                     break;
                 case UNREACH_DAY: // 还未到的天
-                    mTextPaint.setColor(Color.parseColor("#131313"));
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future));
                     break;
                 default:
                     break;
@@ -321,7 +371,7 @@ public class CalendarCard extends View {
      * @author wuwenjie 单元格的状态 当前月日期，过去的月的日期，下个月的日期
      */
     enum State {
-        TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, SIGN_DAY,CLICK_DAY
+        TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, SIGN_DAY,CLICK_DAY, BAD, GOOD, GREAT
     }
 
     // 从左往右划，上一个月

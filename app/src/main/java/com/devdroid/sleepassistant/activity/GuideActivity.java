@@ -14,6 +14,9 @@ import com.devdroid.sleepassistant.base.BaseActivity;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * 应用引导页
+ */
 public class GuideActivity extends BaseActivity {
 
     @Override
@@ -34,6 +37,7 @@ public class GuideActivity extends BaseActivity {
             public void run() {
                 Intent intent = new Intent(GuideActivity.this, MainActivity.class);
                 GuideActivity.this.startActivity(intent);
+                GuideActivity.this.finish();
             }
         }, 1000);
     }
