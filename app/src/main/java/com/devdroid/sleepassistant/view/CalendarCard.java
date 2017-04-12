@@ -37,7 +37,6 @@ public class CalendarCard extends View {
     private OnCellClickListener mCellClickListener; // 单元格点击回调事件
     private int touchSlop;
     private boolean callBackCellSpace;
-    private Cell mClickCell;
     private float mDownX;
     private float mDownY;
     private List<SleepDataMode> mSleepDataModes;
@@ -192,7 +191,6 @@ public class CalendarCard extends View {
             default:
                 break;
         }
-
         return true;
     }
 
@@ -200,13 +198,8 @@ public class CalendarCard extends View {
      * 计算点击的单元格
      */
     private void measureClickCell(int col, int row) {
-        if (col >= TOTAL_COL || row >= TOTAL_ROW)
-            return;
-        if (mClickCell != null) {
-            rows[mClickCell.j].cells[mClickCell.i] = mClickCell;
-        }
+        if (col >= TOTAL_COL || row >= TOTAL_ROW) return;
         if (rows[row] != null) {
-            mClickCell = new Cell(rows[row].cells[col].date,rows[row].cells[col].state, rows[row].cells[col].i,rows[row].cells[col].j);
             SleepDataMode date = rows[row].cells[col].date;
             mCellClickListener.clickDate(date);
         }
@@ -238,15 +231,15 @@ public class CalendarCard extends View {
     class Cell {
         private SleepDataMode date;
         State state;
-        private int i;
-        private int j;
+        private int col;
+        private int row;
 
-        Cell(SleepDataMode date, State state, int i, int j) {
+        Cell(SleepDataMode date, State state, int col, int row) {
             super();
             this.date = date;
             this.state = state;
-            this.i = i;
-            this.j = j;
+            this.col = col;
+            this.row = row;
         }
 
         void drawSelf(Canvas canvas) {
@@ -255,36 +248,36 @@ public class CalendarCard extends View {
             switch (state) {
                 case GREAT:
                     drawConnectline(canvas, preDate, nexDate);
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
+                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_gerat));
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
+                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)),(float) ((row + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case GOOD:
                     drawConnectline(canvas, preDate, nexDate);
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
+                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_good));
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
+                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)),(float) ((row + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case WARN:
                     drawConnectline(canvas, preDate, nexDate);
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
+                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_warn));
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
+                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)),(float) ((row + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case BAD:
                     drawConnectline(canvas, preDate, nexDate);
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
+                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_bad));
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
+                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)),(float) ((row + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case TODAY: // 今天
                     drawConnectline(canvas, preDate, nexDate);
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_yellow));
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
+                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     break;
                 case CURRENT_MONTH_DAY: // 当前月日期
                     mTextPaint.setColor(Color.BLACK);
@@ -301,7 +294,7 @@ public class CalendarCard extends View {
             }
             // 绘制文字
             String content = date.getDay() + "";
-            canvas.drawText(content,(float) ((i + 0.5) * mCellSpace - mTextPaint.measureText(content) / 2), (float) ((j + 0.7)
+            canvas.drawText(content,(float) ((col + 0.5) * mCellSpace - mTextPaint.measureText(content) / 2), (float) ((row + 0.7)
                     * mCellSpace - mTextPaint.measureText(content, 0, 1) / 2), mTextPaint);
         }
 
@@ -309,11 +302,11 @@ public class CalendarCard extends View {
          * 画连接线
          */
         private void drawConnectline(Canvas canvas, SleepDataMode preDate, SleepDataMode nexDate) {
-            if(i!=0&&mSleepDataModes.contains(preDate)){
-                canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
+            if(col!=0&&mSleepDataModes.contains(preDate)){
+                canvas.drawLine((float) (mCellSpace * (col + 0.5))-mCellSpace / 3,(float) ((row + 0.5) * mCellSpace),(float)(mCellSpace * (col + 0.5)-mCellSpace / 2),(float) ((row + 0.5) * mCellSpace),mCircleHollowPaint);
             }
-            if(i!=6&&mSleepDataModes.contains(nexDate)) {
-                canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
+            if(col!=6&&mSleepDataModes.contains(nexDate)) {
+                canvas.drawLine((float) (mCellSpace * (col + 0.5))+mCellSpace / 3,(float) ((row + 0.5) * mCellSpace),(float)(mCellSpace * (col + 0.5)+mCellSpace / 2),(float) ((row + 0.5) * mCellSpace),mCircleHollowPaint);
             }
         }
     }
