@@ -9,10 +9,12 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
 import com.devdroid.sleepassistant.utils.DateUtil;
+
 import java.util.List;
 
 /**
@@ -27,7 +29,6 @@ public class CalendarCard extends View {
     private static final int TOTAL_COL = 7; // 7列
     private static final int TOTAL_ROW = 6; // 6行
     private Paint mCirclePaint; // 绘制圆形的画笔
-    private Paint mCircleClickPaint; // 绘制圆形的画笔
     private Paint mCircleHollowPaint; // 绘制圆形的画笔
     private Paint mTextPaint; // 绘制文本的画笔
     private int mCellSpace; // 单元格间距
@@ -39,12 +40,6 @@ public class CalendarCard extends View {
     private Cell mClickCell;
     private float mDownX;
     private float mDownY;
-    //点击的位置
-    private int currentCol = -1;
-    private int currentROW = -1;
-    //已签到的时间
-//    public ArrayList<SleepDataMode> signDateList = new ArrayList<>();
-    private SleepDataMode clickData;
     private List<SleepDataMode> mSleepDataModes;
 
     /**
@@ -84,9 +79,6 @@ public class CalendarCard extends View {
         mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaint.setStyle(Paint.Style.FILL);
         mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_green));
-        mCircleClickPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mCircleClickPaint.setStyle(Paint.Style.FILL);
-        mCircleClickPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_click));      //点击
         mCircleHollowPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCircleHollowPaint.setStrokeWidth((float) 1.5);
         mCircleHollowPaint.setStyle(Paint.Style.STROKE);
@@ -118,13 +110,11 @@ public class CalendarCard extends View {
             rows[j] = new Row(j);
             for (int i = 0; i < TOTAL_COL; i++) {
                 int position = i + j * TOTAL_COL; // 单元格位置
-                // 这个月的
-                if (position >= firstDayWeek && position < firstDayWeek + currentMonthDays) {
+                if (position >= firstDayWeek && position < firstDayWeek + currentMonthDays) {// 这个月的
                     day++;
                     SleepDataMode date = SleepDataMode.modifiDayForObject(mShowDate, day);
                     rows[j].cells[i] = new Cell(date, State.CURRENT_MONTH_DAY, i, j);
-                    // 今天
-                    if (isCurrentMonth && day == monthDay ) {
+                    if (isCurrentMonth && day == monthDay ) {// 今天
                         rows[j].cells[i] = new Cell(date, State.TODAY, i, j);
                     }
                     if (isCurrentMonth && day > monthDay) { // 如果比这个月的今天要大，表示还没到
@@ -140,23 +130,16 @@ public class CalendarCard extends View {
                                 }
                             }
                         }
-
-
                     }
-                    if((currentROW == j&&currentCol == i)||date.equals(clickData)){
-                        rows[j].cells[i] = new Cell(date, State.CLICK_DAY, i, j);
-                    }
-                    // 过去一个月
-                } else if (position < firstDayWeek) {
-                    rows[j].cells[i] = new Cell(new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() - 1, lastMonthDays - (firstDayWeek - position - 1), mShowDate.getHour(), mShowDate.getMinute()), State.PAST_MONTH_DAY, i, j);
-                    // 下个月
-                } else if (position >= firstDayWeek + currentMonthDays) {
-                    rows[j].cells[i] = new Cell((new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() + 1, position - firstDayWeek - currentMonthDays + 1, mShowDate.getHour(), mShowDate.getMinute())), State.NEXT_MONTH_DAY, i, j);
+                } else if (position < firstDayWeek) {// 过去一个月
+                    SleepDataMode sleepDataMode = new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() - 1, lastMonthDays - (firstDayWeek - position - 1), mShowDate.getHour(), mShowDate.getMinute());
+                    rows[j].cells[i] = new Cell(sleepDataMode, State.PAST_MONTH_DAY, i, j);
+                } else if (position >= firstDayWeek + currentMonthDays) {// 下个月
+                    SleepDataMode sleepDataMode = new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() + 1, position - firstDayWeek - currentMonthDays + 1, mShowDate.getHour(), mShowDate.getMinute());
+                    rows[j].cells[i] = new Cell(sleepDataMode, State.NEXT_MONTH_DAY, i, j);
                 }
             }
         }
-        currentCol = -1;
-        currentROW = -1;
     }
 
     @Override
@@ -214,13 +197,7 @@ public class CalendarCard extends View {
         if (rows[row] != null) {
             mClickCell = new Cell(rows[row].cells[col].date,rows[row].cells[col].state, rows[row].cells[col].i,rows[row].cells[col].j);
             SleepDataMode date = rows[row].cells[col].date;
-            currentCol = col;
-            currentROW = row;
-            clickData = date;
-            rows[currentROW].cells[currentCol] = new Cell(date, State.CLICK_DAY, currentCol, currentROW);
             mCellClickListener.clickDate(date);
-            // 刷新界面
-            update(true);
         }
     }
 
@@ -262,100 +239,44 @@ public class CalendarCard extends View {
         }
 
         void drawSelf(Canvas canvas) {
+            SleepDataMode preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
+            SleepDataMode nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
             switch (state) {
-                case CLICK_DAY:
-                    SleepDataMode preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
-                    SleepDataMode nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
-                    if(i!=0&&mSleepDataModes.contains(preDate)&&mSleepDataModes.contains(this.date)){
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
-                    if(i!=6&&mSleepDataModes.contains(this.date)&&mSleepDataModes.contains(nexDate)) {
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
-                    mTextPaint.setColor(Color.parseColor("#FFFFFF"));
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCircleClickPaint);
-                    break;
-                case SIGN_DAY:
-                    preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
-                    nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
-                    if(i!=0&&mSleepDataModes.contains(preDate)){
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
-                    if(i!=6&&mSleepDataModes.contains(nexDate)) {
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
-                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future));
-                    mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_green));
-                    canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
-                    break;
                 case GREAT:
-                    preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
-                    nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
-                    if(i!=0&&mSleepDataModes.contains(preDate)){
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
-                    if(i!=6&&mSleepDataModes.contains(nexDate)) {
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
+                    drawConnectline(canvas, preDate, nexDate);
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
-                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future));
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_green));
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case GOOD:
-                    preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
-                    nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
-                    if(i!=0&&mSleepDataModes.contains(preDate)){
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
-                    if(i!=6&&mSleepDataModes.contains(nexDate)) {
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
+                    drawConnectline(canvas, preDate, nexDate);
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
-                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future));
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_green));
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case BAD:
-                    preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
-                    nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
-                    if(i!=0&&mSleepDataModes.contains(preDate)){
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
-                    if(i!=6&&mSleepDataModes.contains(nexDate)) {
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
+                    drawConnectline(canvas, preDate, nexDate);
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
-                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future));
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_red));
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case TODAY: // 今天
-                    preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
-                    nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
-                    if(i!=0&&mSleepDataModes.contains(preDate)){
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
-                    if(i!=6&&mSleepDataModes.contains(nexDate)) {
-                        canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
-                    }
+                    drawConnectline(canvas, preDate, nexDate);
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_yellow));
                     canvas.drawCircle((float) (mCellSpace * (i + 0.5)), (float) ((j + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
-                    if(mClickCell == null||mClickCell.date.equals(this.date)){
-                        canvas.drawCircle((float) (mCellSpace * (i + 0.5)),(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
-                    }
                     break;
                 case CURRENT_MONTH_DAY: // 当前月日期
                     mTextPaint.setColor(Color.BLACK);
                     break;
                 case PAST_MONTH_DAY: // 过去一个月
                 case NEXT_MONTH_DAY: // 下一个月
-                    mTextPaint.setColor(Color.parseColor("#999999"));
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_next_text));
                     break;
                 case UNREACH_DAY: // 还未到的天
-                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future));
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_next_text));
                     break;
                 default:
                     break;
@@ -365,13 +286,25 @@ public class CalendarCard extends View {
             canvas.drawText(content,(float) ((i + 0.5) * mCellSpace - mTextPaint.measureText(content) / 2), (float) ((j + 0.7)
                     * mCellSpace - mTextPaint.measureText(content, 0, 1) / 2), mTextPaint);
         }
+
+        /**
+         * 画连接线
+         */
+        private void drawConnectline(Canvas canvas, SleepDataMode preDate, SleepDataMode nexDate) {
+            if(i!=0&&mSleepDataModes.contains(preDate)){
+                canvas.drawLine((float) (mCellSpace * (i + 0.5))-mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)-mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
+            }
+            if(i!=6&&mSleepDataModes.contains(nexDate)) {
+                canvas.drawLine((float) (mCellSpace * (i + 0.5))+mCellSpace / 3,(float) ((j + 0.5) * mCellSpace),(float)(mCellSpace * (i + 0.5)+mCellSpace / 2),(float) ((j + 0.5) * mCellSpace),mCircleHollowPaint);
+            }
+        }
     }
 
     /**
      * @author wuwenjie 单元格的状态 当前月日期，过去的月的日期，下个月的日期
      */
     enum State {
-        TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, SIGN_DAY,CLICK_DAY, BAD, GOOD, GREAT
+        TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, BAD, GOOD, GREAT
     }
 
     // 从左往右划，上一个月

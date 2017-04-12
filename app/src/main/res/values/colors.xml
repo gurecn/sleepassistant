@@ -13,10 +13,11 @@
 
     //日历显示色纸
 
-    <color name="color_calendar_card_green">#00ff00</color>
+    <color name="color_calendar_card_green">#2A7439</color>
     <color name="color_calendar_card_yellow">#FFF4CE</color>
     <color name="color_calendar_card_red">#ff0000</color>
     <color name="color_calendar_card_click">#FFCA0A</color>
 
-    <color name="color_calendar_card_future">#131313</color>
+    <color name="color_calendar_card_future_text">#131313</color>
+    <color name="color_calendar_card_next_text">#999999</color>
 </resources>

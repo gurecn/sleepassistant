@@ -14,12 +14,10 @@
             android:value="${COM_DEVDROID_CHANNEL_VALUE}" />
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".activity.GuideActivity"
-            android:label="@string/title_activity_guide"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

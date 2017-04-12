@@ -65,7 +65,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
 
     private void setViewPager() {
         mViewPager.setAdapter(adapter);
-        mViewPager.setCurrentItem(1000);
+        mViewPager.setCurrentItem(mCurrentIndex);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
