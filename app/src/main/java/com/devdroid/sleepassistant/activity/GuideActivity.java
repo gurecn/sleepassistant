@@ -7,9 +7,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
+import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,5 +43,19 @@ public class GuideActivity extends BaseActivity {
                 GuideActivity.this.finish();
             }
         }, 1000);
+        initData();
+    }
+
+    private void initData() {
+        TextView tvDayLable = (TextView)this.findViewById(R.id.tv_activity_guide_time_lable);
+        long appInstallTime = LauncherModel.getInstance().getSharedPreferencesManager().getLong(IPreferencesIds.KEY_FIRST_START_APP_TIME, (long)0);
+        if (appInstallTime != 0) {
+            int datepoor = (int)((System.currentTimeMillis() - appInstallTime)/1000/60/60/24 + 1);
+            String datePoorString = "睡眠助理\n" + datepoor + "\n天";
+            tvDayLable.setText(datePoorString);
+        } else {
+            String datePoorString = "睡眠助理\n1\n天";
+            tvDayLable.setText(datePoorString);
+        }
     }
 }

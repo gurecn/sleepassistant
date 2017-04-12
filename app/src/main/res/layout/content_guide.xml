@@ -21,6 +21,7 @@
         android:layout_marginTop="70dp"
         android:src="@drawable/zhuopin_logo"/>
     <TextView
+        android:id="@+id/tv_activity_guide_time_lable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -28,6 +29,5 @@
         android:layout_below="@+id/iv_zhuopin_logo"
         android:layout_marginBottom="50dp"
         android:gravity="center"
-        android:textSize="28sp"
-        android:text="睡眠助理\n45\n天"/>
+        android:textSize="28sp"/>
 </RelativeLayout>
