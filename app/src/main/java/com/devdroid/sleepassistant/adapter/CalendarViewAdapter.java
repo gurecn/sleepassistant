@@ -47,4 +47,11 @@ public class CalendarViewAdapter<V extends View> extends PagerAdapter {
     public V[] getAllItems() {
         return views;
     }
+
+    public V getItem(int position) {
+        if(views.length > position) {
+            return views[position];
+        }
+        return null;
+    }
 }

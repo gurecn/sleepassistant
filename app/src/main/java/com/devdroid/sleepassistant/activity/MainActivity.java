@@ -122,18 +122,16 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                 new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String timeInfo = "您选择的时间是：" + hourOfDay+"时"+minute+"分";
-                        Toast.makeText(MainActivity.this, timeInfo, Toast.LENGTH_LONG).show();
                         List<SleepDataMode> insertList = new LinkedList<>();
                         SleepDataMode sleepDataMode = new SleepDataMode(date.getYear(), date.getMonth(), date.getDay(), hourOfDay, minute);
                         insertList.add(sleepDataMode);
                         LauncherModel.getInstance().getSnssdkTextDao().insertSleepDataItem(insertList);
+                        adapter.getItem(mCurrentIndex % adapter.getAllItems().length).update(false);
                     }
                 },calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true).show();
     }
 
     @Override
     public void changeDate(SleepDataMode date) {
-        Logger.d("改变日历changeDate", "年月：" + date.getYear() + date.getMonth() + "日：" + date.getDay());
     }
 }
