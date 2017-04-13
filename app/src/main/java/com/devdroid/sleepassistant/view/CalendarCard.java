@@ -386,12 +386,12 @@ public class CalendarCard extends View {
         LongPressTimer() {
         }
 
-        public void startTimer() {
+        void startTimer() {
             mResponseTimes = 0;
             postAtTime(this, SystemClock.uptimeMillis() + LONG_PRESS_TIMEOUT1);
         }
 
-        public boolean removeTimer() {
+        boolean removeTimer() {
             mResponseTimes = 0;
             removeCallbacks(this);
             return true;

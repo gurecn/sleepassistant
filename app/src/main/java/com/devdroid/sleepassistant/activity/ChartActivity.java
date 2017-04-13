@@ -1,8 +1,6 @@
 package com.devdroid.sleepassistant.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
-
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.base.BaseActivity;
 

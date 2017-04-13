@@ -11,16 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.adapter.CalendarViewAdapter;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.listener.NavigationItemSelectedListener;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
-import com.devdroid.sleepassistant.utils.Logger;
 import com.devdroid.sleepassistant.view.CalendarCard;
-
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
