@@ -120,7 +120,15 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
 
     // 日历点击
     @Override
-    public void clickDate(final SleepDataMode date) {
+    public void clickDate(SleepDataMode date) {
+        Toast.makeText(this, "点击时间：" + date.getYear() + "-" + date.getMonth(), Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * 长按日期
+     */
+    @Override
+    public void longClickDate(final SleepDataMode date) {
         Calendar calendar = Calendar.getInstance();
         new TimePickerDialog(MainActivity.this,
                 new TimePickerDialog.OnTimeSetListener() {

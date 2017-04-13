@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -37,9 +39,11 @@ public class CalendarCard extends View {
     private OnCellClickListener mCellClickListener; // 单元格点击回调事件
     private int touchSlop;
     private boolean callBackCellSpace;
-    private float mDownX;
-    private float mDownY;
     private List<SleepDataMode> mSleepDataModes;
+    private boolean mWaitForTouchUp;  //按下判断
+    private int mResponseTimes;  //长按时间判断，<1,未触发长按
+    private SleepDataMode mCurrentSleepDateMode;
+    private LongPressTimer mLongPressTimer;
 
     /**
      * 单元格点击的回调接口
@@ -49,6 +53,7 @@ public class CalendarCard extends View {
      */
     public interface OnCellClickListener {
         void clickDate(SleepDataMode date); // 回调点击的日期
+        void longClickDate(SleepDataMode date); // 回调长按的日期
         void changeDate(SleepDataMode date); // 回调滑动ViewPager改变的日期
     }
 
@@ -83,6 +88,7 @@ public class CalendarCard extends View {
         mCircleHollowPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_click));       //画环
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         initDate();
+        mLongPressTimer = new LongPressTimer();
     }
 
     private void initDate() {
@@ -176,17 +182,24 @@ public class CalendarCard extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mDownX = event.getX();
-                mDownY = event.getY();
-                break;
-            case MotionEvent.ACTION_UP:
-                float disX = event.getX() - mDownX;
-                float disY = event.getY() - mDownY;
+                mWaitForTouchUp = true;
+                float disX = event.getX() - event.getX();
+                float disY = event.getY() - event.getY();
                 if (Math.abs(disX) < touchSlop && Math.abs(disY) < touchSlop) {
-                    int col = (int) (mDownX / mCellSpace);
-                    int row = (int) (mDownY / mCellSpace);
+                    int col = (int) (event.getX() / mCellSpace);
+                    int row = (int) (event.getY() / mCellSpace);
                     measureClickCell(col, row);
                 }
+                if(mCurrentSleepDateMode != null) {
+                    mLongPressTimer.startTimer();
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                mWaitForTouchUp = false;
+                if(mCurrentSleepDateMode != null && mResponseTimes < 1){
+                    mCellClickListener.clickDate(mCurrentSleepDateMode);
+                }
+                mLongPressTimer.removeTimer();
                 break;
             default:
                 break;
@@ -200,8 +213,9 @@ public class CalendarCard extends View {
     private void measureClickCell(int col, int row) {
         if (col >= TOTAL_COL || row >= TOTAL_ROW) return;
         if (rows[row] != null) {
-            SleepDataMode date = rows[row].cells[col].date;
-            mCellClickListener.clickDate(date);
+            mCurrentSleepDateMode = rows[row].cells[col].date;
+        } else {
+            mCurrentSleepDateMode = null;
         }
     }
 
@@ -320,6 +334,7 @@ public class CalendarCard extends View {
 
     // 从左往右划，上一个月
     public void leftSlide() {
+        mCurrentSleepDateMode = null;
         if (mShowDate.getMonth() == 1) {
             mShowDate.setMonth(12);
             mShowDate.setYear(mShowDate.getYear() - 1);
@@ -331,7 +346,7 @@ public class CalendarCard extends View {
 
     // 从右往左划，下一个月
     public void rightSlide() {
-
+        mCurrentSleepDateMode = null;
         if (mShowDate.getMonth() == 12) {
             mShowDate.setMonth(1);
             mShowDate.setYear(mShowDate.getYear() + 1);
@@ -344,5 +359,52 @@ public class CalendarCard extends View {
     public void update(boolean isClick) {
         fillDate(isClick);
         invalidate();
+    }
+
+
+
+
+    /**
+     * 长按定时器
+     */
+    public class LongPressTimer extends Handler implements Runnable {
+        /**
+         * When user presses a key for a long time, the timeout interval to
+         * generate first {@link #LONG_PRESS_KEYNUM1} key events. 长按时间一
+         */
+        static final int LONG_PRESS_TIMEOUT1 = 200;
+        static final int LONG_PRESS_KEYNUM1 = 1;
+        static final int LONG_PRESS_KEYNUM2 = 2;
+
+
+        LongPressTimer() {
+        }
+
+        public void startTimer() {
+            mResponseTimes = 0;
+            postAtTime(this, SystemClock.uptimeMillis() + LONG_PRESS_TIMEOUT1);
+        }
+
+        public boolean removeTimer() {
+            mResponseTimes = 0;
+            removeCallbacks(this);
+            return true;
+        }
+
+        public void run() {
+            if (mWaitForTouchUp) {
+                long timeout;
+                if (mResponseTimes <= LONG_PRESS_KEYNUM1) {
+                    timeout = LONG_PRESS_TIMEOUT1;
+                    postAtTime(this, SystemClock.uptimeMillis() + timeout);
+                } else if (mResponseTimes == LONG_PRESS_KEYNUM2) {
+                    if(mCurrentSleepDateMode != null) {
+                        mCellClickListener.longClickDate(mCurrentSleepDateMode);
+                    }
+                    this.removeTimer();
+                }
+            mResponseTimes++;
+            }
+        }
     }
 }
