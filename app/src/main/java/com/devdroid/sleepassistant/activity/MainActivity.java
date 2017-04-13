@@ -17,6 +17,7 @@ import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.listener.NavigationItemSelectedListener;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
+import com.devdroid.sleepassistant.utils.DateUtil;
 import com.devdroid.sleepassistant.view.CalendarCard;
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -117,7 +118,11 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     // 日历点击
     @Override
     public void clickDate(SleepDataMode date) {
-        Toast.makeText(this, "点击时间：" + date.getYear() + "-" + date.getMonth(), Toast.LENGTH_LONG).show();
+        if(date.getHour() > 24) {
+            Toast.makeText(this, "睡眠时间为：第二天凌晨" + (date.getHour() - 24) + ":" + date.getMinute(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "睡眠时间为：" + date.getHour() + ":" + date.getMinute(), Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
@@ -132,6 +137,10 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         List<SleepDataMode> insertList = new LinkedList<>();
                         SleepDataMode sleepDataMode = new SleepDataMode(date.getYear(), date.getMonth(), date.getDay(), hourOfDay, minute);
+                        if(hourOfDay < 6){  //认为是上一天的入睡时间,时间设置为 24 + 实际时间。如：凌晨1点，保存为：25
+                            sleepDataMode = DateUtil.getPreviousDate(sleepDataMode);
+                            sleepDataMode.setHour(24 + sleepDataMode.getHour());
+                        }
                         insertList.add(sleepDataMode);
                         LauncherModel.getInstance().getSnssdkTextDao().insertSleepDataItem(insertList);
                         adapter.getItem(mCurrentIndex % adapter.getAllItems().length).update(false);

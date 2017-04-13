@@ -108,4 +108,25 @@ public class DateUtil {
     public static boolean isCurrentMonth(SleepDataMode date){
         return(date.getYear() == DateUtil.getYear() && date.getMonth() == DateUtil.getMonth());
     }
+
+    /**
+     * 获取前一日的时间
+     */
+    public static SleepDataMode getPreviousDate(SleepDataMode date){
+        SleepDataMode tempDate = SleepDataMode.modifiDayForObject(date, 1);
+        if(date.getDay() == 1){
+            if(date.getMonth() == 1){
+                tempDate.setYear(date.getYear() - 1);
+                tempDate.setMonth(12);
+                tempDate.setDay(31);
+            } else {
+                tempDate.setMonth(date.getMonth() - 1);
+                tempDate.setDay(getMonthDays(tempDate.getYear(), tempDate.getMonth()));
+            }
+        } else {
+            tempDate.setDay(date.getDay() - 1);
+        }
+        return tempDate;
+    }
+
 }
