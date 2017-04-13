@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">關閉導航</string>
 
     <string name="action_settings">設置</string>
-    <string name="navigation_header_welcome_email">gurecn@163.com</string>
+    <string name="navigation_header_welcome_email">goleizh@163.com</string>
     <string name="about_policy">隱私政策</string>
     <string name="about_rights">\ @ 2014-2016 android開發團隊。版權所有。</string>
     <string name="activity_setting_feedback_common">反饋類型</string>
@@ -20,12 +20,9 @@
     <string name="mial_hint_setting_feedback">郵件</string>
     <string name="nav_string_about">關於</string>
     <string name="nav_string_feedback">反饋</string>
-    <string name="nav_string_image">圖片</string>
     <string name="nav_string_other">其它</string>
     <string name="nav_string_setting_net">離線模式</string>
     <string name="nav_string_share">分享</string>
-    <string name="nav_string_text">文本</string>
-    <string name="nav_string_voide">視頻</string>
     <string name="navigation_header_welcome_word">卓技卓品：\n共享讓技術更完美</string>
     <string name="no_contain_setting_feedback">嗨，說點什麼？</string>
     <string name="notice_setting_feedback">以下是為解決您的問題所需的系統信息。我們絕不會收集您的任何個人信息</string>
@@ -42,4 +39,7 @@
     <string name="thursday">四</string>
     <string name="title_activity_guide">引導頁</string>
     <string name="wednesday">三</string>
+    <string name="nav_string_chart">圖表</string>
+    <string name="nav_string_calendar">行事曆</string>
+    <string name="nav_string_restriction">強制</string>
 </resources>

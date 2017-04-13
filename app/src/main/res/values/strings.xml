@@ -5,7 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="main_hello_word"> Welcome to this application</string>
     <string name="navigation_header_welcome_word">devdroid:\nSharing makes technology more perfect.</string>
-    <string name="navigation_header_welcome_email">gurecn@gmail.com</string>
+    <string name="navigation_header_welcome_email">goleizh@gmail.com</string>
     <!--正文增加的提醒-->
     <string name="feedback_content">The following are the system information required to resolve your problem. We will never collect any of your personal information.</string>
     <!--未发现手机上的邮件APP-->
@@ -27,9 +27,7 @@
     <string name="about_rights">\@2014–2016 devdroid Dev Team. All Rights Reserved.</string>
     <string name="about_policy">Privacy Policy</string>
     <!--侧滑菜单-->
-    <string name="nav_string_text">Text</string>
-    <string name="nav_string_image">Image</string>
-    <string name="nav_string_voide">Video</string>
+    <string name="nav_string_restriction">Force</string>
     <string name="nav_string_other">Other</string>
     <string name="nav_string_share">Share</string>
     <string name="nav_string_feedback">FeedBack</string>
@@ -49,5 +47,7 @@
     <string name="friday">Fri</string>
     <string name="saturday">Sat</string>
     <string name="title_activity_guide">GuideActivity</string>
+    <string name="nav_string_calendar">Calendar</string>
+    <string name="nav_string_chart">Chart</string>
 
 </resources>

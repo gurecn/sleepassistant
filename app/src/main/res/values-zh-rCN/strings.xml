@@ -6,13 +6,13 @@
 
     <string name="action_settings">设置</string>
     <string name="checknet_setting_feedback">请检查你的网络</string>
-    <string name="navigation_header_welcome_email">gurecn@163.com</string>
+    <string name="navigation_header_welcome_email">goleizh@163.com</string>
     <string name="nav_string_setting_net">离线模式</string>
     <string name="nav_string_share">分享</string>
-    <string name="nav_string_text">文本</string>
-    <string name="nav_string_voide">视频</string>
+    <string name="nav_string_calendar">日历</string>
+    <string name="nav_string_restriction">强制</string>
     <string name="nav_string_other">其它</string>
-    <string name="nav_string_image">图片</string>
+    <string name="nav_string_chart">图表</string>
     <string name="nav_string_feedback">反馈</string>
     <string name="nav_string_about">关于</string>
     <string name="mial_hint_setting_feedback">邮件</string>
