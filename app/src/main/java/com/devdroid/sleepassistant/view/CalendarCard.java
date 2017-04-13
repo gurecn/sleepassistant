@@ -147,11 +147,9 @@ public class CalendarCard extends View {
      */
     private State transformState(SleepDataMode sleepDataMode) {
         int minutes = sleepDataMode.getHour() * 60 + sleepDataMode.getMinute();
-        if(minutes > 1230 && minutes <= 1290){  //20:30--21:30
+        if(minutes >= 1170 && minutes <= 1350){//19:30--22:30
             return State.GREAT;
-        }else if(minutes > 1290 && minutes <= 1350){//21:30--22:30
-            return State.GOOD;
-        }else if(minutes > 1350 && minutes <= 1440){//22:30--24:00
+        }else if(minutes > 1350 && minutes <= 1420){//22:30--23:40
             return State.WARN;
         } else {
             return State.BAD;//其他时间
@@ -273,13 +271,6 @@ public class CalendarCard extends View {
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_gerat));
                     canvas.drawCircle((float) (mCellSpace * (col + 0.5)),(float) ((row + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
-                case GOOD:
-                    drawConnectline(canvas, preDate, nexDate);
-                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
-                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
-                    mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_good));
-                    canvas.drawCircle((float) (mCellSpace * (col + 0.5)),(float) ((row + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
-                    break;
                 case WARN:
                     drawConnectline(canvas, preDate, nexDate);
                     canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
@@ -335,7 +326,7 @@ public class CalendarCard extends View {
      * @author wuwenjie 单元格的状态 当前月日期，过去的月的日期，下个月的日期
      */
     enum State {
-        TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, GREAT, GOOD, WARN, BAD
+        TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, GREAT, WARN, BAD
     }
 
     // 从左往右划，上一个月
