@@ -125,9 +125,9 @@ public class CalendarCard extends View {
                         rows[j].cells[i] = new Cell(date, State.UNREACH_DAY, i, j);
                     }
                     if(mSleepDataModes.contains(date)){
-                        for(SleepDataMode sleepDataMode:mSleepDataModes){
+                        for(SleepDataMode sleepDataMode : mSleepDataModes){
                             if(sleepDataMode.equals(date)){
-                                rows[j].cells[i] = new Cell(date, transformState(sleepDataMode), i, j);
+                                rows[j].cells[i] = new Cell(sleepDataMode, transformState(sleepDataMode), i, j);
                             }
                         }
                     }

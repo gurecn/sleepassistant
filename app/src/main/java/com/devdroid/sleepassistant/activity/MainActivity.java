@@ -119,9 +119,9 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     @Override
     public void clickDate(SleepDataMode date) {
         if(date.getHour() > 24) {
-            Toast.makeText(this, "睡眠时间为：第二天凌晨" + (date.getHour() - 24) + ":" + date.getMinute(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "睡眠时间为：第二天凌晨" + (date.getHour() - 24) + ":" + date.getMinute(), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "睡眠时间为：" + date.getHour() + ":" + date.getMinute(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "睡眠时间为：" + date.getHour() + ":" + date.getMinute(), Toast.LENGTH_SHORT).show();
         }
     }
 
