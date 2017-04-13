@@ -42,4 +42,6 @@
     <string name="thursday">四</string>
     <string name="title_activity_guide">引导页</string>
     <string name="wednesday">三</string>
+    <string name="title_activity_restriction">强制</string>
+    <string name="title_activity_settings">设置</string>
 </resources>

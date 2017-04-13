@@ -68,12 +68,15 @@ android {
         huawei {
             manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "huawei"]
         }
+
+        devdroid {
+            manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "devdroid"]
+        }
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':ProcessDaemonSdk-trunk-v1.0-r215447')
     compile files('libs/eventbus-2.4.0.jar')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'

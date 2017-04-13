@@ -42,4 +42,6 @@
     <string name="nav_string_chart">圖表</string>
     <string name="nav_string_calendar">行事曆</string>
     <string name="nav_string_restriction">強制</string>
+    <string name="title_activity_restriction">強制</string>
+    <string name="title_activity_settings">設定</string>
 </resources>

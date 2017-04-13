@@ -9,9 +9,6 @@ import android.database.Cursor;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
 
 public class SleepDatabaseHelper {
-
-	public static final String TAG = SleepDatabaseHelper.class.getSimpleName();
-
 	private BaseDataProvider mHelper = null;
 
 	public SleepDatabaseHelper(Context context, BaseDataProvider dataProvider) {
@@ -48,7 +45,7 @@ public class SleepDatabaseHelper {
     }
 
     /**
-     * 查询当前加锁应用信息
+     * 查询
      * @return
      */
     public List<SleepDataMode> querySleepDataInfo(int year, int month) {
@@ -78,14 +75,24 @@ public class SleepDatabaseHelper {
     }
 
     /**
-     * 检查是否存在该内容
+     * 查询
+     * @return
      */
-    private boolean checkExist(String sql) {
-        Cursor cursor = mHelper.rawQuery(sql);
+    public List<SleepDataMode> querySleepDataInfo(int year, int month, int day) {
+        List<SleepDataMode> list = new ArrayList<>();
+        String selection = SleepDataTable.SLEEP_YEAR + " = ? and " +  SleepDataTable.SLEEP_MONTH + " = ? and " +  SleepDataTable.SLEEP_DAY + " = ?";
+        String[] selectionArgs = new  String[]{ year + "", month + "", day + ""};
+        Cursor cursor = mHelper.query(SleepDataTable.TABLE_NAME, null, selection, selectionArgs, SleepDataTable.ID + " DESC");
         if (null != cursor) {
             try {
-                if (cursor.moveToNext()) {
-                    return true;
+                while (cursor.moveToNext()) {
+                    int hour = cursor.getInt(cursor.getColumnIndex(SleepDataTable.SLEEP_HOUR));
+                    int minute = cursor.getInt(cursor.getColumnIndex(SleepDataTable.SLEEP_MINUTE));
+                    int sleepType = cursor.getInt(cursor.getColumnIndex(SleepDataTable.SLEEP_TYPE));
+                    SleepDataMode sleepDataMode = new SleepDataMode(year, month, day, hour, minute, sleepType);
+                    if (null != sleepDataMode) {
+                        list.add(sleepDataMode);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -93,11 +100,12 @@ public class SleepDatabaseHelper {
                 cursor.close();
             }
         }
-        return false;
+        return list;
     }
     public void insertSleepDataItem(List<SleepDataMode> insertSnssdkList) {
         ArrayList<InsertParams> list = new ArrayList<InsertParams>();
         for (SleepDataMode sleepDataMode : insertSnssdkList) {
+            deleteSleepDataItem(sleepDataMode);
             ContentValues values = new ContentValues();
             values.put(SleepDataTable.SLEEP_YEAR,sleepDataMode.getYear());
             values.put(SleepDataTable.SLEEP_MONTH,sleepDataMode.getMonth());
@@ -116,7 +124,9 @@ public class SleepDatabaseHelper {
     public void deleteSleepDataItem(List<SleepDataMode> deleteSnssdkList) {
         ArrayList<DeletePamas> list = new ArrayList<DeletePamas>();
         for (SleepDataMode sleepDataMode : deleteSnssdkList) {
-            DeletePamas delete = new DeletePamas(SleepDataTable.TABLE_NAME, SleepDataTable.SLEEP_YEAR + "= ?", new String[]{sleepDataMode.getYear() + ""});
+            String selection = SleepDataTable.SLEEP_YEAR + " = ? and " +  SleepDataTable.SLEEP_MONTH + " = ? and " +  SleepDataTable.SLEEP_DAY + " = ?";
+            String[] selectionArgs = new  String[]{ sleepDataMode.getYear() + "", sleepDataMode.getMonth() + "", sleepDataMode.getDay() + ""};
+            DeletePamas delete = new DeletePamas(SleepDataTable.TABLE_NAME, selection, selectionArgs);
             list.add(delete);
         }
         if (!list.isEmpty()) {
@@ -124,7 +134,17 @@ public class SleepDatabaseHelper {
         }
     }
 
+    public void deleteSleepDataItem(SleepDataMode deleteSleepMode) {
+        ArrayList<DeletePamas> list = new ArrayList<DeletePamas>();
+        String selection = SleepDataTable.SLEEP_YEAR + " = ? and " +  SleepDataTable.SLEEP_MONTH + " = ? and " +  SleepDataTable.SLEEP_DAY + " = ?";
+        String[] selectionArgs = new  String[]{ deleteSleepMode.getYear() + "", deleteSleepMode.getMonth() + "", deleteSleepMode.getDay() + ""};
+        DeletePamas delete = new DeletePamas(SleepDataTable.TABLE_NAME, selection, selectionArgs);
+        list.add(delete);
+        mHelper.delete(list);
+    }
+
     public void insertSleepDataItem(SleepDataMode sleepDataMode) {
+        deleteSleepDataItem(sleepDataMode);
         ArrayList<InsertParams> list = new ArrayList<InsertParams>();
         ContentValues values = new ContentValues();
         values.put(SleepDataTable.SLEEP_YEAR,sleepDataMode.getYear());
@@ -137,15 +157,6 @@ public class SleepDatabaseHelper {
         list.add(insert);
         if (!list.isEmpty()) {
             mHelper.insert(list);
-        }
-    }
-
-    public void deleteSleepDataItem(SleepDataMode sleepDataMode) {
-    	ArrayList<DeletePamas> list = new ArrayList<DeletePamas>();
-        	DeletePamas delete = new DeletePamas(SleepDataTable.TABLE_NAME, SleepDataTable.SLEEP_YEAR + "=?", new String[]{sleepDataMode.getYear() + ""});
-            list.add(delete);
-        if (!list.isEmpty()) {
-        	mHelper.delete(list);
         }
     }
 }

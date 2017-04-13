@@ -20,4 +20,5 @@ public class IPreferencesIds {
      * 值类型: long<br>
      */
     public final static String KEY_FIRST_START_APP_TIME = "key_first_start_app_time"; //应用第一次启动时间
+    public final static String KEY_LAST_INSTALL_APP_CODE = "key_last_install_app_code"; //上次安装的应用版本
 }
