@@ -286,7 +286,6 @@ public class CalendarCard extends View {
                     canvas.drawCircle((float) (mCellSpace * (col + 0.5)),(float) ((row + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case TODAY: // 今天
-                    drawConnectline(canvas, preDate, nexDate);
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_yellow));
                     canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     break;
@@ -313,10 +312,10 @@ public class CalendarCard extends View {
          * 画连接线
          */
         private void drawConnectline(Canvas canvas, SleepDataMode preDate, SleepDataMode nexDate) {
-            if(col!=0&&mSleepDataModes.contains(preDate)){
+            if(col!=0 && mSleepDataModes.contains(preDate)){
                 canvas.drawLine((float) (mCellSpace * (col + 0.5))-mCellSpace / 3,(float) ((row + 0.5) * mCellSpace),(float)(mCellSpace * (col + 0.5)-mCellSpace / 2),(float) ((row + 0.5) * mCellSpace),mCircleHollowPaint);
             }
-            if(col!=6&&mSleepDataModes.contains(nexDate)) {
+            if(col!=6 && mSleepDataModes.contains(nexDate)) {
                 canvas.drawLine((float) (mCellSpace * (col + 0.5))+mCellSpace / 3,(float) ((row + 0.5) * mCellSpace),(float)(mCellSpace * (col + 0.5)+mCellSpace / 2),(float) ((row + 0.5) * mCellSpace),mCircleHollowPaint);
             }
         }
