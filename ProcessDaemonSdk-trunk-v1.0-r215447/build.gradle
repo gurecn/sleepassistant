@@ -1,2 +1,0 @@
-configurations.maybeCreate("default")
-artifacts.add("default", file('ProcessDaemonSdk-trunk-v1.0-r215447.aar'))
