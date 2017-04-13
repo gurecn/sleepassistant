@@ -16,20 +16,12 @@
     <string name="checknet_setting_feedback">請檢查你的網絡</string>
     <string name="container_hint_setting_feedback">請在這裡寫你的評論，提供盡可能多的細節。我們一直在傾聽和改進。</string>
     <string name="feedback_content">以下是為解決您的問題所需的系統信息。我們絕不會收集您的任何個人信息。</string>
-    <string name="main_hello_word">歡迎使用本應用</string>
-    <string name="mial_hint_setting_feedback">郵件</string>
     <string name="nav_string_about">關於</string>
     <string name="nav_string_feedback">反饋</string>
-    <string name="nav_string_other">其它</string>
-    <string name="nav_string_setting_net">離線模式</string>
     <string name="nav_string_share">分享</string>
     <string name="navigation_header_welcome_word">卓技卓品：\n共享讓技術更完美</string>
     <string name="no_contain_setting_feedback">嗨，說點什麼？</string>
     <string name="notice_setting_feedback">以下是為解決您的問題所需的系統信息。我們絕不會收集您的任何個人信息</string>
-    <string name="sendok_setting_feedback">感謝您的反饋意見！</string>
-    <string name="title_feedback_setting">反饋</string>
-    <string name="string_no_phone_state">未獲取到手機狀態信息,無法獲取數據</string>
-    <string name="string_request_phone_state">Android 6.0之後必須獲取手機狀態才能正常獲取數據,請授權。</string>
     <string name="share_app_text">這裡有一個很好玩的應用，大家可以體驗一下。</string>
     <string name="monday">一</string>
     <string name="friday">五</string>
@@ -37,11 +29,8 @@
     <string name="sunday">日</string>
     <string name="thesday">二</string>
     <string name="thursday">四</string>
-    <string name="title_activity_guide">引導頁</string>
     <string name="wednesday">三</string>
     <string name="nav_string_chart">圖表</string>
     <string name="nav_string_calendar">行事曆</string>
     <string name="nav_string_restriction">強制</string>
-    <string name="title_activity_restriction">強制</string>
-    <string name="title_activity_settings">設定</string>
 </resources>

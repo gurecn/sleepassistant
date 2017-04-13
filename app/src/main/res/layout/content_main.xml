@@ -30,8 +30,7 @@
             android:layout_marginBottom="2dip"
             android:background="@color/white"
             android:paddingTop="2dip" >
-            <TableRow
-                android:id="@+id/tr_calender_sign_week">
+            <TableRow>
                 <TextView
                     style="@style/dateStyle"
                     android:text="@string/sunday"/>

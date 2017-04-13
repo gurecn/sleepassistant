@@ -17,7 +17,6 @@
             android:contentDescription="@null"
             android:src="@drawable/zhuopin_logo" />
         <TextView
-            android:id="@+id/tv_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="3dp"
@@ -46,7 +45,6 @@
                 android:textColor="@color/about_text_sub_color"
                 android:textSize="12sp" />
             <TextView
-                android:id="@+id/tv_privacy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
