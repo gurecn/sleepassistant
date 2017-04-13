@@ -19,8 +19,8 @@ public class SleepDataMode {
         this.year = DateUtil.getYear();
         this.month = DateUtil.getMonth();
         this.day = DateUtil.getCurrentMonthDay();
-        this.hour = DateUtil.getHour();
-        this.minute = DateUtil.getMinute();
+        this.hour = -1;
+        this.minute = -1;
     }
 
     public SleepDataMode(int year, int month, int day, int hour, int minute) {

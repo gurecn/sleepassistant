@@ -130,6 +130,8 @@ public class CalendarCard extends View {
                                 rows[j].cells[i] = new Cell(sleepDataMode, transformState(sleepDataMode), i, j);
                             }
                         }
+                    } else {
+
                     }
                 } else if (position < firstDayWeek) {// 过去一个月
                     SleepDataMode sleepDataMode = new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() - 1, lastMonthDays - (firstDayWeek - position - 1), mShowDate.getHour(), mShowDate.getMinute());
