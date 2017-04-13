@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:name=".application.TheApplication"
         android:allowBackup="true"
@@ -15,7 +14,6 @@
         <meta-data
             android:name="channel"
             android:value="${COM_DEVDROID_CHANNEL_VALUE}" />
-
         <activity
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -30,35 +28,9 @@
         </activity>
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.FeedbackActivity" />
-
-        <!-- 守护 START -->
-        <!-- 守护SDK整合 常驻进程需要配置一个service和一个receiver，另外需要一个辅助进程，同样要配置一个service和一个receiver。 -->
-        <!-- 守护进程 -->
-        <service android:name=".service.GuardService" />
-        <!-- 守护进程receiver -->
-        <receiver android:name=".receiver.DaemonReceiver" />
-        <!-- 守护辅助进程 -->
-        <service
-            android:name=".service.DaemonHelperService"
-            android:process=":DaemonHelperService" />
-        <!-- 守护辅助进程receiver -->
-        <receiver
-            android:name=".receiver.DaemonHelperReceiver"
-            android:process=":DaemonHelperService" />
-
         <activity android:name=".activity.ChartActivity" />
-        <activity
-            android:name=".activity.RestrictionActivity"
-            android:label="@string/title_activity_restriction"
-            android:parentActivityName=".base.BaseActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.devdroid.sleepassistant.base.BaseActivity" />
-        </activity>
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+        <activity android:name=".activity.RestrictionActivity" />
+        <activity android:name=".activity.SettingsActivity"/>
     </application>
 
 </manifest>
