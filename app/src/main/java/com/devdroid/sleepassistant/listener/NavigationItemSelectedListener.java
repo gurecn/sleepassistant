@@ -6,7 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.activity.AboutActivity;
+import com.devdroid.sleepassistant.activity.ChartActivity;
 import com.devdroid.sleepassistant.activity.FeedbackActivity;
+import com.devdroid.sleepassistant.activity.MainActivity;
+import com.devdroid.sleepassistant.activity.RestrictionActivity;
+import com.devdroid.sleepassistant.activity.SettingsActivity;
 
 /**
  * 侧滑菜单事件监听
@@ -22,15 +26,17 @@ public class NavigationItemSelectedListener  implements NavigationView.OnNavigat
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_text :
+            case R.id.nav_calendar :
+                mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, MainActivity.class));
                 break;
-            case R.id.nav_gallery :
-
+            case R.id.nav_chart :
+                mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, ChartActivity.class));
                 break;
-            case R.id.nav_video :
-
+            case R.id.nav_restriction :
+                mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, RestrictionActivity.class));
                 break;
-            case R.id.nav_edit :
+            case R.id.nav_set :
+                mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, SettingsActivity.class));
                 break;
             case R.id.nav_share :
                 shareText();
