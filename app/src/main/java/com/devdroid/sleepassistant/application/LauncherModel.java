@@ -1,13 +1,9 @@
 package com.devdroid.sleepassistant.application;
 
 import android.content.Context;
-
 import com.devdroid.sleepassistant.database.BaseDataProvider;
 import com.devdroid.sleepassistant.database.SleepDataDao;
 import com.devdroid.sleepassistant.preferences.SharedPreferencesManager;
-
-import de.greenrobot.event.EventBus;
-
 /**
  * Created with IntelliJ IDEA.
  * User:Gaolei  gurecn@gmail.com
@@ -17,7 +13,6 @@ import de.greenrobot.event.EventBus;
 public class LauncherModel {
     private static LauncherModel sInstance;
     private final SharedPreferencesManager mSharedPreferencesManager;
-    private EventBus GLOBAL_EVENT_BUS = EventBus.getDefault();
     private final SleepDataDao mSleepDao;
 
     private LauncherModel(Context context) {
@@ -44,32 +39,5 @@ public class LauncherModel {
     }
     public SleepDataDao getSnssdkTextDao() {
         return mSleepDao;
-    }
-
-    /**
-     * 获取一个全局的EventBus实例<br>
-     *
-     * @return
-     */
-    public EventBus getGlobalEventBus() {
-        return GLOBAL_EVENT_BUS;
-    }
-
-    /**
-     * 使用全局EventBus post一个事件<br>
-     *
-     * @param event
-     */
-    public void postEvent(Object event) {
-        GLOBAL_EVENT_BUS.post(event);
-    }
-
-    /**
-     * 使用全局EventBus post一个Sticky事件<br>
-     *
-     * @param event
-     */
-    public void postStickyEvent(Object event) {
-        GLOBAL_EVENT_BUS.postSticky(event);
     }
 }

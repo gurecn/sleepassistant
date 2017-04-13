@@ -77,7 +77,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/eventbus-2.4.0.jar')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
