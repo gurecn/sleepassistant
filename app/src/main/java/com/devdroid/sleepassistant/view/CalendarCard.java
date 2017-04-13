@@ -202,6 +202,7 @@ public class CalendarCard extends View {
                 mLongPressTimer.removeTimer();
                 break;
             case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_CANCEL:
                 mWaitForTouchUp = false;
                 mCurrentSleepDateMode = null;
                 mLongPressTimer.removeTimer();

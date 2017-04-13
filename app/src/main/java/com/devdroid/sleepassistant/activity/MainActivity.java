@@ -58,7 +58,6 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
         mViewPager = (ViewPager) this.findViewById(R.id.vp_calendar);
         mTvDateLable = (TextView) this.findViewById(R.id.tv_content_main_date_lable);
-
         CalendarCard[] views = new CalendarCard[3];
         for (int i = 0; i < 3; i++) {
             views[i] = new CalendarCard(this, this);
