@@ -201,6 +201,11 @@ public class CalendarCard extends View {
                 }
                 mLongPressTimer.removeTimer();
                 break;
+            case MotionEvent.ACTION_MOVE:
+                mWaitForTouchUp = false;
+                mCurrentSleepDateMode = null;
+                mLongPressTimer.removeTimer();
+                break;
             default:
                 break;
         }
@@ -334,7 +339,6 @@ public class CalendarCard extends View {
 
     // 从左往右划，上一个月
     public void leftSlide() {
-        mCurrentSleepDateMode = null;
         if (mShowDate.getMonth() == 1) {
             mShowDate.setMonth(12);
             mShowDate.setYear(mShowDate.getYear() - 1);
@@ -342,11 +346,11 @@ public class CalendarCard extends View {
             mShowDate.setMonth(mShowDate.getMonth() - 1);
         }
         update(false);
+        mCurrentSleepDateMode = null;
     }
 
     // 从右往左划，下一个月
     public void rightSlide() {
-        mCurrentSleepDateMode = null;
         if (mShowDate.getMonth() == 12) {
             mShowDate.setMonth(1);
             mShowDate.setYear(mShowDate.getYear() + 1);
@@ -354,6 +358,7 @@ public class CalendarCard extends View {
             mShowDate.setMonth(mShowDate.getMonth() + 1);
         }
         update(false);
+        mCurrentSleepDateMode = null;
     }
 
     public void update(boolean isClick) {
