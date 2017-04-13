@@ -1,1 +1,1 @@
-include ':app', ':ProcessDaemonSdk-trunk-v1.0-r215447'
+include ':app'
