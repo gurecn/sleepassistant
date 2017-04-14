@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import org.xclcharts.view.ChartView;
 /**
+ * github曲线图
  * Created by Gaolei on 2017/4/13.
  */
 
