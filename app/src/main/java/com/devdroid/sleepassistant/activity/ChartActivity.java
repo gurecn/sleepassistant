@@ -7,15 +7,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.base.BaseActivity;
+import com.devdroid.sleepassistant.view.chart.SplineChartView;
 
 /**
  * 图表界面
  */
 public class ChartActivity extends BaseActivity {
+
+    private SplineChartView mChartView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,16 +24,11 @@ public class ChartActivity extends BaseActivity {
         setContentView(R.layout.activity_chart);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        initView();
+    }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private void initView() {
+        mChartView = (SplineChartView)findViewById(R.id.chart_view_activity_chart);
     }
 
     @Override
@@ -49,10 +45,29 @@ public class ChartActivity extends BaseActivity {
     @Override
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getTitle().equals("退出")){
-            finish();
-            return true;
+        switch (item.getItemId()){
+            case 0:
+
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            case 5:
+
+                break;
+            case 6:
+                finish();
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }
