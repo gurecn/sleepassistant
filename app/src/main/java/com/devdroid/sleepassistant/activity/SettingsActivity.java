@@ -17,6 +17,7 @@ public class SettingsActivity extends BaseActivity {
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
