@@ -162,7 +162,7 @@ public class FeedbackActivity extends BaseActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getTitle().equals("退出")){
+        if(item.getTitle().equals("退出") || item.getItemId() == android.R.id.home){
             finish();
             return true;
         }
