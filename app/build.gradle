@@ -47,7 +47,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        def fileName = "${defaultConfig.applicationId}_v${defaultConfig.versionName}_${defaultConfig.versionCode}_${variant.productFlavors[0].name}_release_${dateTime()}.apk"
+                        def fileName = "Sleepassistant_v${defaultConfig.versionName}_${variant.productFlavors[0].name}_release_${dateTime()}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
