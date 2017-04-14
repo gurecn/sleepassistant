@@ -129,7 +129,6 @@ public class FeedbackActivity extends BaseActivity {
             showToast(R.string.checknet_setting_feedback);
             return;
         }
-
         String mDevinfo = DevicesUtils.getFeedbackDeviceInfo(FeedbackActivity.this, title);
         String notice = this.getString(R.string.feedback_content);
         String text = detail + "\n\n" + notice + "\n" + mDevinfo;
@@ -149,6 +148,7 @@ public class FeedbackActivity extends BaseActivity {
             Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.activity_setting_feedback_no_email), Toast.LENGTH_SHORT).show();
         }
         mContainer.setText(null);
+        finish();
     }
     private void showToast(int id) {
         Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
@@ -162,7 +162,7 @@ public class FeedbackActivity extends BaseActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==0){
+        if(item.getTitle().equals("退出")){
             finish();
             return true;
         }
@@ -172,7 +172,6 @@ public class FeedbackActivity extends BaseActivity {
             Toast.makeText(FeedbackActivity.this, getString(R.string.no_contain_setting_feedback), Toast.LENGTH_SHORT).show();
         }
         sendFeedBack(detailString, selectItem);
-        finish();
         return super.onOptionsItemSelected(item);
     }
 }
