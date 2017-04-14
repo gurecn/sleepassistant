@@ -19,6 +19,8 @@ import com.devdroid.sleepassistant.listener.NavigationItemSelectedListener;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
 import com.devdroid.sleepassistant.utils.DateUtil;
 import com.devdroid.sleepassistant.view.CalendarCard;
+import com.devdroid.sleepassistant.view.chart.GeneralSplineChartView;
+
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     private int mCurrentIndex = 1000;
     private SildeDirection mDirection = SildeDirection.NO_SILDE;
     private TextView mTvDateLable;
+    private GeneralSplineChartView mGSCWeek;
 
     enum SildeDirection {
         RIGHT, LEFT, NO_SILDE
@@ -56,12 +59,14 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
         mViewPager = (ViewPager) this.findViewById(R.id.vp_calendar);
         mTvDateLable = (TextView) this.findViewById(R.id.tv_content_main_date_lable);
+        mGSCWeek = (GeneralSplineChartView) this.findViewById(R.id.gsc_activity_main_week);
         CalendarCard[] views = new CalendarCard[3];
         for (int i = 0; i < 3; i++) {
             views[i] = new CalendarCard(this, this);
         }
         adapter = new CalendarViewAdapter<>(views);
         setViewPager();
+        initGengralSplineChart();
     }
 
     private void setViewPager() {
@@ -154,4 +159,21 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     public void changeDate(SleepDataMode date) {
         mTvDateLable.setText(date.getYear() + "年" + date.getMonth() + "月");
     }
+
+
+    private void initGengralSplineChart(){
+        SleepDataMode currentData = new SleepDataMode();
+        LinkedList<SleepDataMode> sleepDataModes = new LinkedList<>();
+        for(int i = 0; i < 7; i ++ ) {
+            currentData = DateUtil.getPreviousDate(currentData);
+            SleepDataMode sleepDataMode = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(currentData.getYear(), currentData.getMonth(), currentData.getDay());
+            if(sleepDataMode != null) {
+                currentData = sleepDataMode;
+            }
+            currentData.setWeek(DateUtil.getWeek(currentData.getYear(), currentData.getMonth(), currentData.getDay()));
+            sleepDataModes.add(0, currentData);
+        }
+        mGSCWeek.chartDataSet(sleepDataModes);
+    }
+
 }

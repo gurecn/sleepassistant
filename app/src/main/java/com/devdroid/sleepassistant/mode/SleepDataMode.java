@@ -14,6 +14,7 @@ public class SleepDataMode {
     private int minute;
     private int sleepType;
 
+    private int week;  //图表显示判断周
 
     public SleepDataMode(){
         this.year = DateUtil.getYear();
@@ -87,6 +88,14 @@ public class SleepDataMode {
     public static SleepDataMode modifiDayForObject(SleepDataMode date,int day){
         SleepDataMode modifiDate = new SleepDataMode(date.year, date.month, day, date.getHour(), date.getMinute());
         return modifiDate;
+    }
+
+    public int getWeek() {
+        return week;
+    }
+
+    public void setWeek(int week) {
+        this.week = week;
     }
 
     @Override

@@ -78,8 +78,7 @@ public class SleepDatabaseHelper {
      * 查询
      * @return
      */
-    public List<SleepDataMode> querySleepDataInfo(int year, int month, int day) {
-        List<SleepDataMode> list = new ArrayList<>();
+    public SleepDataMode querySleepDataInfo(int year, int month, int day) {
         String selection = SleepDataTable.SLEEP_YEAR + " = ? and " +  SleepDataTable.SLEEP_MONTH + " = ? and " +  SleepDataTable.SLEEP_DAY + " = ?";
         String[] selectionArgs = new  String[]{ year + "", month + "", day + ""};
         Cursor cursor = mHelper.query(SleepDataTable.TABLE_NAME, null, selection, selectionArgs, SleepDataTable.ID + " DESC");
@@ -90,9 +89,7 @@ public class SleepDatabaseHelper {
                     int minute = cursor.getInt(cursor.getColumnIndex(SleepDataTable.SLEEP_MINUTE));
                     int sleepType = cursor.getInt(cursor.getColumnIndex(SleepDataTable.SLEEP_TYPE));
                     SleepDataMode sleepDataMode = new SleepDataMode(year, month, day, hour, minute, sleepType);
-                    if (null != sleepDataMode) {
-                        list.add(sleepDataMode);
-                    }
+                    return sleepDataMode;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -100,7 +97,7 @@ public class SleepDatabaseHelper {
                 cursor.close();
             }
         }
-        return list;
+        return null;
     }
     public void insertSleepDataItem(List<SleepDataMode> insertSnssdkList) {
         ArrayList<InsertParams> list = new ArrayList<InsertParams>();

@@ -66,17 +66,13 @@ public class DateUtil {
         return date;
     }
 
-    public static int[] getWeekSunday(int year, int month, int day, int pervious) {
-        int[] time = new int[3];
+    public static int getWeek(int year, int month, int day) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, day);
-        c.add(Calendar.DAY_OF_MONTH, pervious);
-        time[0] = c.get(Calendar.YEAR);
-        time[1] = c.get(Calendar.MONTH )+1;
-        time[2] = c.get(Calendar.DAY_OF_MONTH);
-        return time;
+        int weekNum = c.get(Calendar.DAY_OF_WEEK) - 1;  //由于周末是1，故做一次切换，换成1为周一
+        return weekNum > 0 ? weekNum : 7;
     }
 
     public static int getWeekDayFromDate(int year, int month) {

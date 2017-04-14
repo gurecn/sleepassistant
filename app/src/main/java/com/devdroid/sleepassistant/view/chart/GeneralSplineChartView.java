@@ -22,6 +22,9 @@ import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+
+import com.devdroid.sleepassistant.mode.SleepDataMode;
+
 /**
  * 普通曲线图
  * Created by Gaolei on 2017/4/14.
@@ -51,7 +54,7 @@ public class GeneralSplineChartView  extends ChartView {
 
     private void initView() {
         chartLabels();
-        chartDataSet();
+//        chartDataSet();
         chartRender();
     }
 
@@ -143,16 +146,18 @@ public class GeneralSplineChartView  extends ChartView {
             Log.e(TAG, e.toString());
         }
     }
-    private void chartDataSet() {
+    public void chartDataSet(List<SleepDataMode> sleepDataModes) {
         //线1的数据集
+        labels.clear();
         List<PointD> linePoint1 = new ArrayList<>();
-        linePoint1.add(new PointD(1d, 8d));
-        linePoint1.add(new PointD(2d, 8d));
-        linePoint1.add(new PointD(3d, 12d));
-        linePoint1.add(new PointD(4d, 2d));
-        linePoint1.add(new PointD(5d, 25d));
-        linePoint1.add(new PointD(6d, 21d));
-        linePoint1.add(new PointD(7d, 0d));
+        for(int i=0;i< sleepDataModes.size();i++){
+            SleepDataMode sleepDataMode = sleepDataModes.get(i);
+            int hour = sleepDataMode.getHour();
+            if(hour > 24)hour -= 24;
+            float time = hour + sleepDataMode.getMinute() / 60f;
+            linePoint1.add(new PointD((double) i, (double) time));
+            labels.add(sleepDataMode.getWeek() + "");
+        }
         SplineData dataSeries1 = new SplineData("入睡时间曲线",linePoint1, Color.rgb(54, 141, 238) );
         dataSeries1.getLinePaint().setStrokeWidth(2);//把线弄细点
         chartData.add(dataSeries1);
