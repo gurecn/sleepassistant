@@ -50,7 +50,11 @@ public class DateUtil {
     }
 
     public static int getWeekDay() {
-        return Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        Calendar c = Calendar.getInstance();
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
+        if (dayOfWeek == 0)
+            dayOfWeek = 7;
+        return dayOfWeek;
     }
 
     public static int getHour() {
@@ -64,15 +68,6 @@ public class DateUtil {
         c.add(Calendar.DATE, 7 - getWeekDay()+1);
         SleepDataMode date = new SleepDataMode(c.get(Calendar.YEAR), c.get(Calendar.MONTH)+1, c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.HOUR), c.get(Calendar.MINUTE));
         return date;
-    }
-
-    public static int getWeek(int year, int month, int day) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year);
-        c.set(Calendar.MONTH, month);
-        c.set(Calendar.DAY_OF_MONTH, day);
-        int weekNum = c.get(Calendar.DAY_OF_WEEK) - 1;  //由于周末是1，故做一次切换，换成1为周一
-        return weekNum > 0 ? weekNum : 7;
     }
 
     public static int getWeekDayFromDate(int year, int month) {
@@ -122,7 +117,11 @@ public class DateUtil {
         } else {
             tempDate.setDay(date.getDay() - 1);
         }
+        if(date.getWeek() == 1){
+            tempDate.setWeek(7);
+        } else {
+            tempDate.setWeek(date.getWeek() - 1);
+        }
         return tempDate;
     }
-
 }

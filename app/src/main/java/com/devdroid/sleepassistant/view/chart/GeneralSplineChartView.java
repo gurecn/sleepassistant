@@ -54,8 +54,6 @@ public class GeneralSplineChartView  extends ChartView {
 
     private void initView() {
         chartLabels();
-//        chartDataSet();
-        chartRender();
     }
 
     @Override
@@ -77,7 +75,6 @@ public class GeneralSplineChartView  extends ChartView {
             //坐标系
             //数据轴最大值 Y
             chart.getDataAxis().setAxisMax(25);
-            //chart.getDataAxis().setAxisMin(0);
             //数据轴刻度间隔
             chart.getDataAxis().setAxisSteps(5);
             //标签轴最大值 X
@@ -89,12 +86,9 @@ public class GeneralSplineChartView  extends ChartView {
             PlotGrid plot = chart.getPlotGrid();
             plot.showHorizontalLines();
             plot.showVerticalLines();
-            plot.getHorizontalLinePaint().setStrokeWidth(3);
+            plot.getHorizontalLinePaint().setStrokeWidth(1);
             plot.getHorizontalLinePaint().setColor(Color.rgb(127, 204, 204));
             plot.setHorizontalLineStyle(XEnum.LineStyle.DOT);
-            //把轴线设成和横向网络线一样和大小和颜色
-            chart.getDataAxis().getAxisPaint().setStrokeWidth(plot.getHorizontalLinePaint().getStrokeWidth());
-            chart.getCategoryAxis().getAxisPaint().setStrokeWidth(plot.getHorizontalLinePaint().getStrokeWidth());
             chart.getDataAxis().getAxisPaint().setColor(Color.rgb(127, 204, 204));
             chart.getCategoryAxis().getAxisPaint().setColor(Color.rgb(127, 204, 204));
             chart.getDataAxis().getTickMarksPaint().setColor(Color.rgb(127, 204, 204));
@@ -102,45 +96,14 @@ public class GeneralSplineChartView  extends ChartView {
             //居中
             chart.getDataAxis().setHorizontalTickAlign(Align.CENTER);
             chart.getDataAxis().getTickLabelPaint().setTextAlign(Align.CENTER);
-            //定义交叉点标签显示格式,特别备注,因曲线图的特殊性，所以返回格式为:  x值,y值
-            //请自行分析定制
-            chart.setDotLabelFormatter(new IFormatterTextCallBack(){
-                @Override
-                public String textFormatter(String value) {
-                    return ("("+value+")");
-                }
-            });
-            //激活点击监听
-            chart.ActiveListenItemClick();
-            //为了让触发更灵敏，可以扩大5px的点击监听范围
-            chart.extPointClickRange(5);
-            chart.showClikedFocus();
-            //显示十字交叉线
-            chart.showDyLine();
-            chart.getDyLine().setDyLineStyle(XEnum.DyLineStyle.Vertical);
             //封闭轴
-            chart.setAxesClosed(true);
+            chart.setAxesClosed(false);
             //将线显示为直线，而不是平滑的
             chart.setCrurveLineStyle(XEnum.CrurveLineStyle.BEELINE);
-
             //不使用精确计算，忽略Java计算误差,提高性能
             chart.disableHighPrecision();
             //仅能横向移动
             chart.setPlotPanMode(XEnum.PanMode.HORIZONTAL);
-            //批注
-            List<AnchorDataPoint> mAnchorSet = new ArrayList<>();
-            AnchorDataPoint an1 = new AnchorDataPoint(2,0,XEnum.AnchorStyle.CAPROUNDRECT);
-            an1.setAlpha(200);
-            an1.setBgColor(Color.RED);
-            an1.setAreaStyle(XEnum.DataAreaStyle.FILL);
-            AnchorDataPoint an2 = new AnchorDataPoint(1,1,XEnum.AnchorStyle.CIRCLE);
-            an2.setBgColor(Color.GRAY);
-            AnchorDataPoint an3 = new AnchorDataPoint(0,2,XEnum.AnchorStyle.RECT);
-            an3.setBgColor(Color.BLUE);
-            mAnchorSet.add(an1);
-            mAnchorSet.add(an2);
-            mAnchorSet.add(an3);
-            chart.setAnchorDataPoint(mAnchorSet);
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, e.toString());
@@ -149,18 +112,21 @@ public class GeneralSplineChartView  extends ChartView {
     public void chartDataSet(List<SleepDataMode> sleepDataModes) {
         //线1的数据集
         labels.clear();
+        chartData.clear();
         List<PointD> linePoint1 = new ArrayList<>();
-        for(int i=0;i< sleepDataModes.size();i++){
+        for(int i = 0;i < sleepDataModes.size();i++){
             SleepDataMode sleepDataMode = sleepDataModes.get(i);
             int hour = sleepDataMode.getHour();
             if(hour > 24)hour -= 24;
             float time = hour + sleepDataMode.getMinute() / 60f;
-            linePoint1.add(new PointD((double) i, (double) time));
+            linePoint1.add(new PointD((double) i + 1, (double) time));
             labels.add(sleepDataMode.getWeek() + "");
         }
         SplineData dataSeries1 = new SplineData("入睡时间曲线",linePoint1, Color.rgb(54, 141, 238) );
         dataSeries1.getLinePaint().setStrokeWidth(2);//把线弄细点
         chartData.add(dataSeries1);
+        chartRender();
+        invalidate();
     }
 
     private void chartLabels()

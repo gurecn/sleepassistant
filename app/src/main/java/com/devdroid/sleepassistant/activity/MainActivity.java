@@ -24,6 +24,8 @@ import com.devdroid.sleepassistant.view.chart.GeneralSplineChartView;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 主界面
@@ -151,6 +153,12 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                         insertList.add(sleepDataMode);
                         LauncherModel.getInstance().getSnssdkTextDao().insertSleepDataItem(insertList);
                         adapter.getItem(mCurrentIndex % adapter.getAllItems().length).update(false);
+                        mViewPager.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                initGengralSplineChart();
+                            }
+                        }, 500);
                     }
                 },calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true).show();
     }
@@ -165,13 +173,15 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         SleepDataMode currentData = new SleepDataMode();
         LinkedList<SleepDataMode> sleepDataModes = new LinkedList<>();
         for(int i = 0; i < 7; i ++ ) {
-            currentData = DateUtil.getPreviousDate(currentData);
             SleepDataMode sleepDataMode = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(currentData.getYear(), currentData.getMonth(), currentData.getDay());
             if(sleepDataMode != null) {
+                sleepDataMode.setWeek(currentData.getWeek());
                 currentData = sleepDataMode;
             }
-            currentData.setWeek(DateUtil.getWeek(currentData.getYear(), currentData.getMonth(), currentData.getDay()));
             sleepDataModes.add(0, currentData);
+            currentData = DateUtil.getPreviousDate(currentData);
+            currentData.setHour(-1);
+            currentData.setMinute(-1);
         }
         mGSCWeek.chartDataSet(sleepDataModes);
     }

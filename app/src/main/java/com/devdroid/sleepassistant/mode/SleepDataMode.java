@@ -22,6 +22,7 @@ public class SleepDataMode {
         this.day = DateUtil.getCurrentMonthDay();
         this.hour = -1;
         this.minute = -1;
+        this.week = DateUtil.getWeekDay();
     }
 
     public SleepDataMode(int year, int month, int day, int hour, int minute) {
