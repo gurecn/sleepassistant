@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.devdroid.sleepassistant.mode.SleepDataMode;
+
 import org.xclcharts.chart.CustomLineData;
 import org.xclcharts.chart.PointD;
 import org.xclcharts.chart.SplineChart;
@@ -47,9 +49,6 @@ public class SplineChartView extends ChartView{
 
     private void initView() {
         chartLabels();
-        chartDataSet();
-        chartDesireLines();
-        chartRender();
     }
 
 
@@ -67,7 +66,7 @@ public class SplineChartView extends ChartView{
             //设置绘图区默认缩进px值,留置空间显示Axis,Axistitle....
             int [] ltrb = getBarLnDefaultSpadding();
             chart.setPadding(ltrb[0] + DensityUtil.dip2px(this.getContext(), 10), ltrb[1], ltrb[2]+DensityUtil.dip2px(this.getContext(), 20), ltrb[3]);
-            chart.getAxisTitle().setLeftTitle("Percentage (annual)");
+            chart.getAxisTitle().setLeftTitle("入睡时间(h)");
             chart.getAxisTitle().getLeftTitlePaint().setColor(Color.BLACK);
 
 
@@ -81,15 +80,10 @@ public class SplineChartView extends ChartView{
 
             //坐标系
             //数据轴最大值
-            chart.getDataAxis().setAxisMax(20);
+            chart.getDataAxis().setAxisMax(25);
             //chart.getDataAxis().setAxisMin(0);
             //数据轴刻度间隔
             chart.getDataAxis().setAxisSteps(5);
-
-            //标签轴最大值
-            chart.setCategoryAxisMax(6);
-            //标签轴最小值
-            chart.setCategoryAxisMin(0);
 
             //背景网格
             PlotGrid plot = chart.getPlotGrid();
@@ -123,40 +117,49 @@ public class SplineChartView extends ChartView{
             e.printStackTrace();
         }
     }
-    private void chartDataSet() {
+    public void chartDataSet(List<SleepDataMode> sleepDataModes) {
         //线1的数据集
-        List<PointD> linePoint1 = new ArrayList<PointD>();
-        linePoint1.add(new PointD(0d, 3d));
-        linePoint1.add(new PointD(1d, 9d));
-        linePoint1.add(new PointD(2d, 8d));
-        linePoint1.add(new PointD(3d, 7d));
-        linePoint1.add(new PointD(6d, 15d));
-        SplineData dataSeries1 = new SplineData("Go",linePoint1, Color.rgb(54, 141, 238) );
+        List<PointD> linePoint1 = new ArrayList<>();
+        for(int i = 0;i < sleepDataModes.size();i++){
+            SleepDataMode sleepDataMode = sleepDataModes.get(i);
+            int hour = sleepDataMode.getHour();
+            if(hour > 24)hour -= 24;
+            float time = hour + sleepDataMode.getMinute() / 60f;
+            linePoint1.add(new PointD((double) i + 1, (double) time));
+            labels.add(sleepDataMode.getDay() + "");
+        }
+        SplineData dataSeries1 = new SplineData("入睡曲线",linePoint1, Color.rgb(54, 141, 238) );
+        //标签轴最大值
+        chart.setCategoryAxisMax(sleepDataModes.size());
+        //标签轴最小值
+        chart.setCategoryAxisMin(1);
         //把线弄细点
         dataSeries1.getLinePaint().setStrokeWidth(3);
         dataSeries1.setLineStyle(XEnum.LineStyle.DASH);
         dataSeries1.setLabelVisible(false);
         dataSeries1.setDotStyle(XEnum.DotStyle.HIDE);
         chartData.add(dataSeries1);
+        chartDesireLines();
+        chartRender();
     }
 
     private void chartLabels() {
-        labels.add("2018");
-        labels.add("2019");
-        labels.add("2020");
-        labels.add("2021");
-        labels.add("2022");
-        labels.add("2023");
+//        labels.add("2018");
+//        labels.add("2019");
+//        labels.add("2020");
+//        labels.add("2021");
+//        labels.add("2022");
+//        labels.add("2023");
     }
 
     private void chartDesireLines() {
-        CustomLineData s = new CustomLineData("GO",15d,Color.rgb(54, 141, 238),3);
-        s.hideLine();
-        s.getLineLabelPaint().setColor(Color.rgb(54, 141, 238));
-        s.getLineLabelPaint().setTextSize(27);
-        s.setLineStyle(XEnum.LineStyle.DASH);
-        s.setLabelOffset(5);
-        mCustomLineDataset.add(s);
+//        CustomLineData s = new CustomLineData("入睡曲线",15d,Color.rgb(54, 141, 238),3);
+//        s.hideLine();
+//        s.getLineLabelPaint().setColor(Color.rgb(54, 141, 238));
+//        s.getLineLabelPaint().setTextSize(27);
+//        s.setLineStyle(XEnum.LineStyle.DASH);
+//        s.setLabelOffset(5);
+//        mCustomLineDataset.add(s);
     }
 
 
@@ -173,7 +176,7 @@ public class SplineChartView extends ChartView{
         int [] ltrb = new int[4];
         ltrb[0] = DensityUtil.dip2px(getContext(), 30); //left
         ltrb[1] = DensityUtil.dip2px(getContext(), 30); //top
-        ltrb[2] = DensityUtil.dip2px(getContext(), 30); //right
+        ltrb[2] = DensityUtil.dip2px(getContext(), 0); //right
         ltrb[3] = DensityUtil.dip2px(getContext(), 50); //bottom
         return ltrb;
     }

@@ -52,7 +52,7 @@ public class SleepDatabaseHelper {
         List<SleepDataMode> list = new ArrayList<>();
         String selection = SleepDataTable.SLEEP_YEAR + " = ? and " +  SleepDataTable.SLEEP_MONTH + " = ?";
         String[] selectionArgs = new  String[]{ year + "", month + ""};
-        Cursor cursor = mHelper.query(SleepDataTable.TABLE_NAME, null, selection, selectionArgs, SleepDataTable.ID + " DESC");
+        Cursor cursor = mHelper.query(SleepDataTable.TABLE_NAME, null, selection, selectionArgs, SleepDataTable.SLEEP_DAY + " ASC");
         if (null != cursor) {
             try {
                 while (cursor.moveToNext()) {

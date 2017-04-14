@@ -8,8 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
+import com.devdroid.sleepassistant.mode.SleepDataMode;
+import com.devdroid.sleepassistant.utils.DateUtil;
 import com.devdroid.sleepassistant.view.chart.SplineChartView;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 图表界面
@@ -29,16 +35,17 @@ public class ChartActivity extends BaseActivity {
 
     private void initView() {
         mChartView = (SplineChartView)findViewById(R.id.chart_view_activity_chart);
+        initGengralSplineChart();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0,0,0,"折线图");
+//        menu.add(0,0,0,"折线图");
         menu.add(0,1,0,"曲线图");
-        menu.add(0,2,0,"柱状图");
-        menu.add(0,3,0,"饼形图");
-        menu.add(0,4,0,"区域图");
-        menu.add(0,5,0,"堆积效果图");
+//        menu.add(0,2,0,"柱状图");
+//        menu.add(0,3,0,"饼形图");
+//        menu.add(0,4,0,"区域图");
+//        menu.add(0,5,0,"堆积效果图");
         menu.add(0,6,0,"退出");
         return true;
     }
@@ -69,5 +76,11 @@ public class ChartActivity extends BaseActivity {
                 break;
         }
         return true;
+    }
+
+    private void initGengralSplineChart(){
+        SleepDataMode currentData = new SleepDataMode();
+        List<SleepDataMode> sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(currentData.getYear(), currentData.getMonth());
+        mChartView.chartDataSet(sleepDataModes);
     }
 }

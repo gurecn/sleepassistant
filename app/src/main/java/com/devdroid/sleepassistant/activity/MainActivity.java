@@ -185,5 +185,4 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         }
         mGSCWeek.chartDataSet(sleepDataModes);
     }
-
 }
