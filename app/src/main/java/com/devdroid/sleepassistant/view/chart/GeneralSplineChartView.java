@@ -62,7 +62,7 @@ public class GeneralSplineChartView  extends ChartView {
         chartRender();
 
         //綁定手势滑动事件
-        this.bindTouch(this,chart);
+//        this.bindTouch(this,chart);
     }
 
 
@@ -94,16 +94,17 @@ public class GeneralSplineChartView  extends ChartView {
             chart.setDataSource(chartData);
 
             //坐标系
-            //数据轴最大值
-            chart.getDataAxis().setAxisMax(100);
+            //数据轴最大值 Y
+            chart.getDataAxis().setAxisMax(25);
             //chart.getDataAxis().setAxisMin(0);
             //数据轴刻度间隔
-            chart.getDataAxis().setAxisSteps(10);
+            chart.getDataAxis().setAxisSteps(5);
 
-            //标签轴最大值
-            chart.setCategoryAxisMax(10);
+            //标签轴最大值 X
+            chart.setCategoryAxisMax(7);
             //标签轴最小值
-            chart.setCategoryAxisMin(0);
+            chart.setCategoryAxisMin(1);
+            chart.getCategoryAxis().setAxisSteps(1);
 
             //设置图的背景色
             //chart.setBackgroupColor(true,Color.BLACK);
@@ -154,10 +155,6 @@ public class GeneralSplineChartView  extends ChartView {
                 }
 
             });
-            //标题
-            chart.setTitle("Spline Chart");
-            chart.addSubtitle("(XCL-Charts Demo)");
-
             //激活点击监听
             chart.ActiveListenItemClick();
             //为了让触发更灵敏，可以扩大5px的点击监听范围
@@ -207,97 +204,31 @@ public class GeneralSplineChartView  extends ChartView {
             Log.e(TAG, e.toString());
         }
     }
-    private void chartDataSet()
-    {
-		/*
-		//线1的数据集
-		List<PointD> linePoint1 = new ArrayList<PointD>();
-		linePoint1.add(new PointD(5d, 8d));
-
-		linePoint1.add(new PointD(12d, 12d));
-		linePoint1.add(new PointD(25d, 15d));
-		linePoint1.add(new PointD(30d, 30d));
-		linePoint1.add(new PointD(45d, 25d));
-
-		linePoint1.add(new PointD(55d, 33d));
-		linePoint1.add(new PointD(62d, 45d));
-		SplineData dataSeries1 = new SplineData("青菜萝卜够吃",linePoint1,
-				Color.rgb(54, 141, 238) );
-		//把线弄细点
-		dataSeries1.getLinePaint().setStrokeWidth(2);
-
-		//线2的数据集
-		List<PointD> linePoint2 = new ArrayList<PointD>();
-		linePoint2.add(new PointD(40d, 50d));
-		linePoint2.add(new PointD(55d, 55d));
-		linePoint2.add(new PointD(60d, 65d));
-		linePoint2.add(new PointD(65d, 85d));
-
-		linePoint2.add(new PointD(72d, 70d));
-		linePoint2.add(new PointD(85d, 68d));
-		SplineData dataSeries2 = new SplineData("饭管够",linePoint2,
-				Color.rgb(255, 165, 132) );
-
-
-		dataSeries2.setLabelVisible(true);
-		dataSeries2.setDotStyle(XEnum.DotStyle.RECT);
-		dataSeries2.getDotLabelPaint().setColor(Color.RED);
-
-		//设定数据源
-		chartData.add(dataSeries1);
-		chartData.add(dataSeries2);
-		*/
-
+    private void chartDataSet() {
         //线1的数据集
         List<PointD> linePoint1 = new ArrayList<PointD>();
-
+        linePoint1.add(new PointD(1d, 8d));
         linePoint1.add(new PointD(2d, 8d));
-
-        linePoint1.add(new PointD(5d, 8d));
-
-        linePoint1.add(new PointD(10d, 12d));
-        //linePoint1.add(new PointD(25d, 15d));
-        //linePoint1.add(new PointD(30d, 30d));
-        //linePoint1.add(new PointD(45d, 25d));
-
-        //linePoint1.add(new PointD(55d, 33d));
-        //linePoint1.add(new PointD(62d, 45d));
-        SplineData dataSeries1 = new SplineData("青菜萝卜够吃",linePoint1,
-                Color.rgb(54, 141, 238) );
+        linePoint1.add(new PointD(3d, 12d));
+        linePoint1.add(new PointD(4d, 2d));
+        linePoint1.add(new PointD(5d, 25d));
+        linePoint1.add(new PointD(6d, 21d));
+        linePoint1.add(new PointD(7d, 0d));
+        SplineData dataSeries1 = new SplineData("入睡时间曲线",linePoint1, Color.rgb(54, 141, 238) );
         //把线弄细点
         dataSeries1.getLinePaint().setStrokeWidth(2);
-
-
-        //线2的数据集
-        List<PointD> linePoint2 = new ArrayList<PointD>();
-        linePoint2.add(new PointD(1d, 50d));
-        linePoint2.add(new PointD(2d, 52d));
-        linePoint2.add(new PointD(3d, 53d));
-        linePoint2.add(new PointD(8d, 55d));
-        SplineData dataSeries2 = new SplineData("饭管够",linePoint2,
-                Color.rgb(255, 165, 132) );
-
-
-        dataSeries2.setLabelVisible(true);
-        dataSeries2.setDotStyle(XEnum.DotStyle.RECT);
-        dataSeries2.getDotLabelPaint().setColor(Color.RED);
-
-        //设置round风格的标签
-        //dataSeries2.getLabelOptions().showBackground();
-        dataSeries2.getLabelOptions().getBox().getBackgroundPaint().setColor(Color.GREEN);
-        dataSeries2.getLabelOptions().getBox().setRoundRadius(8);
-        dataSeries2.getLabelOptions().setLabelBoxStyle(XEnum.LabelBoxStyle.CAPROUNDRECT);
-
         chartData.add(dataSeries1);
-        chartData.add(dataSeries2);
     }
 
     private void chartLabels()
     {
-        labels.add("0");
+        labels.add("1");
+        labels.add("2");
+        labels.add("3");
+        labels.add("4");
         labels.add("5");
-        labels.add("10");
-
+        labels.add("6");
+        labels.add("7");
         //labels.add("5:52:33");
         //labels.add("5:52:35");
         //labels.add("5:52:37");
@@ -393,7 +324,7 @@ public class GeneralSplineChartView  extends ChartView {
         ltrb[0] = DensityUtil.dip2px(getContext(), 10); //left
         ltrb[1] = DensityUtil.dip2px(getContext(), 20); //top
         ltrb[2] = DensityUtil.dip2px(getContext(), 10); //right
-        ltrb[3] = DensityUtil.dip2px(getContext(), 10); //bottom
+        ltrb[3] = DensityUtil.dip2px(getContext(), 15); //bottom
         return ltrb;
     }
 
