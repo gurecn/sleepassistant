@@ -157,21 +157,24 @@ public class FeedbackActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        menu.add(0,0,0,"退出");
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getTitle().equals("退出") || item.getItemId() == android.R.id.home){
-            finish();
-            return true;
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.item_feedback_send:
+                String detailString = mContainer.getText().toString().trim();
+                String selectItem = mSelect.getText().toString();
+                if (detailString.equals("")) {
+                    Toast.makeText(FeedbackActivity.this, getString(R.string.no_contain_setting_feedback), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                sendFeedBack(detailString, selectItem);
+                break;
         }
-        String detailString = mContainer.getText().toString().trim();
-        String selectItem = mSelect.getText().toString();
-        if (detailString.equals("")) {
-            Toast.makeText(FeedbackActivity.this, getString(R.string.no_contain_setting_feedback), Toast.LENGTH_SHORT).show();
-        }
-        sendFeedBack(detailString, selectItem);
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }
