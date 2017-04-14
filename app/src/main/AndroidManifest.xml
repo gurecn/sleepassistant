@@ -27,9 +27,9 @@
         </activity>
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.FeedbackActivity"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".activity.ChartActivity"
             android:label="@string/nav_string_feedback"/>
+        <activity android:name=".activity.ChartActivity"
+            android:label="@string/nav_string_chart"/>
         <activity android:name=".activity.RestrictionActivity"
             android:label="@string/nav_string_restriction"/>
         <activity android:name=".activity.SettingsActivity"
