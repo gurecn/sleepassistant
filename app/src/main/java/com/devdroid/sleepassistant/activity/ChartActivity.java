@@ -85,4 +85,5 @@ public class ChartActivity extends BaseActivity {
         List<SleepDataMode> sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(currentData.getYear(), currentData.getMonth());
         mChartView.chartDataSet(sleepDataModes);
     }
+
 }
