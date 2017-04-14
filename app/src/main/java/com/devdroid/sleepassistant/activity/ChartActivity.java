@@ -30,6 +30,7 @@ public class ChartActivity extends BaseActivity {
         setContentView(R.layout.activity_chart);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initView();
     }
 
@@ -72,6 +73,7 @@ public class ChartActivity extends BaseActivity {
 
                 break;
             case 6:
+            case android.R.id.home:
                 finish();
                 break;
         }

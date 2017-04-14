@@ -10,7 +10,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.devdroid.sleepassistant.activity.SettingsActivity"
-    tools:showIn="@layout/activity_restriction">
+    tools:showIn="@layout/activity_restriction"
+    android:background="@color/app_main_background">
     <LinearLayout
         android:id="@+id/setting_feedback_menu"
         android:layout_width="match_parent"
