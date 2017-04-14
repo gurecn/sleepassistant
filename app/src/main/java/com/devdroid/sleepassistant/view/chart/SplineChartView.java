@@ -1,30 +1,24 @@
 package com.devdroid.sleepassistant.view.chart;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.AttributeSet;
+import android.util.Log;
 
 import org.xclcharts.chart.CustomLineData;
 import org.xclcharts.chart.PointD;
 import org.xclcharts.chart.SplineChart;
 import org.xclcharts.chart.SplineData;
-import org.xclcharts.common.DensityUtil;
 import org.xclcharts.common.IFormatterTextCallBack;
-import org.xclcharts.event.click.PointPosition;
 import org.xclcharts.renderer.XEnum;
 import org.xclcharts.renderer.plot.PlotGrid;
-
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 import org.xclcharts.view.ChartView;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 /**
  * github曲线图
  * Created by Gaolei on 2017/4/13.
@@ -34,16 +28,12 @@ public class SplineChartView extends ChartView{
 
     private String TAG = "SplineChart04View";
     private SplineChart chart = new SplineChart();
-    //分类轴标签集合
-    private LinkedList<String> labels = new LinkedList<String>();
-    private LinkedList<SplineData> chartData = new LinkedList<SplineData>();
-    Paint pToolTip = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-    private List<CustomLineData> mCustomLineDataset = new LinkedList<CustomLineData>();
+    private LinkedList<String> labels = new LinkedList<>();//分类轴标签集合
+    private LinkedList<SplineData> chartData = new LinkedList<>();
+    private List<CustomLineData> mCustomLineDataset = new LinkedList<>();
 
     public SplineChartView(Context context) {
         super(context);
-        // TODO Auto-generated constructor stub
         initView();
     }
 
@@ -63,9 +53,6 @@ public class SplineChartView extends ChartView{
         chartDataSet();
         chartDesireLines();
         chartRender();
-
-        //綁定手势滑动事件
-//        this.bindTouch(this,chart);
     }
 
 
