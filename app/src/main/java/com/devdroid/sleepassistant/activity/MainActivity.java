@@ -177,8 +177,8 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
             if(sleepDataMode != null) {
                 sleepDataMode.setWeek(currentData.getWeek());
                 currentData = sleepDataMode;
+                sleepDataModes.add(0, currentData);
             }
-            sleepDataModes.add(0, currentData);
             currentData = DateUtil.getPreviousDate(currentData);
             currentData.setHour(-1);
             currentData.setMinute(-1);

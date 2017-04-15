@@ -74,9 +74,10 @@ public class GeneralSplineChartView  extends ChartView {
             chart.setDataSource(chartData);
             //坐标系
             //数据轴最大值 Y
-            chart.getDataAxis().setAxisMax(25);
+            chart.getDataAxis().setAxisMax(24);
+            chart.getDataAxis().setAxisMin(21);
             //数据轴刻度间隔
-            chart.getDataAxis().setAxisSteps(5);
+            chart.getDataAxis().setAxisSteps(0.5);
             //标签轴最大值 X
             chart.setCategoryAxisMax(7);
             //标签轴最小值
@@ -110,8 +111,7 @@ public class GeneralSplineChartView  extends ChartView {
         }
     }
     public void chartDataSet(List<SleepDataMode> sleepDataModes) {
-        //线1的数据集
-        labels.clear();
+        //线的数据集
         chartData.clear();
         List<PointD> linePoint1 = new ArrayList<>();
         for(int i = 0;i < sleepDataModes.size();i++){
@@ -119,8 +119,7 @@ public class GeneralSplineChartView  extends ChartView {
             int hour = sleepDataMode.getHour();
             if(hour > 24)hour -= 24;
             float time = hour + sleepDataMode.getMinute() / 60f;
-            linePoint1.add(new PointD((double) i + 1, (double) time));
-            labels.add(sleepDataMode.getWeek() + "");
+            linePoint1.add(new PointD((double)(sleepDataMode.getWeek()), (double) time));
         }
         SplineData dataSeries1 = new SplineData("入睡时间曲线",linePoint1, Color.rgb(54, 141, 238) );
         dataSeries1.getLinePaint().setStrokeWidth(2);//把线弄细点

@@ -80,7 +80,7 @@ public class SplineChartView extends ChartView{
 
             //坐标系
             //数据轴最大值
-            chart.getDataAxis().setAxisMax(25);
+            chart.getDataAxis().setAxisMax(24);
             //chart.getDataAxis().setAxisMin(0);
             //数据轴刻度间隔
             chart.getDataAxis().setAxisSteps(5);
