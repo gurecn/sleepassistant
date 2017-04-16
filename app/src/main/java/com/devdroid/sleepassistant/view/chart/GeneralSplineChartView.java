@@ -30,7 +30,7 @@ import com.devdroid.sleepassistant.mode.SleepDataMode;
  * Created by Gaolei on 2017/4/14.
  */
 
-public class GeneralSplineChartView  extends ChartView {
+public class GeneralSplineChartView  extends BaseChartView {
     private String TAG = "SplineChart01View";
     private SplineChart chart = new SplineChart();
     private LinkedList<String> labels = new LinkedList<>();//分类轴标签集合
