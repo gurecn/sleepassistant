@@ -33,4 +33,8 @@
     <string name="thesday">二</string>
     <string name="thursday">四</string>
     <string name="wednesday">三</string>
+
+    <string name="item_setting_data_export">导出数据</string>
+    <string name="item_setting_data_import">导入数据</string>
+    <string name="item_setting_logput">退出</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.devdroid.sleepassistant.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,5 +27,23 @@ public class SettingsActivity extends BaseActivity {
                 break;
         }
         return true;
+    }
+
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.ll_setting_data_export:
+                break;
+            case R.id.ll_setting_data_import:
+                break;
+            case R.id.ll_setting_about:
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
+            case R.id.ll_setting_feedback:
+                startActivity(new Intent(this, FeedbackActivity.class));
+                break;
+            case R.id.ll_setting_logout:
+                finish();
+                break;
+        }
     }
 }

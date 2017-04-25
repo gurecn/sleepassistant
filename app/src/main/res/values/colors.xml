@@ -2,6 +2,7 @@
 <resources>
     <!--应用主题背景-->
     <color name="app_main_background">#f1e5c9</color>
+    <color name="app_setting_background">#F3E9Ce</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
