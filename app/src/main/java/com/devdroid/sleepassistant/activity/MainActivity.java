@@ -173,15 +173,15 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         SleepDataMode currentData = new SleepDataMode();
         LinkedList<SleepDataMode> sleepDataModes = new LinkedList<>();
         for(int i = 0; i < 7; i ++ ) {
+            currentData = DateUtil.getPreviousDate(currentData);
+            currentData.setHour(-1);
+            currentData.setMinute(-1);
             SleepDataMode sleepDataMode = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(currentData.getYear(), currentData.getMonth(), currentData.getDay());
             if(sleepDataMode != null) {
                 sleepDataMode.setWeek(currentData.getWeek());
                 currentData = sleepDataMode;
-                sleepDataModes.add(0, currentData);
             }
-            currentData = DateUtil.getPreviousDate(currentData);
-            currentData.setHour(-1);
-            currentData.setMinute(-1);
+            sleepDataModes.add(0, currentData);
         }
         mGSCWeek.chartDataSet(sleepDataModes);
     }
