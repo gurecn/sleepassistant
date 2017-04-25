@@ -120,7 +120,6 @@ public class GeneralSplineChartView  extends BaseChartView {
             labels.add(sleepDataMode.getWeek() + "");
             int hour = sleepDataMode.getHour();
             if(hour == -1)continue;
-            if(hour > 24)hour -= 24;
             float time = hour + sleepDataMode.getMinute() / 60f;
             linePoint1.add(new PointD((double)(i + 1), (double) time));
         }
