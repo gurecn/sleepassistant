@@ -40,7 +40,6 @@
     <string name="item_setting_logput">退出</string>
     <string name="item_setting_data_import">導入數據</string>
     <string name="item_setting_data_export">匯出數據</string>
-    <string name="ime_setting_restoring">正在導入數據</string>
     <string name="ime_setting_restore_success">導入數據成功</string>
     <string name="ime_setting_backuping">正在匯出數據</string>
     <string name="ime_setting_backup_success">數據已成功匯出到手機根目錄</string>

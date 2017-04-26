@@ -47,7 +47,6 @@
     <string name="permissionnot">Permission is not granted, the application may not be able to normal use,open and try again, please</string>
     <string name="ime_setting_backuping">Exporting data</string>
     <string name="ime_setting_restore_success">Import data successfully</string>
-    <string name="ime_setting_restoring">Importing data</string>
     <string name="restore_data_data_bad">Backup data corrupted</string>
     <string name="restore_data_select_error">Please select the backup file</string>
     <string name="cancle">cancle</string>
