@@ -34,4 +34,19 @@
     <string name="nav_string_calendar">行事曆</string>
     <string name="nav_string_restriction">強制</string>
     <string name="permissionnot">權限未被準許，應用可能無法正常使用,請開啟後打開應用</string>
+    <string name="warn">警告</string>
+    <string name="restore_data_data_bad">導入數據失敗</string>
+    <string name="restore_data_select_error">請選擇正確的備份檔案</string>
+    <string name="item_setting_logput">退出</string>
+    <string name="item_setting_data_import">導入數據</string>
+    <string name="item_setting_data_export">匯出數據</string>
+    <string name="ime_setting_restoring">正在導入數據</string>
+    <string name="ime_setting_restore_success">導入數據成功</string>
+    <string name="ime_setting_backuping">正在匯出數據</string>
+    <string name="ime_setting_backup_success">數據已成功匯出到手機根目錄</string>
+    <string name="ime_setting_backup_failed">匯出數據失敗，請重試</string>
+    <string name="gerat">優秀</string>
+    <string name="cancle">取消</string>
+    <string name="bad">糟糕</string>
+    <string name="backup_data_import">數據導入</string>
 </resources>

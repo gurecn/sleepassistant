@@ -51,4 +51,10 @@
     <string name="restore_data_data_bad">Backup data corrupted</string>
     <string name="restore_data_select_error">Please select the backup file</string>
     <string name="cancle">cancle</string>
+    <string name="backup_data_import">Data import</string>
+    <string name="ime_setting_backup_failed">Export data failed, please try again</string>
+    <string name="ime_setting_backup_success">Data has been successfully exported to the phone root directory</string>
+    <string name="item_setting_data_export">Export data</string>
+    <string name="item_setting_data_import">Import data</string>
+    <string name="item_setting_logput">quit</string>
 </resources>

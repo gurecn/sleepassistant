@@ -48,4 +48,7 @@
     <string name="ime_setting_restore_success">导入数据成功</string>
     <string name="restore_data_data_bad">导入数据失败</string>
     <string name="backup_data_import">数据导入</string>
+    <string name="cancle">取消</string>
+    <string name="ime_setting_restoring">正在导入数据</string>
+    <string name="restore_data_select_error">请选择正确的备份文件</string>
 </resources>
