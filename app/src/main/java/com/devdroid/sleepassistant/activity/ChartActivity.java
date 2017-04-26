@@ -118,6 +118,9 @@ public class ChartActivity extends BaseActivity {
         SleepDataMode currentData = new SleepDataMode();
         List<SleepDataMode> sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(currentData.getYear(), currentData.getMonth());
         HashMap<String, Integer> sleepMap = new HashMap<>();
+        sleepMap.put(SleepState.GREAT.name(), 0);
+        sleepMap.put(SleepState.WARN.name(), 0);
+        sleepMap.put(SleepState.BAD.name(), 0);
         for(SleepDataMode sleepData:sleepDataModes){
             if(sleepData != null && sleepData.getHour() != -1){
                 SleepState sleepState = DateUtil.transformState(sleepData);
@@ -125,9 +128,11 @@ public class ChartActivity extends BaseActivity {
             }
         }
         int total =  sleepMap.get(SleepState.GREAT.name()) + sleepMap.get(SleepState.WARN.name()) + sleepMap.get(SleepState.BAD.name());
+        if(total == 0) return;
         sleepMap.put(SleepState.GREAT.name(), sleepMap.get(SleepState.GREAT.name()) * 100 / total);
-        sleepMap.put(SleepState.WARN.name(), sleepMap.get(SleepState.WARN.name())* 100 / total);
-        sleepMap.put(SleepState.BAD.name(), sleepMap.get(SleepState.BAD.name())* 100 / total);
+        sleepMap.put(SleepState.WARN.name(), sleepMap.get(SleepState.WARN.name()) * 100 / total);
+        sleepMap.put(SleepState.BAD.name(), sleepMap.get(SleepState.BAD.name()) * 100 / total);
         pieChartView.chartDataSet(sleepMap);
+        new Thread(pieChartView).start();
     }
 }
