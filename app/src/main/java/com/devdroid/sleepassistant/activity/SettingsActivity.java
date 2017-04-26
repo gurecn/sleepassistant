@@ -5,8 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,17 +12,38 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.constant.CustomConstant;
 import com.devdroid.sleepassistant.database.DatabaseBackupTask;
+import com.devdroid.sleepassistant.eventbus.OnUpdateProgressBackup;
 import com.devdroid.sleepassistant.utils.FileUtils;
-
 public class SettingsActivity extends BaseActivity {
-
     private DatabaseBackupTask mBackupTask;
     private Dialog mBackupDialog;
+    private Object mEventSubscriber = new Object() {
+        @SuppressWarnings("unused")
+        public void onEventMainThread(OnUpdateProgressBackup event) {
+
+            if(event.getTypeProgress() == 0){  //数据还原
+                if(mBackupDialog != null){
+                    mBackupDialog.dismiss();
+                }
+                if(event.getProgressNum() == 100){
+                    Toast.makeText(SettingsActivity.this, getString(R.string.ime_setting_restore_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SettingsActivity.this, getString(R.string.restore_data_data_bad), Toast.LENGTH_SHORT).show();
+                }
+            } else {   //数据备份
+                if(event.getProgressNum() == 100){
+                    Toast.makeText(SettingsActivity.this, getString(R.string.ime_setting_backup_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SettingsActivity.this, getString(R.string.ime_setting_backup_failed), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +52,9 @@ public class SettingsActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(!LauncherModel.getInstance().getGlobalEventBus().isRegistered(mEventSubscriber)){
+            LauncherModel.getInstance().getGlobalEventBus().register(mEventSubscriber);
+        }
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -100,13 +122,13 @@ public class SettingsActivity extends BaseActivity {
                 }
             }
         });
-//        mLvContacts.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                mBackupTask = new DatabaseBackupTask(SettingsActivity.this, mPbProgressBar, mTvProgressBarNum, mContactPhone);
-//                mBackupTask.execute(CustomConstant.COMMAND_RESTORE_INTERNAL_STORAGE, path);
-//            }
-//        }, 500);
+        findViewById(R.id.ll_setting_logout).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mBackupTask = new DatabaseBackupTask(SettingsActivity.this, mPbProgressBar, mTvProgressBarNum, mContactPhone);
+                mBackupTask.execute(CustomConstant.COMMAND_RESTORE_INTERNAL_STORAGE, path);
+            }
+        }, 500);
         mBackupDialog.show();
     }
 
@@ -124,4 +146,11 @@ public class SettingsActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(LauncherModel.getInstance().getGlobalEventBus().isRegistered(mEventSubscriber)){
+            LauncherModel.getInstance().getGlobalEventBus().unregister(mEventSubscriber);
+        }
+    }
 }

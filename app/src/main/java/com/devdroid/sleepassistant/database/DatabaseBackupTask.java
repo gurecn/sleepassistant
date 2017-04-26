@@ -9,6 +9,7 @@ import com.devdroid.sleepassistant.BuildConfig;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.constant.CustomConstant;
+import com.devdroid.sleepassistant.eventbus.OnUpdateProgressBackup;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
 import com.devdroid.sleepassistant.utils.ByteUtils;
 import java.io.File;
@@ -57,8 +58,10 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
                 StringBuilder sb = new StringBuilder();
                 sb.append(BuildConfig.VERSION_CODE).append("_").append(BaseDatabaseHelper.DB_MIN_VERSION);
                 saveExtraData(backupdb.getAbsolutePath(), sb.toString().getBytes());  //保存附加数据
+                LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(100, 1));
             } catch (Exception e) {
                 e.printStackTrace();
+                LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(-1, 1));
             }
         } else if (command.equals(CustomConstant.COMMAND_RESTORE_INTERNAL_STORAGE)) { //读取内存数据
             String restoreDataName = params[1];
@@ -66,7 +69,7 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
             assert extraData != null;
             String[] restoreNames = extraData.split("_");
             if(restoreNames.length != 2){
-//                LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(100));
+                LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(-1, 0));
                 return null;
             }
             try {
@@ -99,8 +102,7 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
                                 contactsDao.insertSleepDataItem(contacts);
                                 contacts.clear();
                             } else if(this.isCancelled()){
-//                                LauncherModel.getInstance().postEvent(new OnContactAddFinish());
-//                                LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(100));
+                                LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(100, 0));
                                 return null;
                             }
                         }
@@ -110,12 +112,11 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
                     if(dbBackFile.exists()) {
                         dbBackFile.delete();
                     }
-//                    LauncherModel.getInstance().postEvent(new OnContactAddFinish());
                 }
-//                LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(100));
+                LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(100, 0));
             } catch (Exception e) {
                 e.printStackTrace();
-//                LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(100));
+                LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(-1, 0));
             }
         }
         return null;
