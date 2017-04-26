@@ -49,6 +49,12 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         initView();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        adapter.getItem(mCurrentIndex % adapter.getAllItems().length).update(false);
+    }
+
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
