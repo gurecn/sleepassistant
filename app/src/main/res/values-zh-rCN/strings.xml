@@ -37,4 +37,9 @@
     <string name="item_setting_data_export">导出数据</string>
     <string name="item_setting_data_import">导入数据</string>
     <string name="item_setting_logput">退出</string>
+
+    <string name="gerat">优秀</string>
+    <string name="warn">警告</string>
+    <string name="bad">糟糕</string>
+    <string name="permissionnot">权限未被准许，应用可能无法正常使用,请开启后打开应用</string>
 </resources>

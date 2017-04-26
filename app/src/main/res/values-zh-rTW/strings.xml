@@ -33,4 +33,5 @@
     <string name="nav_string_chart">圖表</string>
     <string name="nav_string_calendar">行事曆</string>
     <string name="nav_string_restriction">強制</string>
+    <string name="permissionnot">權限未被準許，應用可能無法正常使用,請開啟後打開應用</string>
 </resources>

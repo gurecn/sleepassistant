@@ -41,4 +41,9 @@
     <string name="nav_string_calendar">Calendar</string>
     <string name="nav_string_chart">Chart</string>
 
+    <string name="gerat">Gerat</string>
+    <string name="warn">Warn</string>
+    <string name="bad">Bad</string>
+    <string name="permissionnot">Permission is not granted, the application may not be able to normal use,open and try again, please</string>
+
 </resources>
