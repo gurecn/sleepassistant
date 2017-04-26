@@ -2,6 +2,8 @@ package com.devdroid.sleepassistant.listener;
 
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.devdroid.sleepassistant.R;
@@ -19,9 +21,11 @@ import com.devdroid.sleepassistant.activity.SettingsActivity;
  * I'm glad to share my knowledge with you all.
  */
 public class NavigationItemSelectedListener  implements NavigationView.OnNavigationItemSelectedListener {
+    private DrawerLayout mDrawerLayout;
     private AppCompatActivity mAppCompatActivity;
-    public NavigationItemSelectedListener(AppCompatActivity appCompatActivity) {
+    public NavigationItemSelectedListener(AppCompatActivity appCompatActivity, DrawerLayout drawer) {
         this.mAppCompatActivity = appCompatActivity;
+        this.mDrawerLayout = drawer;
     }
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -48,6 +52,7 @@ public class NavigationItemSelectedListener  implements NavigationView.OnNavigat
                 mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, AboutActivity.class));
                 break;
         }
+        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 

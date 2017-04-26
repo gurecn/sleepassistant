@@ -132,7 +132,7 @@ public class PieChartView  extends BaseChartView implements Runnable{
             Thread.currentThread().interrupt();
         }
     }
-    
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
@@ -164,7 +164,6 @@ public class PieChartView  extends BaseChartView implements Runnable{
         this.refreshChart();
     }
     //Demo中bar chart所使用的默认偏移值。
-    //偏移出来的空间用于显示tick,axistitle....
     protected int[] getPieDefaultSpadding() {
         int [] ltrb = new int[4];
         ltrb[0] = DensityUtil.dip2px(getContext(), 30); //left

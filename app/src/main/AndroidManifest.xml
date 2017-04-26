@@ -15,10 +15,12 @@
             android:name="channel"
             android:value="${COM_DEVDROID_CHANNEL_VALUE}" />
         <activity
-            android:name=".activity.MainActivity" />
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".activity.GuideActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,15 +28,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.AboutActivity"
-            android:label="@string/nav_string_about"/>
+            android:label="@string/nav_string_about"
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.FeedbackActivity"
-            android:label="@string/nav_string_feedback"/>
+            android:label="@string/nav_string_feedback"
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.ChartActivity"
-            android:label="@string/nav_string_chart"/>
+            android:label="@string/nav_string_chart"
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.RestrictionActivity"
-            android:label="@string/nav_string_restriction"/>
+            android:label="@string/nav_string_restriction"
+            android:launchMode="singleTask"/>
         <activity android:name=".activity.SettingsActivity"
-            android:label="@string/action_settings"/>
+            android:label="@string/action_settings"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>
