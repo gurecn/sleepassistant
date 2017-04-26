@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.devdroid.sleepassistant.BuildConfig;
+import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.constant.CustomConstant;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
@@ -26,11 +27,9 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
     private ProgressBar mPbProgressBar;
     private TextView mTvProgressBarNum;
     private TextView mTvContactPhone;
-
     public DatabaseBackupTask(Context mContext) {
         this.mContext = mContext;
     }
-
     public DatabaseBackupTask(Context context, ProgressBar pbProgressBar, TextView tvProgressBarNum, TextView tvContactPhone) {
         this.mContext = context;
         this.mPbProgressBar = pbProgressBar;
@@ -49,7 +48,7 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
                 File dbFile = new File("/data/data/com.csizg.pinyinime/databases/", "pinyinime.db");
                 Date date = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-                String fileName = " 牛盾输入法_通讯录_" + sdf.format(date) + ".back";
+                String fileName = mContext.getString(R.string.app_name) + sdf.format(date) + ".back";
                 File backupdb = new File(exportDirInternalStorage, fileName);
                 if(!backupdb.exists()) backupdb.createNewFile();
                 if(dbFile.exists()) {

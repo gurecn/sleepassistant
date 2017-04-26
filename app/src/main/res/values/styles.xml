@@ -50,4 +50,26 @@
         <item name="android:layout_marginRight">40dp</item>
         <item name="android:background">#cccccc</item>
     </style>
+    <style name="dialogCustom" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 背景透明 -->
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+    <!-- 自定义下载进度条 -->
+    <style name="progressBar_download" parent="@android:style/Widget.ProgressBar.Horizontal">
+        <item name="android:maxHeight">12dp</item>
+        <item name="android:minHeight">12dp</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
+        <item name="android:progressDrawable">@drawable/my_progressbar</item>
+    </style>
 </resources>

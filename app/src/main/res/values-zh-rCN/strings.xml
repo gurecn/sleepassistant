@@ -42,4 +42,9 @@
     <string name="warn">警告</string>
     <string name="bad">糟糕</string>
     <string name="permissionnot">权限未被准许，应用可能无法正常使用,请开启后打开应用</string>
+    <string name="ime_setting_backuping">正在导出数据</string>
+    <string name="ime_setting_restoring">正在导入数据</string>
+    <string name="ime_setting_backup_success">数据已成功导出到手机根目录</string>
+    <string name="ime_setting_restore_success">导入数据成功</string>
+    <string name="restore_data_data_bad">备份数据已损坏</string>
 </resources>
