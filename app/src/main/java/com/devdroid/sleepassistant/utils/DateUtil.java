@@ -1,7 +1,11 @@
 package com.devdroid.sleepassistant.utils;
 
 import android.annotation.SuppressLint;
+
+import com.devdroid.sleepassistant.SleepState;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
+import com.devdroid.sleepassistant.view.CalendarCard;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -123,5 +127,19 @@ public class DateUtil {
             tempDate.setWeek(date.getWeek() - 1);
         }
         return tempDate;
+    }
+
+    /**
+     * 时间转化成状态
+     */
+    public static SleepState transformState(SleepDataMode sleepDataMode) {
+        int minutes = sleepDataMode.getHour() * 60 + sleepDataMode.getMinute();
+        if(minutes >= 1170 && minutes <= 1350){//19:30--22:30
+            return SleepState.GREAT;
+        }else if(minutes > 1350 && minutes <= 1420){//22:30--23:40
+            return SleepState.WARN;
+        } else {
+            return SleepState.BAD;//其他时间
+        }
     }
 }

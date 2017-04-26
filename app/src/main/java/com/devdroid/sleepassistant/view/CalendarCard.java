@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.SleepState;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
 import com.devdroid.sleepassistant.utils.DateUtil;
@@ -117,17 +118,17 @@ public class CalendarCard extends View {
                 if (position >= firstDayWeek && position < firstDayWeek + currentMonthDays) {// 这个月的
                     day++;
                     SleepDataMode date = SleepDataMode.modifiDayForObject(mShowDate, day);
-                    rows[j].cells[i] = new Cell(date, State.CURRENT_MONTH_DAY, i, j);
+                    rows[j].cells[i] = new Cell(date, SleepState.CURRENT_MONTH_DAY, i, j);
                     if (isCurrentMonth && day == monthDay ) {// 今天
-                        rows[j].cells[i] = new Cell(date, State.TODAY, i, j);
+                        rows[j].cells[i] = new Cell(date, SleepState.TODAY, i, j);
                     }
                     if (isCurrentMonth && day > monthDay) { // 如果比这个月的今天要大，表示还没到
-                        rows[j].cells[i] = new Cell(date, State.UNREACH_DAY, i, j);
+                        rows[j].cells[i] = new Cell(date, SleepState.UNREACH_DAY, i, j);
                     }
                     if(mSleepDataModes.contains(date)){
                         for(SleepDataMode sleepDataMode : mSleepDataModes){
                             if(sleepDataMode.equals(date)){
-                                rows[j].cells[i] = new Cell(sleepDataMode, transformState(sleepDataMode), i, j);
+                                rows[j].cells[i] = new Cell(sleepDataMode, DateUtil.transformState(sleepDataMode), i, j);
                             }
                         }
                     } else {
@@ -135,28 +136,16 @@ public class CalendarCard extends View {
                     }
                 } else if (position < firstDayWeek) {// 过去一个月
                     SleepDataMode sleepDataMode = new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() - 1, lastMonthDays - (firstDayWeek - position - 1), mShowDate.getHour(), mShowDate.getMinute());
-                    rows[j].cells[i] = new Cell(sleepDataMode, State.PAST_MONTH_DAY, i, j);
+                    rows[j].cells[i] = new Cell(sleepDataMode, SleepState.PAST_MONTH_DAY, i, j);
                 } else if (position >= firstDayWeek + currentMonthDays) {// 下个月
                     SleepDataMode sleepDataMode = new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() + 1, position - firstDayWeek - currentMonthDays + 1, mShowDate.getHour(), mShowDate.getMinute());
-                    rows[j].cells[i] = new Cell(sleepDataMode, State.NEXT_MONTH_DAY, i, j);
+                    rows[j].cells[i] = new Cell(sleepDataMode, SleepState.NEXT_MONTH_DAY, i, j);
                 }
             }
         }
     }
 
-    /**
-     * 时间转化成状态
-     */
-    private State transformState(SleepDataMode sleepDataMode) {
-        int minutes = sleepDataMode.getHour() * 60 + sleepDataMode.getMinute();
-        if(minutes >= 1170 && minutes <= 1350){//19:30--22:30
-            return State.GREAT;
-        }else if(minutes > 1350 && minutes <= 1420){//22:30--23:40
-            return State.WARN;
-        } else {
-            return State.BAD;//其他时间
-        }
-    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -250,11 +239,11 @@ public class CalendarCard extends View {
      */
     class Cell {
         private SleepDataMode date;
-        State state;
+        SleepState state;
         private int col;
         private int row;
 
-        Cell(SleepDataMode date, State state, int col, int row) {
+        Cell(SleepDataMode date, SleepState state, int col, int row) {
             super();
             this.date = date;
             this.state = state;
@@ -326,9 +315,9 @@ public class CalendarCard extends View {
     /**
      * @author wuwenjie 单元格的状态 当前月日期，过去的月的日期，下个月的日期
      */
-    enum State {
-        TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, GREAT, WARN, BAD
-    }
+//    public enum State {
+//        TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, GREAT, WARN, BAD
+//    }
 
     // 从左往右划，上一个月
     public void leftSlide() {

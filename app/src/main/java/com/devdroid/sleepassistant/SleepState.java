@@ -5,4 +5,5 @@ package com.devdroid.sleepassistant;
  */
 
 public enum SleepState {
+    TODAY,CURRENT_MONTH_DAY, PAST_MONTH_DAY, NEXT_MONTH_DAY, UNREACH_DAY, GREAT, WARN, BAD
 }

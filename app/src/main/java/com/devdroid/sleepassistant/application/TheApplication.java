@@ -49,7 +49,7 @@ public class TheApplication extends Application {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                CrashHandler.getInstance().init(getAppContext(), ApiConstant.LOG_DIR);
+                CrashHandler.getInstance().init(getAppContext());
             }
         });
         thread.start();

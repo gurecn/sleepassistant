@@ -7,5 +7,4 @@ package com.devdroid.sleepassistant.constant;
  * I'm glad to share my knowledge with you all.
  */
 public class ApiConstant {
-    public static final String LOG_DIR = "/devdroid/snssdk/log/";
 }

@@ -26,7 +26,7 @@ import android.view.MotionEvent;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
 
 /**
- * 普通曲线图
+ * 七日普通曲线图
  * Created by Gaolei on 2017/4/14.
  */
 
@@ -110,14 +110,18 @@ public class GeneralSplineChartView  extends BaseChartView {
             Log.e(TAG, e.toString());
         }
     }
-    public void chartDataSet(List<SleepDataMode> sleepDataModes) {
+    public void chartDataSet(List<SleepDataMode> sleepDataModes, boolean isWeek) {
         //线的数据集
         chartData.clear();
         labels.clear();
         List<PointD> linePoint1 = new ArrayList<>();
         for(int i = 0;i < sleepDataModes.size();i++){
             SleepDataMode sleepDataMode = sleepDataModes.get(i);
-            labels.add(sleepDataMode.getWeek() + "");
+            if(isWeek) {
+                labels.add(sleepDataMode.getWeek() + "");
+            } else {
+                labels.add(sleepDataMode.getDay() + "");
+            }
             int hour = sleepDataMode.getHour();
             if(hour == -1)continue;
             float time = hour + sleepDataMode.getMinute() / 60f;
