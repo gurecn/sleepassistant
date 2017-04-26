@@ -46,5 +46,7 @@ public class SleepDataDao {
     public void insertSleepDataItem(SleepDataMode sleepDataMode) {
         mSnssdkDatabaseHelper.insertSleepDataItem(sleepDataMode);
     }
-
+    public void closeBackup() {
+        mSnssdkDatabaseHelper.closeBackup();
+    }
 }

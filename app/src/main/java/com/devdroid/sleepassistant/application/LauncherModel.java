@@ -14,9 +14,10 @@ public class LauncherModel {
     private static LauncherModel sInstance;
     private final SharedPreferencesManager mSharedPreferencesManager;
     private final SleepDataDao mSleepDao;
+    private final Context mContext;
 
     private LauncherModel(Context context) {
-        Context mContext = context.getApplicationContext();
+        mContext = context;
         mSharedPreferencesManager = new SharedPreferencesManager(mContext);
         BaseDataProvider dataProvider = new BaseDataProvider(mContext);
         mSleepDao = new SleepDataDao(mContext, dataProvider);
@@ -39,5 +40,13 @@ public class LauncherModel {
     }
     public SleepDataDao getSnssdkTextDao() {
         return mSleepDao;
+    }
+
+    /**
+     * 获取备份数据库操作实例
+     */
+    public SleepDataDao getBackupContactsDao(int dataVersion) {
+        BaseDataProvider backupProvider = new BaseDataProvider(mContext, true, dataVersion);
+        return new SleepDataDao(mContext, backupProvider);
     }
 }

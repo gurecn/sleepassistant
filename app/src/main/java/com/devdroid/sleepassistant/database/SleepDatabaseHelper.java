@@ -156,4 +156,8 @@ public class SleepDatabaseHelper {
             mHelper.insert(list);
         }
     }
+
+    public void closeBackup(){
+        mHelper.closeBackup();
+    }
 }
