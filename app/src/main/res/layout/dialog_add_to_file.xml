@@ -3,6 +3,7 @@
     android:layout_width="270dp"
     android:layout_height="200dp"
     android:layout_gravity="center"
+    android:background="@drawable/shape_encrypion_dialog_bg"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -14,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="@color/black"
+            android:text="@string/backup_data_import"
             android:textSize="17sp" />
     </RelativeLayout>
 

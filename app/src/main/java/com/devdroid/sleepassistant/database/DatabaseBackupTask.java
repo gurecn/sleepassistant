@@ -46,10 +46,10 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
                 if (!exportDirInternalStorage.exists()) {
                     exportDirInternalStorage.mkdirs();
                 }
-                File dbFile = new File("/data/data/com.csizg.pinyinime/databases/", "pinyinime.db");
+                File dbFile = new File("/data/data/com.devdroid.sleepassistant/databases/", "boost.db");
                 Date date = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-                String fileName = mContext.getString(R.string.app_name) + sdf.format(date) + ".back";
+                String fileName = mContext.getString(R.string.app_name) + "_" + sdf.format(date) + ".back";
                 File backupdb = new File(exportDirInternalStorage, fileName);
                 if(!backupdb.exists()) backupdb.createNewFile();
                 if(dbFile.exists()) {
@@ -74,41 +74,39 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
             }
             try {
                 File backupdb = new File(restoreDataName);
-                StringBuilder sbCountNum = new StringBuilder();
                 if(backupdb.exists()) {
-                    File dbBackFile = new File("/data/data/com.csizg.sleepassistant/databases/", "boost_backup.db");
+                    File dbBackFile = new File("/data/data/com.devdroid.sleepassistant/databases/", "boost_backup.db");
                     if(!dbBackFile.exists()) {
                         dbBackFile.getParentFile().mkdirs();
                         dbBackFile.createNewFile();
                     }
                     fileCopy(backupdb, dbBackFile);
-                    SleepDataDao backupContactsDao = LauncherModel.getInstance().getBackupContactsDao(Integer.valueOf(restoreNames[1]));
-                    SleepDataDao contactsDao = LauncherModel.getInstance().getSnssdkTextDao();
-                    List<SleepDataMode> backupContacts = backupContactsDao.querySleepDataInfo();
-                    List<SleepDataMode> contacts = new LinkedList<>();
-                    int backupTotal = backupContacts.size();
+                    SleepDataDao backupSleepDataDao = LauncherModel.getInstance().getBackupContactsDao(Integer.valueOf(restoreNames[1]));
+                    SleepDataDao sleepDataDao = LauncherModel.getInstance().getSnssdkTextDao();
+                    List<SleepDataMode> backupSleepDatas = backupSleepDataDao.querySleepDataInfo();
+                    List<SleepDataMode> sleepDatas = new LinkedList<>();
+                    int backupTotal = backupSleepDatas.size();
                     int mProgress = 0;
                     for (int i = 0;i < backupTotal;i++){
-                        SleepDataMode backupContact = backupContacts.get(i);
-                        SleepDataMode contact = contactsDao.querySleepDataInfo(backupContact.getYear(), backupContact.getMonth(), backupContact.getDay());
+                        SleepDataMode backupSleepData = backupSleepDatas.get(i);
+                        SleepDataMode contact = sleepDataDao.querySleepDataInfo(backupSleepData.getYear(), backupSleepData.getMonth(), backupSleepData.getDay());
                         if(contact == null || contact.getHour() == -1) {
-                            contacts.add(backupContact);
+                            sleepDatas.add(backupSleepData);
                             int newprogress = 100 * (i + 1) / backupTotal;
                             if (mProgress < newprogress){
                                 mProgress = newprogress;
-                                publishProgress(String.valueOf(mProgress), backupContact.getYear() + "-" + backupContact.getMonth() + "-" + backupContact.getDay());
+                                publishProgress(String.valueOf(mProgress), backupSleepData.getYear() + "-" + backupSleepData.getMonth() + "-" + backupSleepData.getDay());
                             }
                             if(mProgress % 10 == 0 && !this.isCancelled()){
-                                contactsDao.insertSleepDataItem(contacts);
-                                contacts.clear();
+                                sleepDataDao.insertSleepDataItem(sleepDatas);
+                                sleepDatas.clear();
                             } else if(this.isCancelled()){
                                 LauncherModel.getInstance().postEvent(new OnUpdateProgressBackup(100, 0));
                                 return null;
                             }
                         }
                     }
-                    sbCountNum.append("  insertContacts:").append(contacts.size());
-                    backupContactsDao.closeBackup();
+                    backupSleepDataDao.closeBackup();
                     if(dbBackFile.exists()) {
                         dbBackFile.delete();
                     }

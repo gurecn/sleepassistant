@@ -15,7 +15,6 @@ public class SleepDatabaseHelper {
 		mHelper = dataProvider;
 	}
     /**
-     * 查询当前加锁应用信息
      * @return
      */
     public List<SleepDataMode> querySleepDataInfo() {
