@@ -3,13 +3,21 @@ package com.devdroid.sleepassistant.utils;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.devdroid.sleepassistant.R;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -155,5 +163,137 @@ public class AppUtils {
 		}
 		return netType;
 	}
+	/**
+	 * 根据包名获取应用Icon
+	 */
+	public static Bitmap loadAppIcon(Context context, String appPackageName) {
+		Bitmap bitmap = null;
+		BitmapDrawable drawable = (BitmapDrawable) getApplicationDrawable(
+				context, appPackageName);
+		if (drawable != null) {
+			bitmap = drawable.getBitmap();
+		} else if (drawable == null) {
+			// 兼容未安装应用
+			BitmapDrawable drawable2 = (BitmapDrawable) getApplicationDrawableIfNotInstalled(
+					context, appPackageName);
+			if (drawable2 != null) {
+				bitmap = drawable2.getBitmap();
+			} else {
+				BitmapDrawable drawable3 = (BitmapDrawable) context
+						.getResources().getDrawable(
+								R.drawable.zhuopin_logo);
+				bitmap = drawable3.getBitmap();
+			}
+		}
+		return bitmap;
+	}
 
+	private static Drawable getApplicationDrawable(Context context,
+												   String pkgName) {
+		PackageManager pm = context.getPackageManager();
+		Drawable drawable = null;
+		try {
+			drawable = pm.getApplicationIcon(pkgName);
+			if (!(drawable instanceof BitmapDrawable)) {
+				drawable = null;
+			}
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		} catch (OutOfMemoryError e) {
+			e.printStackTrace();
+		}
+		return drawable;
+	}
+
+	private static Drawable getApplicationDrawableIfNotInstalled(
+			Context context, String path) {
+		PackageManager pm = context.getPackageManager();
+		try {
+			PackageInfo packageInfo = pm.getPackageArchiveInfo(path,
+					PackageManager.GET_ACTIVITIES);
+
+			if (packageInfo != null) {
+				ApplicationInfo appInfo = packageInfo.applicationInfo;
+				appInfo.sourceDir = path;
+				appInfo.publicSourceDir = path;
+				try {
+					return appInfo.loadIcon(pm);
+				} catch (OutOfMemoryError e) {
+				}
+			}
+		} catch (Exception e) {
+
+		}
+		return null;
+	}
+	public static String getAppName(final Context context,
+									final String packageName) {
+		PackageInfo info = getAppPackageInfo(context, packageName);
+		return getAppName(context, info);
+	}
+
+	public static String getAppName(final Context context, PackageInfo info) {
+		if (info != null) {
+			return info.applicationInfo.loadLabel(context.getPackageManager())
+					.toString();
+		}
+		return "";
+	}
+
+	/**
+	 * 获取app包信息
+	 *
+	 * @param context
+	 * @param packageName 包名
+	 * @return
+	 */
+	public static PackageInfo getAppPackageInfo(final Context context,
+												final String packageName) {
+		PackageInfo info = null;
+		try {
+			info = context.getPackageManager().getPackageInfo(packageName, 0);
+		} catch (Exception e) {
+			info = null;
+			e.printStackTrace();
+		}
+		return info;
+	}
+	public static List<String> getLauncherAppPackageNames(Context context) {
+		List<ResolveInfo> infos = AppUtils.getLauncherApps(context);
+		List<String> packNames = new ArrayList<String>();
+		if (infos != null) {
+			for (int i = 0; i < infos.size(); i++) {
+				ResolveInfo packageInfo = infos.get(i);
+				if (packageInfo != null) {
+					String packageName = packageInfo.activityInfo.packageName;
+					if (!packNames.contains(packageName)) {
+						packNames.add(packageName);
+					}
+				}
+			}
+		}
+
+		return packNames;
+	}
+	/**
+	 * 获取在功能菜单出现的程序列表
+	 *
+	 * @param context 上下文
+	 * @return 程序列表，类型是 List<ResolveInfo>
+	 */
+	public static List<ResolveInfo> getLauncherApps(Context context) {
+		List<ResolveInfo> infos = null;
+		PackageManager packageMgr = context.getPackageManager();
+		Intent intent = new Intent(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_LAUNCHER);
+		try {
+			infos = packageMgr.queryIntentActivities(intent, 0);
+		} catch (OutOfMemoryError e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		packageMgr = null;
+		return infos;
+	}
 }
