@@ -129,9 +129,9 @@ public class ChartActivity extends BaseActivity {
         }
         int total =  sleepMap.get(SleepState.GREAT.name()) + sleepMap.get(SleepState.WARN.name()) + sleepMap.get(SleepState.BAD.name());
         if(total == 0) return;
-        sleepMap.put(SleepState.GREAT.name(), sleepMap.get(SleepState.GREAT.name()) * 100 / total);
-        sleepMap.put(SleepState.WARN.name(), sleepMap.get(SleepState.WARN.name()) * 100 / total);
-        sleepMap.put(SleepState.BAD.name(), sleepMap.get(SleepState.BAD.name()) * 100 / total);
+        sleepMap.put(SleepState.GREAT.name(), (int)(sleepMap.get(SleepState.GREAT.name()) * 100d / total + 0.5));
+        sleepMap.put(SleepState.WARN.name(), (int)(sleepMap.get(SleepState.WARN.name()) * 100d / total + 0.5));
+//        sleepMap.put(SleepState.BAD.name(), (int)(sleepMap.get(SleepState.BAD.name()) * 100d / total + 0.5));
         pieChartView.chartDataSet(sleepMap);
         new Thread(pieChartView).start();
     }

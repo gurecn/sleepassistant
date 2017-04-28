@@ -85,7 +85,7 @@ public class PieChartView  extends BaseChartView implements Runnable{
     public void chartDataSet(Map<String, Integer> sleepResult) {
         int geratPercent = sleepResult.get(SleepState.GREAT.name());
         int warnPercent = sleepResult.get(SleepState.WARN.name());
-        int badPercent = sleepResult.get(SleepState.BAD.name());
+        int badPercent = 100 - geratPercent - warnPercent;
         chartData.add(new PieData(getContext().getString(R.string.gerat), geratPercent + "%" , geratPercent, ContextCompat.getColor(getContext(), R.color.color_calendar_card_gerat)));
         chartData.add(new PieData(getContext().getString(R.string.warn), warnPercent + "%" , warnPercent, ContextCompat.getColor(getContext(), R.color.color_calendar_card_warn)));
         chartData.add(new PieData(getContext().getString(R.string.bad), badPercent + "%" , badPercent, ContextCompat.getColor(getContext(), R.color.color_calendar_card_bad)));
