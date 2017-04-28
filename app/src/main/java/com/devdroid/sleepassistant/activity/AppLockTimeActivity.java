@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.devdroid.sleepassistant.R;
 
-public class AppLockTimeActivity extends AppCompatActivity implements View.OnClickListener {
+public class AppLockTimeActivity extends AppCompatActivity{
 
     private TimePicker timePickerStart;
     private TimePicker timePickerEnd;
@@ -36,8 +35,6 @@ public class AppLockTimeActivity extends AppCompatActivity implements View.OnCli
     private void initData() {
         timePickerStart = (TimePicker)super.findViewById(R.id.timepicker_start);
         mTvTimeLable = (TextView)findViewById(R.id.tv_applock_time_lable);
-        TextView btnComplete = (TextView)findViewById(R.id.btn_applock_time_complete);
-        btnComplete.setOnClickListener(this);
         timePickerStart.setIs24HourView(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             timePickerStart.setHour(23);
@@ -82,22 +79,6 @@ public class AppLockTimeActivity extends AppCompatActivity implements View.OnCli
         mTvTimeLable.setText("应用将在" + startTime + " - " + endTime + "不可用");
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_applock_time_complete:
-                int startMinue = timePickerStart.getCurrentMinute();
-                int startTime = Integer.parseInt(timePickerStart.getCurrentHour( )+ "" + (startMinue > 9 ? startMinue:("0" + startMinue)));
-                int endMinue = timePickerEnd.getCurrentMinute();
-                int endTime = Integer.parseInt(timePickerEnd.getCurrentHour() + "" + (endMinue > 9 ? endMinue:("0" + endMinue)));
-                if (startTime == endTime){
-                    Toast.makeText(this,"开始时间不能与结束时间相同",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                this.finish();
-                break;
-        }
-    }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_applock_quit:
