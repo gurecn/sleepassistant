@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
+
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.adapter.RestrictionAppsAdapter;
 import com.devdroid.sleepassistant.base.BaseActivity;
@@ -89,7 +91,7 @@ public class RestrictionActivity extends BaseActivity{
                 adapter.notifyDataSetInvalidated();
             }
         });
-
+        Toast.makeText(this, getString(R.string.wait_next_version), Toast.LENGTH_LONG).show();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

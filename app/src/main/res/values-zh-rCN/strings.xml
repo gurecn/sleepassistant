@@ -60,4 +60,5 @@
     <string name="menu_item_chart_spline">曲线图</string>
     <string name="menu_item_chart_pie">饼形图</string>
     <string name="menu_item_chart_quit">退出</string>
+    <string name="wait_next_version">该功能筹备中，请等待下版本更新</string>
 </resources>

@@ -66,4 +66,6 @@
     <string name="menu_item_chart_spline">Spline chart</string>
     <string name="menu_item_chart_pie">Pie chart</string>
     <string name="menu_item_chart_quit">Quit</string>
+
+    <string name="wait_next_version">For this feature, please wait for the next version</string>
 </resources>

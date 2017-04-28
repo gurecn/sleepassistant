@@ -48,4 +48,14 @@
     <string name="cancle">取消</string>
     <string name="bad">糟糕</string>
     <string name="backup_data_import">數據導入</string>
+    <string name="wait_next_version">該功能籌備中，請等待下版本更新</string>
+    <string name="menu_item_restriction_quit">退出</string>
+    <string name="menu_item_restriction_add">添加</string>
+    <string name="menu_item_chart_spline">曲線圖</string>
+    <string name="menu_item_chart_quit">退出</string>
+    <string name="menu_item_chart_pie">餅形圖</string>
+    <string name="menu_item_chart_gengral_spline">折線圖</string>
+    <string name="menu_item_applock_submit">提交</string>
+    <string name="menu_item_applock_quit">退出</string>
+    <string name="action_applock_settings">應用鎖設定</string>
 </resources>
