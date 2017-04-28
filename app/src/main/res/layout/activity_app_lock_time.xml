@@ -55,14 +55,6 @@
             android:layout_height="wrap_content"
             android:text="应用将在23:00 - 07:00不可用"
             android:layout_gravity="center_horizontal"/>
-        <TextView
-            android:id="@+id/btn_applock_time_complete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="确定"
-            android:background="#ffffff"
-            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>
