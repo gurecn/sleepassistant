@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import com.devdroid.sleepassistant.BuildConfig;
 import com.devdroid.sleepassistant.constant.ApiConstant;
 import com.devdroid.sleepassistant.constant.CustomConstant;
+import com.devdroid.sleepassistant.manager.ApplockManager;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.preferences.SharedPreferencesManager;
 import com.devdroid.sleepassistant.receiver.ChangeTimeReceiver;
@@ -40,8 +41,9 @@ public class TheApplication extends Application {
     }
 
     private void onCreateForMainProcess() {
-        LauncherModel.initSingleton(this);
+        LauncherModel.initSingleton(getAppContext());
         startServerAndReceiver();
+        ApplockManager.initSingleton(getAppContext());
         checkInitOnce();
     }
 

@@ -21,7 +21,7 @@ public class BaseDatabaseHelper extends SQLiteOpenHelper {
 	/**
 	 * 数据库最小版本号(第一个发布的版本号)
 	 */
-	public final static int DB_MIN_VERSION = 1;
+	public final static int DB_MIN_VERSION = 2;
 
 	public BaseDatabaseHelper(Context context) {
 		this(context, DATABASE_NAME, DB_MIN_VERSION);
@@ -78,6 +78,21 @@ public class BaseDatabaseHelper extends SQLiteOpenHelper {
 		}
 	}
 	@Override
-	public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+	public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+		try {
+			sqLiteDatabase.beginTransaction();
+			if(oldVersion < 2){ // 数据库升级，重新创建联系人表
+				upgradeDBLockerTable(sqLiteDatabase);
+			}
+			sqLiteDatabase.setTransactionSuccessful();
+		} catch (Throwable ex) {
+			ex.printStackTrace();
+		} finally {
+			sqLiteDatabase.endTransaction();
+		}
+	}
+
+	private void upgradeDBLockerTable(SQLiteDatabase sqLiteDatabase) {
+		sqLiteDatabase.execSQL(LockerTable.CREATE_TABLE);
 	}
 }

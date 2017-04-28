@@ -1,7 +1,14 @@
 package com.devdroid.sleepassistant.utils;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.AlarmManager;
+import android.app.usage.UsageEvents;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -11,23 +18,27 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.provider.Settings;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-
 import com.devdroid.sleepassistant.R;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 /**
  * 类名称：AppUtils 类描述：应用程序相关操作
  */
 public class AppUtils {
-	public final static int NETTYPE_MOBILE = 0; // 中国移动 //CHECKSTYLE IGNORE
-	public final static int NETTYPE_UNICOM = 1; // 中国联通 //CHECKSTYLE IGNORE
-	public final static int NETTYPE_TELECOM = 2; // 中国电信 //CHECKSTYLE IGNORE
+	private final static int NETTYPE_MOBILE = 0; // 中国移动 //CHECKSTYLE IGNORE
+	private final static int NETTYPE_UNICOM = 1; // 中国联通 //CHECKSTYLE IGNORE
+	private final static int NETTYPE_TELECOM = 2; // 中国电信 //CHECKSTYLE IGNORE
 	/**
 	 * 获得当前所在进程的进程名<br>
 	 */
@@ -85,7 +96,7 @@ public class AppUtils {
 	/**
 	 * 获取版本号
 	 */
-	public static int getVersionCode(Context context) {
+	static int getVersionCode(Context context) {
 		int code = 0;
 		PackageManager pm = context.getPackageManager();
 		try {
@@ -98,24 +109,10 @@ public class AppUtils {
 	}
 
 	/**
-	 * 获取语言包请求的product id <li>
-	 * 产品id请查看后台：http://pbasi18n01.rmz.gomo.com:8088/admin
-	 *
-	 * @return
-	 */
-	public static String getLangProductID() {
-		return "1004";
-	}
-
-
-	/**
 	 * 获取SIM卡所在的国家
-	 *
-	 * @author xiedezhi
-	 * @param context
 	 * @return 当前手机sim卡所在的国家，如果没有sim卡，取本地语言代表的国家
 	 */
-	public static String getLocal(Context context) {
+	static String getLocal(Context context) {
 		String local = null;
 		try {
 			TelephonyManager telManager = (TelephonyManager) context
@@ -123,7 +120,8 @@ public class AppUtils {
 			if (telManager != null) {
 				local = telManager.getSimCountryIso();
 			}
-		} catch (Throwable e) {
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		if (TextUtils.isEmpty(local)) {
 			local = Locale.getDefault().getCountry().toUpperCase(Locale.US);
@@ -136,28 +134,19 @@ public class AppUtils {
 
 	/**
 	 * 获取网络类型
-	 *
-	 * @author huyong
-	 * @param context
 	 * @return 1 for 移动，2 for 联通，3 for 电信，-1 for 不能识别
 	 */
-	public static int getNetWorkType(Context context) {
+	static int getNetWorkType(Context context) {
 		int netType = -1;
 		// 从系统服务上获取了当前网络的MCC(移动国家号)，进而确定所处的国家和地区
-		TelephonyManager manager = (TelephonyManager) context
-				.getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		String simOperator = manager.getSimOperator();
 		if (simOperator != null) {
 			if (simOperator.startsWith("46000") || simOperator.startsWith("46002")) {
-				// 因为移动网络编号46000下的IMSI已经用完，
-				// 所以虚拟了一个46002编号，134/159号段使用了此编号
-				// 中国移动
 				netType = NETTYPE_MOBILE;
 			} else if (simOperator.startsWith("46001")) {
-				// 中国联通
 				netType = NETTYPE_UNICOM;
 			} else if (simOperator.startsWith("46003")) {
-				// 中国电信
 				netType = NETTYPE_TELECOM;
 			}
 		}
@@ -167,29 +156,24 @@ public class AppUtils {
 	 * 根据包名获取应用Icon
 	 */
 	public static Bitmap loadAppIcon(Context context, String appPackageName) {
-		Bitmap bitmap = null;
-		BitmapDrawable drawable = (BitmapDrawable) getApplicationDrawable(
-				context, appPackageName);
+		Bitmap bitmap;
+		BitmapDrawable drawable = (BitmapDrawable) getApplicationDrawable(context, appPackageName);
 		if (drawable != null) {
 			bitmap = drawable.getBitmap();
-		} else if (drawable == null) {
+		} else {
 			// 兼容未安装应用
-			BitmapDrawable drawable2 = (BitmapDrawable) getApplicationDrawableIfNotInstalled(
-					context, appPackageName);
+			BitmapDrawable drawable2 = (BitmapDrawable) getApplicationDrawableIfNotInstalled(context, appPackageName);
 			if (drawable2 != null) {
 				bitmap = drawable2.getBitmap();
 			} else {
-				BitmapDrawable drawable3 = (BitmapDrawable) context
-						.getResources().getDrawable(
-								R.drawable.zhuopin_logo);
+				BitmapDrawable drawable3 = (BitmapDrawable) context.getResources().getDrawable(R.drawable.zhuopin_logo);
 				bitmap = drawable3.getBitmap();
 			}
 		}
 		return bitmap;
 	}
 
-	private static Drawable getApplicationDrawable(Context context,
-												   String pkgName) {
+	private static Drawable getApplicationDrawable(Context context, String pkgName) {
 		PackageManager pm = context.getPackageManager();
 		Drawable drawable = null;
 		try {
@@ -197,9 +181,7 @@ public class AppUtils {
 			if (!(drawable instanceof BitmapDrawable)) {
 				drawable = null;
 			}
-		} catch (PackageManager.NameNotFoundException e) {
-			e.printStackTrace();
-		} catch (OutOfMemoryError e) {
+		} catch (PackageManager.NameNotFoundException | OutOfMemoryError e) {
 			e.printStackTrace();
 		}
 		return drawable;
@@ -219,10 +201,11 @@ public class AppUtils {
 				try {
 					return appInfo.loadIcon(pm);
 				} catch (OutOfMemoryError e) {
+					e.printStackTrace();
 				}
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -232,7 +215,7 @@ public class AppUtils {
 		return getAppName(context, info);
 	}
 
-	public static String getAppName(final Context context, PackageInfo info) {
+	private static String getAppName(final Context context, PackageInfo info) {
 		if (info != null) {
 			return info.applicationInfo.loadLabel(context.getPackageManager())
 					.toString();
@@ -242,14 +225,9 @@ public class AppUtils {
 
 	/**
 	 * 获取app包信息
-	 *
-	 * @param context
-	 * @param packageName 包名
-	 * @return
 	 */
-	public static PackageInfo getAppPackageInfo(final Context context,
-												final String packageName) {
-		PackageInfo info = null;
+	private static PackageInfo getAppPackageInfo(final Context context, final String packageName) {
+		PackageInfo info;
 		try {
 			info = context.getPackageManager().getPackageInfo(packageName, 0);
 		} catch (Exception e) {
@@ -260,7 +238,7 @@ public class AppUtils {
 	}
 	public static List<String> getLauncherAppPackageNames(Context context) {
 		List<ResolveInfo> infos = AppUtils.getLauncherApps(context);
-		List<String> packNames = new ArrayList<String>();
+		List<String> packNames = new ArrayList<>();
 		if (infos != null) {
 			for (int i = 0; i < infos.size(); i++) {
 				ResolveInfo packageInfo = infos.get(i);
@@ -277,23 +255,359 @@ public class AppUtils {
 	}
 	/**
 	 * 获取在功能菜单出现的程序列表
-	 *
 	 * @param context 上下文
 	 * @return 程序列表，类型是 List<ResolveInfo>
 	 */
-	public static List<ResolveInfo> getLauncherApps(Context context) {
+	private static List<ResolveInfo> getLauncherApps(Context context) {
 		List<ResolveInfo> infos = null;
 		PackageManager packageMgr = context.getPackageManager();
 		Intent intent = new Intent(Intent.ACTION_MAIN);
 		intent.addCategory(Intent.CATEGORY_LAUNCHER);
 		try {
 			infos = packageMgr.queryIntentActivities(intent, 0);
-		} catch (OutOfMemoryError e) {
+		} catch (OutOfMemoryError | Exception e) {
 			e.printStackTrace();
+		}
+		return infos;
+	}
+
+	public static void gotoLauncherWithoutChoice(Context context, String usePkgname) {
+		try {
+			Intent intent;
+			String launcher = getDefaultLauncher(context);
+			if (null == launcher && !android.text.TextUtils.isEmpty(usePkgname)) {
+				launcher = usePkgname;
+			}
+			if (null != launcher) {
+				Intent intentToResolve = new Intent(Intent.ACTION_MAIN);
+				intentToResolve.addCategory(Intent.CATEGORY_HOME);
+				intentToResolve.setPackage(launcher);
+				ResolveInfo ri = context.getPackageManager().resolveActivity(intentToResolve, 0);
+				if (ri != null) {
+					intent = new Intent(intentToResolve);
+					intent.setClassName(ri.activityInfo.applicationInfo.packageName, ri.activityInfo.name);
+					intent.setAction(Intent.ACTION_MAIN);
+					intent.addCategory(Intent.CATEGORY_HOME);
+				} else {
+					intent = context.getPackageManager().getLaunchIntentForPackage(launcher);
+					if (null == intent) {
+						intent = new Intent(Intent.ACTION_MAIN);
+						intent.setPackage(launcher);
+					}
+				}
+			} else {
+				intent = new Intent(Intent.ACTION_MAIN);
+				intent.addCategory(Intent.CATEGORY_HOME);
+			}
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(intent);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		packageMgr = null;
-		return infos;
+	}
+
+	/**
+	 * 获取默认运行桌面包名（注：存在多个桌面时且未指定默认桌面时，该方法返回Null,使用时需处理这个情况）
+	 */
+	private static String getDefaultLauncher(Context context) {
+		final Intent intent = new Intent(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_HOME);
+		final ResolveInfo res = context.getPackageManager().resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
+		if (res.activityInfo == null) {
+			// should not happen. A home is always installed, isn't it?
+			return null;
+		}
+		if (res.activityInfo.packageName.equals("android")) {
+			// 有多个桌面程序存在，且未指定默认项时；
+			return null;
+		} else {
+			return res.activityInfo.packageName;
+		}
+	}
+	/**
+	 * 判断是否获取了android.permission.PACKAGE_USAGE_STAT权限<br>
+	 * 该权限是系统级别的权限, 不授予第三方应用, 但是第三方应用可以让用户主动授权该权限<br>
+	 * 用于5.1版本或以上版本<br>
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+	public static boolean isPermissionPackageUsageStatsGrandedLollipopMr1(Context context) {
+		return Machine.HAS_SDK_5_1_1 && isPermissionPackageUsageStatsGranded(getSystemServiceUsageStatsManager(context));
+	}
+	/**
+	 * 判断是否获取了android.permission.PACKAGE_USAGE_STAT权限<br>
+	 * 该权限是系统级别的权限, 不授予第三方应用, 但是第三方应用可以让用户主动授权该权限<br>
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	private static boolean isPermissionPackageUsageStatsGranded(UsageStatsManager usageStatsManager) {
+		if (usageStatsManager != null && Machine.HAS_SDK_LOLLIPOP) {
+			long endTime = System.currentTimeMillis();
+			long beginTime = endTime - AlarmManager.INTERVAL_DAY;
+			List<UsageStats> usageStatses = null;
+			try {
+				usageStatses = usageStatsManager.queryUsageStats(
+						UsageStatsManager.INTERVAL_BEST, beginTime, endTime);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+			return usageStatses != null && !usageStatses.isEmpty();
+		}
+		return false;
+	}
+	/**
+	 * 获取系统应用信息管理实例UsageStatsManager<br>
+	 * 只建议于5.0或以上使用<br>
+	 */
+	@android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
+	public static UsageStatsManager getSystemServiceUsageStatsManager(Context context) {
+		UsageStatsManager usageStatsManager = null;
+		if (Machine.HAS_SDK_5_1_1) {
+			usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+		} else {
+			try {
+				usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+		}
+		return usageStatsManager;
+	}
+
+	/**
+	 * 获取栈顶的应用的ComponentName<br>
+	 * 注意只适用于5.1或以上<br>
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+	public static ComponentName getFrontActivityLollipopMr1(Context context) {
+		return getFrontActivityLollipop(getSystemServiceUsageStatsManager(context));
+	}
+
+	/**
+	 * 获取栈顶的应用的ComponentName<br>
+	 * 注意只适用于5.0<br>
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public static ComponentName getFrontActivityOnLollipop(Context context) {
+		ComponentName frontActivity = null;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+			frontActivity = getFrontActivityLollipop(getSystemServiceUsageStatsManager(context));
+		}
+		if (frontActivity == null) {
+			frontActivity = getFrontActivityOnLollipopByTrick(context);
+		}
+		return frontActivity;
+	}
+
+	/**
+	 * 获取栈顶的应用的ComponentName<br>
+	 * 注意只适用于5.0或以上<br>
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	private static ComponentName getFrontActivityLollipop(UsageStatsManager usageStatsManager) {
+		if (usageStatsManager == null) {
+			return null;
+		}
+		if (Machine.HAS_SDK_LOLLIPOP) {
+			long endTime = System.currentTimeMillis();
+			long beginTime = endTime - 10000; // 获取10秒内的事件
+			UsageEvents.Event event = new UsageEvents.Event();
+			String packageName = null;
+			String className = null;
+			UsageEvents usageEvents = null;
+			try {
+				usageEvents = usageStatsManager.queryEvents(beginTime, endTime);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+			if (usageEvents != null) {
+				while (usageEvents.hasNextEvent()) {
+					usageEvents.getNextEvent(event);
+					if (event.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+						packageName = event.getPackageName();
+						className = event.getClassName();
+					}
+				}
+			}
+			if (TextUtils.isEmpty(className)) {
+				className = "";
+			}
+			if (!TextUtils.isEmpty(packageName)) {
+				return new ComponentName(packageName, className);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 在5.0系统使用的获取栈顶应用的补充方法<br>
+	 */
+	private static ComponentName getFrontActivityOnLollipopByTrick(Context context) {
+		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP) {
+			ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+			List<ActivityManager.RunningAppProcessInfo> pis = activityManager.getRunningAppProcesses();
+			if (pis != null) {
+				for (ActivityManager.RunningAppProcessInfo pi : pis) {
+					if (pi.pkgList.length == 1) {
+						return new ComponentName(pi.pkgList[0], "");
+					}
+				}
+			}
+		}
+		return new ComponentName(getForegroundAppByProcFiles(context), "");
+	}
+	private final static FilenameFilter FILENAME_FILTER_NUMS = new FilenameFilter() {
+		/**
+		 * 匹配模式，只要数字
+		 */
+		private Pattern mPattern = Pattern.compile("^[0-9]+$");
+		@Override
+		public boolean accept(File dir, String filename) {
+			return mPattern.matcher(filename).matches();
+		}
+	};
+	/**
+	 * first app user
+	 */
+	private static final int AID_APP = 10000;
+
+	/**
+	 * offset for uid ranges for each user
+	 */
+	private static final int AID_USER = 100000;
+	/**
+	 * 获取正在前台运行的应用的包名<br>
+	 * 通过分析进程文件估算，可靠性有待考量, 可作为补充使用<br>
+	 */
+	private static String getForegroundAppByProcFiles(Context context) {
+		File[] files = new File("/proc").listFiles(FILENAME_FILTER_NUMS);
+		if (files == null || files.length == 0) {
+			return "";
+		}
+		int lowestOomScore = Integer.MAX_VALUE;
+		int foregroundProcessUid = -1;
+
+		for (File file : files) {
+			if (!file.isDirectory()) {
+				continue;
+			}
+			int pid;
+			try {
+				pid = Integer.parseInt(file.getName());
+			} catch (NumberFormatException e) {
+				continue;
+			}
+			try {
+				String cgroup = readFile(String.format("/proc/%d/cgroup", pid));
+
+				String[] lines = cgroup.split("\n");
+
+				if (lines.length != 2) {
+					continue;
+				}
+				String cpuSubsystem = lines[0];
+				String cpuAcctSubsystem = lines[1];
+				if (!cpuAcctSubsystem.endsWith(Integer.toString(pid))) {
+					continue;
+				}
+				if (cpuSubsystem.endsWith("bg_non_interactive")) {
+					continue;
+				}
+				int uid = Integer.parseInt(cpuAcctSubsystem.split(":")[2].split("/")[1].replace("uid_", ""));
+				if (uid >= 1000 && uid <= 1038) {
+					// system process
+					continue;
+				}
+				int appId = uid - AID_APP;
+				while (appId > AID_USER) {
+					appId -= AID_USER;
+				}
+				if (appId < 0) {
+					continue;
+				}
+				File oomScoreAdj = new File(String.format("/proc/%d/oom_score_adj", pid));
+				if (oomScoreAdj.canRead()) {
+					int oomAdj = Integer.parseInt(readFile(oomScoreAdj.getAbsolutePath()));
+					if (oomAdj != 0) {
+						continue;
+					}
+				}
+				int oomScore = Integer.parseInt(readFile(String.format("/proc/%d/oom_score", pid)));
+				if (oomScore < lowestOomScore) {
+					lowestOomScore = oomScore;
+					foregroundProcessUid = uid;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (foregroundProcessUid != -1) {
+			String[] uIds = context.getPackageManager().getPackagesForUid(foregroundProcessUid);
+			if(uIds != null && uIds.length > 0) {
+				return uIds[0];
+			}
+		}
+		return "";
+	}
+	private static String readFile(String path) throws IOException {
+		StringBuilder output = new StringBuilder();
+		BufferedReader reader = new BufferedReader(new FileReader(path));
+		output.append(reader.readLine());
+		for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+			output.append('\n').append(line);
+		}
+		reader.close();
+		return output.toString();
+	}
+
+	/**
+	 * 获取桌面类应用的包名.<br>
+	 */
+	public static List<String> getLauncherPackageNames(Context context) {
+		List<String> packages = new ArrayList<>();
+		PackageManager packageManager = context.getPackageManager();
+		Intent intent = new Intent(Intent.ACTION_MAIN);
+		intent.addCategory(Intent.CATEGORY_HOME);
+		List<ResolveInfo> resolveInfo = null;
+		try {
+			resolveInfo = packageManager.queryIntentActivities(intent,
+					PackageManager.MATCH_DEFAULT_ONLY);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (resolveInfo != null && !resolveInfo.isEmpty()) {
+			for (ResolveInfo info : resolveInfo) {
+				// 过滤掉一些名不符实的桌面
+				if (!TextUtils.isEmpty(info.activityInfo.packageName)) {
+					packages.add(info.activityInfo.packageName);
+				}
+			}
+		}
+		return packages;
+	}
+
+	/**
+	 * 判断是否获取了android.permission.PACKAGE_USAGE_STAT权限<br>
+	 * 该权限是系统级别的权限, 不授予第三方应用, 但是第三方应用可以让用户主动授权该权限<br>
+	 * 用于5.0版本<br>
+	 */
+	@android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
+	public static boolean isPermissionPackageUsageStatsGrandedOnLollipop(Context context) {
+		return Machine.HAS_SDK_LOLLIPOP && isPermissionPackageUsageStatsGranded(getSystemServiceUsageStatsManager(context));
+	}
+
+	/**
+	 * 获取当前前台Activity的应用的ComponentName.<br>
+	 */
+	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+	public static ComponentName getTopActivity(Context context) {
+		if (Machine.HAS_SDK_LOLLIPOP) {
+			throw new IllegalStateException("getTopActivity() has no mean for above LOLLIPOP!");
+		}
+		ActivityManager am = (ActivityManager) context.getSystemService(Activity.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+		if (taskInfo == null || taskInfo.isEmpty()) {
+			return null;
+		}
+		return taskInfo.get(0).topActivity;
 	}
 }
