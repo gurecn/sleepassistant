@@ -43,29 +43,23 @@ public class ChartActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(0,0,0,"折线图");
-        menu.add(0,1,0,"曲线图");
-//        menu.add(0,2,0,"柱状图");
-        menu.add(0,3,0,"饼形图");
-//        menu.add(0,4,0,"区域图");
-//        menu.add(0,5,0,"堆积效果图");
-        menu.add(0,6,0,"退出");
+        getMenuInflater().inflate(R.menu.menu_chart, menu);
         return true;
     }
     @Override
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case 0:
+            case R.id.item_chart_gengral_spline:
                 initGengralSplineChart();
                 break;
-            case 1:
+            case R.id.item_chart_spline:
                 initSplineChartView();
                 break;
             case 2:
 
                 break;
-            case 3:
+            case R.id.item_chart_pie:
                 initPieChartView();
                 break;
             case 4:
@@ -74,7 +68,7 @@ public class ChartActivity extends BaseActivity {
             case 5:
 
                 break;
-            case 6:
+            case R.id.item_chart_quit:
             case android.R.id.home:
                 finish();
                 break;

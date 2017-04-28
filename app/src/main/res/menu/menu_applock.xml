@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_applock_submit"
+        android:title="@string/menu_item_applock_submit"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_applock_quit"
+        android:title="@string/menu_item_applock_quit"
+        app:showAsAction="never" />
+</menu>

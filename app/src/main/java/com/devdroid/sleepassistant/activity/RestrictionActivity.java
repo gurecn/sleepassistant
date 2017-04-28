@@ -1,8 +1,10 @@
 package com.devdroid.sleepassistant.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +23,7 @@ import java.util.TimerTask;
 /**
  * 限制界面
  */
-public class RestrictionActivity extends BaseActivity implements View.OnClickListener{
+public class RestrictionActivity extends BaseActivity{
     private List<AppLockBean> mAppLockBeens;      //所有应用
     private List<Integer> mClickPosition;       //操作过的应用坐标
     private List<String> mInstalledPackages;
@@ -34,9 +36,7 @@ public class RestrictionActivity extends BaseActivity implements View.OnClickLis
         setContentView(R.layout.activity_restriction);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         mGvRestrictionApps = (GridView)findViewById(R.id.gridView_activity_restriction_app);
-        fab.setOnClickListener(this);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -91,19 +91,18 @@ public class RestrictionActivity extends BaseActivity implements View.OnClickLis
         });
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_restriction, menu);
+        return true;
+    }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
+            case R.id.item_restriction_quit:
                 finish();
                 break;
-        }
-        return true;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.fab:
+            case R.id.item_restriction_add:
                 List<String> unLockList = new LinkedList<>();
                 List<String> lockList = new LinkedList<>();
                 for (int position : mClickPosition) {
@@ -124,7 +123,10 @@ public class RestrictionActivity extends BaseActivity implements View.OnClickLis
                     ApplockManager.mLockerDao.lockItem(lockList);
                     ApplockManager.lockPackage(lockList);
                 }
+                Intent intent = new Intent(this, AppLockTimeActivity.class);
+                startActivity(intent);
                 break;
         }
+        return true;
     }
 }

@@ -56,4 +56,14 @@
     <string name="item_setting_data_export">Export data</string>
     <string name="item_setting_data_import">Import data</string>
     <string name="item_setting_logput">quit</string>
+    <string name="menu_item_restriction_add">add</string>
+    <string name="menu_item_restriction_quit">Quit</string>
+    <string name="action_applock_settings">Applock settings</string>
+    <string name="menu_item_applock_submit">Submit</string>
+    <string name="menu_item_applock_quit">Quit</string>
+
+    <string name="menu_item_chart_gengral_spline">Gengral spline chart</string>
+    <string name="menu_item_chart_spline">Spline chart</string>
+    <string name="menu_item_chart_pie">Pie chart</string>
+    <string name="menu_item_chart_quit">Quit</string>
 </resources>

@@ -42,6 +42,9 @@
         <activity android:name=".activity.SettingsActivity"
             android:label="@string/action_settings"
             android:launchMode="singleTask"/>
+        <activity android:name=".activity.AppLockTimeActivity"
+            android:label="@string/action_applock_settings"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

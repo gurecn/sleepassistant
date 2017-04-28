@@ -50,4 +50,14 @@
     <string name="backup_data_import">数据导入</string>
     <string name="cancle">取消</string>
     <string name="restore_data_select_error">请选择正确的备份文件</string>
+
+    <string name="menu_item_restriction_add">添加</string>
+    <string name="menu_item_restriction_quit">退出</string>
+    <string name="action_applock_settings">应用锁设置</string>
+    <string name="menu_item_applock_submit">提交</string>
+    <string name="menu_item_applock_quit">退出</string>
+    <string name="menu_item_chart_gengral_spline">折线图</string>
+    <string name="menu_item_chart_spline">曲线图</string>
+    <string name="menu_item_chart_pie">饼形图</string>
+    <string name="menu_item_chart_quit">退出</string>
 </resources>
