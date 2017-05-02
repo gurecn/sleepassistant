@@ -62,7 +62,7 @@ public class GeneralSplineChartView  extends BaseChartView {
         chart.setChartRange(w,h);//图所占范围大小
     }
 
-    private void chartRender() {
+    private void chartRender(boolean isWeek) {
         try {
             //设置绘图区默认缩进px值,留置空间显示Axis,Axistitle....
             int [] ltrb = getBarLnDefaultSpadding();
@@ -74,12 +74,17 @@ public class GeneralSplineChartView  extends BaseChartView {
             chart.setDataSource(chartData);
             //坐标系
             //数据轴最大值 Y
-            chart.getDataAxis().setAxisMax(24);
-            chart.getDataAxis().setAxisMin(21);
+            if(isWeek){
+                chart.getDataAxis().setAxisMin(20);
+                chart.getDataAxis().setAxisMax(25);
+            } else {
+                chart.getDataAxis().setAxisMin(6);
+                chart.getDataAxis().setAxisMax(29);
+            }
             //数据轴刻度间隔
-            chart.getDataAxis().setAxisSteps(0.5);
+            chart.getDataAxis().setAxisSteps(1);
             //标签轴最大值 X
-            chart.setCategoryAxisMax(7);
+            chart.setCategoryAxisMax(labels.size());
             //标签轴最小值
             chart.setCategoryAxisMin(1);
             chart.getCategoryAxis().setAxisSteps(1);
@@ -130,7 +135,7 @@ public class GeneralSplineChartView  extends BaseChartView {
         SplineData dataSeries1 = new SplineData("入睡时间曲线",linePoint1, Color.rgb(54, 141, 238) );
         dataSeries1.getLinePaint().setStrokeWidth(2);//把线弄细点
         chartData.add(dataSeries1);
-        chartRender();
+        chartRender(isWeek);
         invalidate();
     }
 
