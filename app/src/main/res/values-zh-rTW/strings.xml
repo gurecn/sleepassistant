@@ -58,4 +58,9 @@
     <string name="menu_item_applock_submit">提交</string>
     <string name="menu_item_applock_quit">退出</string>
     <string name="action_applock_settings">應用鎖設定</string>
+    <string name="activity_agreement_lable">使用協定</string>
+    <string name="date_picker_submit">確定</string>
+    <string name="date_picker_cancel">取消</string>
+    <string name="menu_chart_item_value_date">%1$d年%2$d月</string>
+    <string name="menu_item_chart_gengral_date">日期</string>
 </resources>

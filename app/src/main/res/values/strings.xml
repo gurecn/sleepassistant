@@ -68,4 +68,9 @@
     <string name="menu_item_chart_quit">Quit</string>
 
     <string name="wait_next_version">For this feature, please wait for the next version</string>
+    <string name="activity_agreement_lable">Agreement</string>
+    <string name="date_picker_cancel">Cancle</string>
+    <string name="date_picker_submit">Submit</string>
+    <string name="menu_chart_item_value_date">%1$dyears%2$dmonths</string>
+    <string name="menu_item_chart_gengral_date">Date</string>
 </resources>
