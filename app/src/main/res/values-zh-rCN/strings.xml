@@ -56,10 +56,15 @@
     <string name="action_applock_settings">应用锁设置</string>
     <string name="menu_item_applock_submit">提交</string>
     <string name="menu_item_applock_quit">退出</string>
+    <string name="menu_item_chart_gengral_date">日期</string>
     <string name="menu_item_chart_gengral_spline">折线图</string>
     <string name="menu_item_chart_spline">曲线图</string>
     <string name="menu_item_chart_pie">饼形图</string>
     <string name="menu_item_chart_quit">退出</string>
     <string name="wait_next_version">该功能筹备中，请等待下版本更新</string>
     <string name="activity_agreement_lable">用户协议</string>
+    <string name="menu_chart_item_value_date">%1$d年%2$d月</string>
+
+    <string name="date_picker_submit">确定</string>
+    <string name="date_picker_cancel">取消</string>
 </resources>

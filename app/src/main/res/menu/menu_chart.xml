@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/item_chart_gengral_date"
+        android:title="@string/menu_item_chart_gengral_date"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/item_chart_gengral_spline"
         android:title="@string/menu_item_chart_gengral_spline"
         app:showAsAction="never" />
