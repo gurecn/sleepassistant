@@ -47,13 +47,10 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.ll_app_right :
-//                String url = "http://www.devdroid.cn/sample-page/";
-//                Intent intent = new Intent(Intent.ACTION_VIEW);
-//                intent .setData(Uri.parse(url));
-//                startActivity(intent);
-//                finish();
-//                break;
+            case R.id.ll_app_right :
+                Intent intent = new Intent(this, AgreementAvtivity.class);
+                startActivity(intent);
+                break;
         }
     }
     public boolean onOptionsItemSelected(MenuItem item) {

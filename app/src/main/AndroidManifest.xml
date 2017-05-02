@@ -45,6 +45,9 @@
         <activity android:name=".activity.AppLockTimeActivity"
             android:label="@string/action_applock_settings"
             android:launchMode="singleTask"/>
+        <activity android:name=".activity.AgreementAvtivity"
+            android:label="@string/activity_agreement_lable"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>
