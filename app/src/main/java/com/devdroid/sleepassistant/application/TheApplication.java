@@ -58,15 +58,11 @@ public class TheApplication extends Application {
     }
 
     private void startServerAndReceiver() {
-        ScreenBroadcastReceiver mScreenReceiver = new ScreenBroadcastReceiver();
-        final IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        filter.addAction(Intent.ACTION_SCREEN_ON);
-        filter.addAction(Intent.ACTION_USER_PRESENT);
-        registerReceiver(mScreenReceiver, filter);
-        IntentFilter timeChangefilter = new IntentFilter();
-        filter.addAction(Intent.ACTION_TIME_TICK);
-        registerReceiver(new ChangeTimeReceiver(), timeChangefilter);
+//        ScreenBroadcastReceiver mScreenReceiver = new ScreenBroadcastReceiver();
+//        final IntentFilter filter = new IntentFilter();
+//        filter.addAction(Intent.ACTION_SCREEN_OFF);
+//        filter.addAction(Intent.ACTION_SCREEN_ON);
+//        registerReceiver(mScreenReceiver, filter);
     }
 
     /**

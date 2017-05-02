@@ -3,12 +3,20 @@ package com.devdroid.sleepassistant.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 
+import com.devdroid.sleepassistant.application.TheApplication;
 import com.devdroid.sleepassistant.utils.Logger;
 
 public class ScreenBroadcastReceiver extends BroadcastReceiver {
     private final String TAG = ScreenBroadcastReceiver.class.getSimpleName();
+    private final IntentFilter mTimeChangefilter;
+    private final ChangeTimeReceiver mChangeTimeReceiver;
+
     public ScreenBroadcastReceiver() {
+        mTimeChangefilter = new IntentFilter();
+        mTimeChangefilter.addAction(Intent.ACTION_TIME_TICK);
+        mChangeTimeReceiver = new ChangeTimeReceiver();
     }
 
     @Override
@@ -17,14 +25,11 @@ public class ScreenBroadcastReceiver extends BroadcastReceiver {
         switch (action) {
             case Intent.ACTION_SCREEN_ON: // 屏幕开启
                 Logger.d(TAG, "ACTION_SCREEN_ON");
+                TheApplication.getAppContext().registerReceiver(mChangeTimeReceiver, mTimeChangefilter);
                 break;
             case Intent.ACTION_SCREEN_OFF: // 屏幕关闭
                 Logger.d(TAG, "ACTION_SCREEN_OFF");
-                break;
-            case Intent.ACTION_USER_PRESENT: // 屏幕解锁
-                Logger.d(TAG, "ACTION_USER_PRESENT");
-                break;
-            default:
+                TheApplication.getAppContext().unregisterReceiver(mChangeTimeReceiver);
                 break;
         }
     }
