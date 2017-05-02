@@ -101,11 +101,11 @@ public class GuideActivity extends BaseActivity {
         long appInstallTime = LauncherModel.getInstance().getSharedPreferencesManager().getLong(IPreferencesIds.KEY_FIRST_START_APP_TIME, (long)0);
         if (appInstallTime != 0) {
             int datepoor = (int)((System.currentTimeMillis() - appInstallTime)/1000/60/60/24 + 1);
-            String datePoorString = "遇见 " + datepoor + " 天";
-            tvDayLable.setText(datePoorString);
+            String date = String.format(getString(R.string.guard_date), datepoor);
+            tvDayLable.setText(date);
         } else {
-            String datePoorString = "遇见 1 天";
-            tvDayLable.setText(datePoorString);
+            String date = String.format(getString(R.string.guard_date), 1);
+            tvDayLable.setText(date);
         }
     }
 }

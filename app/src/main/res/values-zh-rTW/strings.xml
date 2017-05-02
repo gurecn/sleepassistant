@@ -63,4 +63,5 @@
     <string name="date_picker_cancel">取消</string>
     <string name="menu_chart_item_value_date">%1$d年%2$d月</string>
     <string name="menu_item_chart_gengral_date">日期</string>
+    <string name="guard_date">遇見 %1$d 天</string>
 </resources>

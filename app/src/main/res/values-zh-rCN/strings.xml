@@ -67,4 +67,6 @@
 
     <string name="date_picker_submit">确定</string>
     <string name="date_picker_cancel">取消</string>
+
+    <string name="guard_date">遇见 %1$d 天</string>
 </resources>
