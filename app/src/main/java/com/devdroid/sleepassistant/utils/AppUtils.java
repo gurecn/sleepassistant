@@ -19,6 +19,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import com.devdroid.sleepassistant.R;
@@ -329,8 +330,7 @@ public class AppUtils {
 	 * 该权限是系统级别的权限, 不授予第三方应用, 但是第三方应用可以让用户主动授权该权限<br>
 	 * 用于5.1版本或以上版本<br>
 	 */
-	@TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
-	public static boolean isPermissionPackageUsageStatsGrandedLollipopMr1(Context context) {
+	private static boolean isPermissionPackageUsageStatsGrandedLollipopMr1(Context context) {
 		return Machine.HAS_SDK_5_1_1 && isPermissionPackageUsageStatsGranded(getSystemServiceUsageStatsManager(context));
 	}
 	/**
@@ -344,8 +344,7 @@ public class AppUtils {
 			long beginTime = endTime - AlarmManager.INTERVAL_DAY;
 			List<UsageStats> usageStatses = null;
 			try {
-				usageStatses = usageStatsManager.queryUsageStats(
-						UsageStatsManager.INTERVAL_BEST, beginTime, endTime);
+				usageStatses = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_BEST, beginTime, endTime);
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
@@ -357,14 +356,13 @@ public class AppUtils {
 	 * 获取系统应用信息管理实例UsageStatsManager<br>
 	 * 只建议于5.0或以上使用<br>
 	 */
-	@android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
-	public static UsageStatsManager getSystemServiceUsageStatsManager(Context context) {
+	private static UsageStatsManager getSystemServiceUsageStatsManager(Context context) {
 		UsageStatsManager usageStatsManager = null;
 		if (Machine.HAS_SDK_5_1_1) {
 			usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
 		} else {
 			try {
-				usageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+				usageStatsManager = (UsageStatsManager) context.getSystemService("usagestats");
 			} catch (Throwable e) {
 				e.printStackTrace();
 			}
@@ -377,7 +375,7 @@ public class AppUtils {
 	 * 注意只适用于5.1或以上<br>
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
-	public static ComponentName getFrontActivityLollipopMr1(Context context) {
+	private static ComponentName getFrontActivityLollipopMr1(Context context) {
 		return getFrontActivityLollipop(getSystemServiceUsageStatsManager(context));
 	}
 
@@ -386,7 +384,7 @@ public class AppUtils {
 	 * 注意只适用于5.0<br>
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public static ComponentName getFrontActivityOnLollipop(Context context) {
+	private static ComponentName getFrontActivityOnLollipop(Context context) {
 		ComponentName frontActivity = null;
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
 			frontActivity = getFrontActivityLollipop(getSystemServiceUsageStatsManager(context));
@@ -590,8 +588,7 @@ public class AppUtils {
 	 * 该权限是系统级别的权限, 不授予第三方应用, 但是第三方应用可以让用户主动授权该权限<br>
 	 * 用于5.0版本<br>
 	 */
-	@android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
-	public static boolean isPermissionPackageUsageStatsGrandedOnLollipop(Context context) {
+	private static boolean isPermissionPackageUsageStatsGrandedOnLollipop(Context context) {
 		return Machine.HAS_SDK_LOLLIPOP && isPermissionPackageUsageStatsGranded(getSystemServiceUsageStatsManager(context));
 	}
 
@@ -599,7 +596,7 @@ public class AppUtils {
 	 * 获取当前前台Activity的应用的ComponentName.<br>
 	 */
 	@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-	public static ComponentName getTopActivity(Context context) {
+	private static ComponentName getTopActivity(Context context) {
 		if (Machine.HAS_SDK_LOLLIPOP) {
 			throw new IllegalStateException("getTopActivity() has no mean for above LOLLIPOP!");
 		}
@@ -609,5 +606,31 @@ public class AppUtils {
 			return null;
 		}
 		return taskInfo.get(0).topActivity;
+	}
+
+	private final static String INVALID_PACKAGE_NAME = "invalid_package_name";
+	private final static String INVALID_ACTIVITY_NAME = "invalid_activity_name";
+	private final static ComponentName INVALID_COMPONENT_NAME = new ComponentName(INVALID_PACKAGE_NAME, INVALID_ACTIVITY_NAME);
+	public static ComponentName getTopComponentName(Context context){
+		ComponentName topActivity = null;
+		if (Machine.HAS_SDK_5_1_1) {        // 5.1或以上
+			if (AppUtils.isPermissionPackageUsageStatsGrandedLollipopMr1(context)) {
+				topActivity = AppUtils.getFrontActivityLollipopMr1(context);
+			}
+		} else if (Machine.HAS_SDK_LOLLIPOP) {        // 5.0
+			if (AppUtils.isPermissionPackageUsageStatsGrandedOnLollipop(context)) {
+				topActivity = AppUtils.getFrontActivityOnLollipop(context);
+			}
+		} else {      // 5.0以下
+			topActivity = AppUtils.getTopActivity(context);
+		}
+		if (topActivity == null) {
+			topActivity = INVALID_COMPONENT_NAME;
+			if (Machine.HAS_SDK_LOLLIPOP) {
+				Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+				context.startActivity(intent);
+			}
+		}
+		return topActivity;
 	}
 }

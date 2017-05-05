@@ -17,6 +17,7 @@ public class ScreenBroadcastReceiver extends BroadcastReceiver {
         mTimeChangefilter = new IntentFilter();
         mTimeChangefilter.addAction(Intent.ACTION_TIME_TICK);
         mChangeTimeReceiver = new ChangeTimeReceiver();
+        TheApplication.getAppContext().registerReceiver(mChangeTimeReceiver, mTimeChangefilter);
     }
 
     @Override
@@ -29,7 +30,11 @@ public class ScreenBroadcastReceiver extends BroadcastReceiver {
                 break;
             case Intent.ACTION_SCREEN_OFF: // 屏幕关闭
                 Logger.d(TAG, "ACTION_SCREEN_OFF");
-                TheApplication.getAppContext().unregisterReceiver(mChangeTimeReceiver);
+                try {
+                    TheApplication.getAppContext().unregisterReceiver(mChangeTimeReceiver);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 break;
         }
     }

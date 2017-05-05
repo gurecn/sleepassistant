@@ -21,4 +21,8 @@ public class IPreferencesIds {
      */
     public final static String KEY_FIRST_START_APP_TIME = "key_first_start_app_time"; //应用第一次启动时间
     public final static String KEY_LAST_INSTALL_APP_CODE = "key_last_install_app_code"; //上次安装的应用版本
+
+
+    public final static String APP_LOCK_RESTRICTION_SRART_TIME = "applock_restriction_start_time"; //应用使用限制开始时间
+    public final static String APP_LOCK_RESTRICTION_END_TIME = "applock_restriction_end_time"; //应用使用限制结束时间
 }

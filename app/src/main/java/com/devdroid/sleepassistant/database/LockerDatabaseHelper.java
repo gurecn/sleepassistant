@@ -62,7 +62,7 @@ public class LockerDatabaseHelper {
         return false;
     }
     public void lockItem(List<String> lockList) {
-        ArrayList<InsertParams> list = new ArrayList<InsertParams>();
+        ArrayList<InsertParams> list = new ArrayList<>();
         for (String pkgName : lockList) {
             if (!checkExist("select * from " + LockerTable.TABLE_NAME + " where " + LockerTable.COMPONENTNAME + "='" + pkgName + "'")) {
                 ContentValues values = new ContentValues();
@@ -77,7 +77,7 @@ public class LockerDatabaseHelper {
     }
 
     public void unlockItem(List<String> unLockList) {
-        ArrayList<DeletePamas> list = new ArrayList<DeletePamas>();
+        ArrayList<DeletePamas> list = new ArrayList<>();
         for (String pkgName : unLockList) {
             DeletePamas delete = new DeletePamas(LockerTable.TABLE_NAME, LockerTable.COMPONENTNAME + "=?", new String[]{pkgName});
             list.add(delete);
@@ -88,7 +88,7 @@ public class LockerDatabaseHelper {
     }
 
     public void lockItem(String pkgName) {
-        ArrayList<InsertParams> list = new ArrayList<InsertParams>();
+        ArrayList<InsertParams> list = new ArrayList<>();
         if (!checkExist("select * from " + LockerTable.TABLE_NAME + " where " + LockerTable.COMPONENTNAME + "='" + pkgName + "'")) {
             ContentValues values = new ContentValues();
             values.put(LockerTable.COMPONENTNAME,pkgName);
@@ -101,7 +101,7 @@ public class LockerDatabaseHelper {
     }
 
     public void unlockItem(String pkgName) {
-    	ArrayList<DeletePamas> list = new ArrayList<DeletePamas>();
+    	ArrayList<DeletePamas> list = new ArrayList<>();
         	DeletePamas delete = new DeletePamas(LockerTable.TABLE_NAME, LockerTable.COMPONENTNAME + "=?", new String[]{pkgName});
             list.add(delete);
         if (!list.isEmpty()) {

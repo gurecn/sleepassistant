@@ -2,6 +2,7 @@ package com.devdroid.sleepassistant.application;
 
 import android.content.Context;
 import com.devdroid.sleepassistant.database.BaseDataProvider;
+import com.devdroid.sleepassistant.database.LockerDao;
 import com.devdroid.sleepassistant.database.SleepDataDao;
 import com.devdroid.sleepassistant.preferences.SharedPreferencesManager;
 
@@ -19,17 +20,19 @@ public class LauncherModel {
     private EventBus GLOBAL_EVENT_BUS = EventBus.getDefault();
     private final SleepDataDao mSleepDao;
     private final Context mContext;
+    private LockerDao mLockerDao;
 
     private LauncherModel(Context context) {
         mContext = context;
         mSharedPreferencesManager = new SharedPreferencesManager(mContext);
         BaseDataProvider dataProvider = new BaseDataProvider(mContext);
         mSleepDao = new SleepDataDao(mContext, dataProvider);
+        mLockerDao = new LockerDao(mContext, dataProvider);
     }
     /**
      * 初始化单例,在程序启动时调用<br>
      */
-    public static void initSingleton(Context context) {
+    static void initSingleton(Context context) {
         sInstance = new LauncherModel(context);
     }
     /**
@@ -53,6 +56,13 @@ public class LauncherModel {
         BaseDataProvider backupProvider = new BaseDataProvider(mContext, true, dataVersion);
         return new SleepDataDao(mContext, backupProvider);
     }
+    /**
+     * 获取备份数据库操作实例
+     */
+    public LockerDao getLockerDao() {
+         return mLockerDao;
+    }
+
 
     /**
      * 获取一个全局的EventBus实例<br>

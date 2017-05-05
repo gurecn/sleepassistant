@@ -70,6 +70,7 @@ public class BaseDatabaseHelper extends SQLiteOpenHelper {
 		db.beginTransaction();
 		try {
 			db.execSQL(SleepDataTable.CREATE_TABLE);
+			db.execSQL(LockerTable.CREATE_TABLE);
 			db.setTransactionSuccessful();
 		} catch (Exception e) {
 			e.printStackTrace();

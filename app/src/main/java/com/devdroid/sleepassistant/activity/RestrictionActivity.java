@@ -2,7 +2,6 @@ package com.devdroid.sleepassistant.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,11 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
-
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.adapter.RestrictionAppsAdapter;
+import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
-import com.devdroid.sleepassistant.manager.ApplockManager;
 import com.devdroid.sleepassistant.mode.AppLockBean;
 import com.devdroid.sleepassistant.utils.AppUtils;
 import java.util.LinkedList;
@@ -50,7 +48,7 @@ public class RestrictionActivity extends BaseActivity{
         new Timer().schedule(new TimerTask(){
             public void run() {
                 mInstalledPackages = AppUtils.getLauncherAppPackageNames(RestrictionActivity.this);
-                mComponentNames = ApplockManager.mLockerDao.queryLockerInfo();
+                mComponentNames = LauncherModel.getInstance().getLockerDao().queryLockerInfo();
                 mGvRestrictionApps.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -118,12 +116,10 @@ public class RestrictionActivity extends BaseActivity{
                     }
                 }
                 if (unLockList.size() > 0) {
-                    ApplockManager.mLockerDao.unlockItem(unLockList);
-                    ApplockManager.unLockPackage(unLockList);
+                    LauncherModel.getInstance().getLockerDao().unlockItem(unLockList);
                 }
                 if (lockList.size() > 0) {
-                    ApplockManager.mLockerDao.lockItem(lockList);
-                    ApplockManager.lockPackage(lockList);
+                    LauncherModel.getInstance().getLockerDao().lockItem(lockList);
                 }
                 Intent intent = new Intent(this, AppLockTimeActivity.class);
                 startActivity(intent);

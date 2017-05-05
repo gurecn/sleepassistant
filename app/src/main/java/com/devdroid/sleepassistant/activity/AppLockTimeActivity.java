@@ -11,9 +11,14 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.LauncherModel;
+import com.devdroid.sleepassistant.preferences.IPreferencesIds;
+import com.devdroid.sleepassistant.receiver.ScreenBroadcastReceiver;
+import com.devdroid.sleepassistant.utils.Logger;
 
 public class AppLockTimeActivity extends AppCompatActivity{
 
+    private final String TAG = ScreenBroadcastReceiver.class.getSimpleName();
     private TimePicker timePickerStart;
     private TimePicker timePickerEnd;
     private TextView mTvTimeLable;
@@ -94,6 +99,9 @@ public class AppLockTimeActivity extends AppCompatActivity{
                     Toast.makeText(this,"开始时间不能与结束时间相同",Toast.LENGTH_SHORT).show();
                     return true;
                 }
+                Logger.d(TAG, "startTime：" + startTime + "  endTime:" + endTime);
+                LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.APP_LOCK_RESTRICTION_SRART_TIME, startTime);
+                LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.APP_LOCK_RESTRICTION_END_TIME, endTime);
                 this.finish();
                 break;
         }
