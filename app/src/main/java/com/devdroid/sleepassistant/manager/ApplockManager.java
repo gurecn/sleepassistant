@@ -32,19 +32,14 @@ public class ApplockManager {
     private static final String TAG = ScreenBroadcastReceiver.class.getSimpleName();
     private static ApplockManager mInstance;
     private Context mContext;
-    private Handler mAsyncHandler;
-//    public static LockerDao mLockerDao = null;
     private static List<String> componentNames;
     private static int mStartTime;
     private static int mEndTime;
     private static int sTimeSpace = 1000;
-    //桌面
     private String mUseLauncherPackageName = null;
     private final Runnable mCheckFrontApp = new Runnable() {
         @Override
         public void run() {
-
-            Logger.d(TAG,"执行中：");
             ComponentName mTopComponentName = AppUtils.getTopComponentName(mContext);
             String currentPackageName = mTopComponentName.getPackageName();
             List<String> mLauncherList = AppUtils.getLauncherPackageNames(mContext);
@@ -83,7 +78,7 @@ public class ApplockManager {
     private void scheduleCheck() {
         HandlerThread mAsyncHandlerThread = new HandlerThread("monitor-thread");
         mAsyncHandlerThread.start();
-        mAsyncHandler = new Handler(mAsyncHandlerThread.getLooper());
+        Handler mAsyncHandler = new Handler(mAsyncHandlerThread.getLooper());
         mAsyncHandler.removeCallbacks(mCheckFrontApp);
         mAsyncHandler.postDelayed(mCheckFrontApp, sTimeSpace);
         Logger.d(TAG,"准备执行");
@@ -102,17 +97,6 @@ public class ApplockManager {
         AppUtils.gotoLauncherWithoutChoice(mContext, mUseLauncherPackageName);
         ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         if (!pkgName.equals(mContext.getPackageName())) {
-//            List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = activityManager.getRunningAppProcesses();
-//            for (ActivityManager.RunningAppProcessInfo runningAppProcessInfo : runningAppProcesses) {
-//                if (null != runningAppProcessInfo.pkgList && runningAppProcessInfo.pkgList.length > 0) {
-//                    for (String value : runningAppProcessInfo.pkgList) {
-//                        if (pkgName.equals(value)) {
-//                            Process.killProcess(runningAppProcessInfo.pid);
-//                            break;
-//                        }
-//                    }
-//                }
-//            }
             activityManager.killBackgroundProcesses(pkgName);
         }
     }
@@ -121,7 +105,6 @@ public class ApplockManager {
         Date date = new Date();
         int currentMinue = date.getMinutes();
         int currentTime = Integer.parseInt(date.getHours() + "" +  (currentMinue > 9 ? currentMinue:("0" + currentMinue)));
-        Logger.d(TAG,"开始时间：" + mStartTime + "---->结束时间：" + mEndTime + "---->当前时间：" + currentTime);
         if ((mStartTime < mEndTime && currentTime >= mStartTime && currentTime < mEndTime) ||
             (mStartTime > mEndTime && currentTime >= mStartTime || currentTime < mEndTime)) {
             sTimeSpace = 300;

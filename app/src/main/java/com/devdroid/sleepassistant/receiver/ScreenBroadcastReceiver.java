@@ -25,11 +25,9 @@ public class ScreenBroadcastReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         switch (action) {
             case Intent.ACTION_SCREEN_ON: // 屏幕开启
-                Logger.d(TAG, "ACTION_SCREEN_ON");
                 TheApplication.getAppContext().registerReceiver(mChangeTimeReceiver, mTimeChangefilter);
                 break;
             case Intent.ACTION_SCREEN_OFF: // 屏幕关闭
-                Logger.d(TAG, "ACTION_SCREEN_OFF");
                 try {
                     TheApplication.getAppContext().unregisterReceiver(mChangeTimeReceiver);
                 } catch (Exception e){
