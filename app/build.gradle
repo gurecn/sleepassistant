@@ -9,9 +9,9 @@ android {
         applicationId "com.devdroid.sleepassistant"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 5
-        versionName "1.2.5"
-        manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "200"]
+        versionCode 6
+        versionName "1.2.6"
+        manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "devdroid"]
     }
     signingConfigs {
         release {
