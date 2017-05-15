@@ -43,15 +43,19 @@ public class ChartActivity extends BaseActivity {
 
     private void initView() {
         mRelativeLayoutChart = (RelativeLayout)findViewById(R.id.rl_content_chart_layout);
-        mCurrentData = new SleepDataMode();
         initGengralSplineChart();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_chart, menu);
-        String date = String.format(getString(R.string.menu_chart_item_value_date), mCurrentData.getYear(), mCurrentData.getMonth());
-        menu.getItem(0).setTitle(date);
+        if(mCurrentData == null){
+            String date = getString(R.string.date_picker_all_data);
+            menu.getItem(0).setTitle(date);
+        } else {
+            String date = String.format(getString(R.string.menu_chart_item_value_date), mCurrentData.getYear(), mCurrentData.getMonth());
+            menu.getItem(0).setTitle(date);
+        }
         return true;
     }
     @Override
@@ -81,14 +85,20 @@ public class ChartActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.item_chart_gengral_date:
+                mCurrentData = new SleepDataMode();
                 new DatePickerDialog(this, 0, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker startDatePicker, int startYear, int startMonthOfYear, int startDayOfMonth) {
-                        mCurrentData.setYear(startYear);
-                        mCurrentData.setMonth(startMonthOfYear + 1);
-                        initGengralSplineChart();
-                        String date = String.format(getString(R.string.menu_chart_item_value_date), startYear, startMonthOfYear + 1);
-                        item.setTitle(date);
+                        if(startDatePicker == null){
+                            mCurrentData = null;
+                            item.setTitle(ChartActivity.this.getString(R.string.date_picker_all_data));
+                        } else {
+                            mCurrentData.setYear(startYear);
+                            mCurrentData.setMonth(startMonthOfYear + 1);
+                            initGengralSplineChart();
+                            String date = String.format(getString(R.string.menu_chart_item_value_date), startYear, startMonthOfYear + 1);
+                            item.setTitle(date);
+                        }
                     }
                 }, mCurrentData.getYear(), mCurrentData.getMonth() - 1, mCurrentData.getDay()).show();
                 break;
@@ -104,7 +114,12 @@ public class ChartActivity extends BaseActivity {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         SplineChartView splineChartView = new SplineChartView(this);
         mRelativeLayoutChart.addView(splineChartView, layoutParams);
-        List<SleepDataMode> sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(mCurrentData.getYear(), mCurrentData.getMonth());
+        List<SleepDataMode> sleepDataModes;
+        if(mCurrentData == null){
+            sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo();
+        } else {
+            sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(mCurrentData.getYear(), mCurrentData.getMonth());
+        }
         splineChartView.chartDataSet(sleepDataModes);
     }
 
@@ -116,7 +131,12 @@ public class ChartActivity extends BaseActivity {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         GeneralSplineChartView generalSplineChartView = new GeneralSplineChartView(this);
         mRelativeLayoutChart.addView(generalSplineChartView, layoutParams);
-        List<SleepDataMode> sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(mCurrentData.getYear(), mCurrentData.getMonth());
+        List<SleepDataMode> sleepDataModes;
+        if(mCurrentData == null){
+            sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo();
+        } else {
+            sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(mCurrentData.getYear(), mCurrentData.getMonth());
+        }
         generalSplineChartView.chartDataSet(sleepDataModes, false);
     }
     /**
@@ -127,7 +147,12 @@ public class ChartActivity extends BaseActivity {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         PieChartView pieChartView = new PieChartView(this);
         mRelativeLayoutChart.addView(pieChartView, layoutParams);
-        List<SleepDataMode> sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(mCurrentData.getYear(), mCurrentData.getMonth());
+        List<SleepDataMode> sleepDataModes;
+        if(mCurrentData == null){
+            sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo();
+        } else {
+            sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(mCurrentData.getYear(), mCurrentData.getMonth());
+        }
         HashMap<String, Integer> sleepMap = new HashMap<>();
         sleepMap.put(SleepState.GREAT.name(), 0);
         sleepMap.put(SleepState.WARN.name(), 0);
@@ -142,7 +167,6 @@ public class ChartActivity extends BaseActivity {
         if(total == 0) return;
         sleepMap.put(SleepState.GREAT.name(), (int)(sleepMap.get(SleepState.GREAT.name()) * 100d / total + 0.5));
         sleepMap.put(SleepState.WARN.name(), (int)(sleepMap.get(SleepState.WARN.name()) * 100d / total + 0.5));
-//        sleepMap.put(SleepState.BAD.name(), (int)(sleepMap.get(SleepState.BAD.name()) * 100d / total + 0.5));
         pieChartView.chartDataSet(sleepMap);
         new Thread(pieChartView).start();
     }

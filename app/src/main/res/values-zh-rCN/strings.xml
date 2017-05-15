@@ -65,6 +65,7 @@
     <string name="activity_agreement_lable">用户协议</string>
     <string name="menu_chart_item_value_date">%1$d年%2$d月</string>
 
+    <string name="date_picker_all_data">全部</string>
     <string name="date_picker_submit">确定</string>
     <string name="date_picker_cancel">取消</string>
 
