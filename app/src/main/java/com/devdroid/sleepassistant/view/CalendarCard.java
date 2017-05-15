@@ -15,6 +15,7 @@ import android.view.ViewConfiguration;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.SleepState;
 import com.devdroid.sleepassistant.application.LauncherModel;
+import com.devdroid.sleepassistant.database.SleepDataDao;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
 import com.devdroid.sleepassistant.utils.DateUtil;
 
@@ -40,7 +41,7 @@ public class CalendarCard extends View {
     private OnCellClickListener mCellClickListener; // 单元格点击回调事件
     private int touchSlop;
     private boolean callBackCellSpace;
-    private List<SleepDataMode> mSleepDataModes;
+    private List<SleepDataMode> mSleepDataModes;   //本月睡眠数据
     private boolean mWaitForTouchUp;  //按下判断
     private int mResponseTimes;  //长按时间判断，<1,未触发长按
     private SleepDataMode mCurrentSleepDateMode;
@@ -108,38 +109,39 @@ public class CalendarCard extends View {
         }
         if(!isClick){
             mCellClickListener.changeDate(mShowDate);
-            mSleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(mShowDate.getYear(), mShowDate.getMonth());
+            SleepDataDao sleepDataDao = LauncherModel.getInstance().getSnssdkTextDao();
+            mSleepDataModes = sleepDataDao.querySleepDataInfo(mShowDate.getYear(), mShowDate.getMonth());
+            SleepDataMode previousMonth = DateUtil.getPreviousMonth(mShowDate);
+            mSleepDataModes.addAll(sleepDataDao.querySleepDataInfo(previousMonth.getYear(), previousMonth.getMonth()));
+            SleepDataMode nextMonth = DateUtil.getNextMonth(mShowDate);
+            mSleepDataModes.addAll(sleepDataDao.querySleepDataInfo(nextMonth.getYear(), nextMonth.getMonth()));
         }
         int day = 0;
         for (int j = 0; j < TOTAL_ROW; j++) {
             rows[j] = new Row(j);
             for (int i = 0; i < TOTAL_COL; i++) {
                 int position = i + j * TOTAL_COL; // 单元格位置
+                SleepDataMode date = null;
                 if (position >= firstDayWeek && position < firstDayWeek + currentMonthDays) {// 这个月的
                     day++;
-                    SleepDataMode date = SleepDataMode.modifiDayForObject(mShowDate, day);
+                    date = SleepDataMode.modifiDayForObject(mShowDate, day);
                     rows[j].cells[i] = new Cell(date, SleepState.CURRENT_MONTH_DAY, i, j);
                     if (isCurrentMonth && day == monthDay ) {// 今天
                         rows[j].cells[i] = new Cell(date, SleepState.TODAY, i, j);
                     }
-                    if (isCurrentMonth && day > monthDay) { // 如果比这个月的今天要大，表示还没到
-                        rows[j].cells[i] = new Cell(date, SleepState.UNREACH_DAY, i, j);
-                    }
-                    if(mSleepDataModes.contains(date)){
-                        for(SleepDataMode sleepDataMode : mSleepDataModes){
-                            if(sleepDataMode.equals(date)){
-                                rows[j].cells[i] = new Cell(sleepDataMode, DateUtil.transformState(sleepDataMode), i, j);
-                            }
-                        }
-                    } else {
-
-                    }
                 } else if (position < firstDayWeek) {// 过去一个月
-                    SleepDataMode sleepDataMode = new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() - 1, lastMonthDays - (firstDayWeek - position - 1), mShowDate.getHour(), mShowDate.getMinute());
-                    rows[j].cells[i] = new Cell(sleepDataMode, SleepState.PAST_MONTH_DAY, i, j);
+                    date = new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() - 1, lastMonthDays - (firstDayWeek - position - 1), mShowDate.getHour(), mShowDate.getMinute());
+                    rows[j].cells[i] = new Cell(date, SleepState.PAST_MONTH_DAY, i, j);
                 } else if (position >= firstDayWeek + currentMonthDays) {// 下个月
-                    SleepDataMode sleepDataMode = new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() + 1, position - firstDayWeek - currentMonthDays + 1, mShowDate.getHour(), mShowDate.getMinute());
-                    rows[j].cells[i] = new Cell(sleepDataMode, SleepState.NEXT_MONTH_DAY, i, j);
+                    date = new SleepDataMode(mShowDate.getYear(), mShowDate.getMonth() + 1, position - firstDayWeek - currentMonthDays + 1, mShowDate.getHour(), mShowDate.getMinute());
+                    rows[j].cells[i] = new Cell(date, SleepState.NEXT_MONTH_DAY, i, j);
+                }
+                if(date != null && mSleepDataModes.contains(date)){
+                    for(SleepDataMode sleepDataMode : mSleepDataModes){
+                        if(sleepDataMode.equals(date)){
+                            rows[j].cells[i] = new Cell(sleepDataMode, DateUtil.transformState(sleepDataMode), i, j);
+                        }
+                    }
                 }
             }
         }

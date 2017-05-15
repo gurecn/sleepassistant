@@ -128,7 +128,32 @@ public class DateUtil {
         }
         return tempDate;
     }
-
+    /**
+     * 获取上一月的年月
+     */
+    public static SleepDataMode getPreviousMonth(SleepDataMode date){
+        SleepDataMode tempDate = SleepDataMode.modifiDayForObject(date, 1);
+        if(date.getMonth() == 1){
+            tempDate.setYear(date.getYear() - 1);
+            tempDate.setMonth(12);
+        } else {
+            tempDate.setMonth(date.getMonth() - 1);
+        }
+        return tempDate;
+    }
+    /**
+     * 获取下一月的年月
+     */
+    public static SleepDataMode getNextMonth(SleepDataMode date){
+        SleepDataMode tempDate = SleepDataMode.modifiDayForObject(date, 1);
+        if(date.getMonth() == 12){
+            tempDate.setYear(date.getYear() + 1);
+            tempDate.setMonth(1);
+        } else {
+            tempDate.setMonth(date.getMonth() + 1);
+        }
+        return tempDate;
+    }
     /**
      * 时间转化成状态
      */
