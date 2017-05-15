@@ -37,6 +37,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     private SildeDirection mDirection = SildeDirection.NO_SILDE;
     private TextView mTvDateLable;
     private GeneralSplineChartView mGSCWeek;
+    private DrawerLayout mDrawerLayout;
 
     enum SildeDirection {
         RIGHT, LEFT, NO_SILDE
@@ -58,12 +59,12 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
-        NavigationItemSelectedListener navigationItemSelectedListener = new NavigationItemSelectedListener(this, drawer);
+        NavigationItemSelectedListener navigationItemSelectedListener = new NavigationItemSelectedListener(this, mDrawerLayout);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
         mViewPager = (ViewPager) this.findViewById(R.id.vp_calendar);
         mTvDateLable = (TextView) this.findViewById(R.id.tv_content_main_date_lable);
@@ -97,9 +98,8 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

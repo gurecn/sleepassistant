@@ -52,6 +52,8 @@ public class NavigationItemSelectedListener  implements NavigationView.OnNavigat
                 mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, AboutActivity.class));
                 break;
         }
+        item.setCheckable(false);
+        item.setChecked(false);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
