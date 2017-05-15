@@ -92,6 +92,7 @@ public class ChartActivity extends BaseActivity {
                         if(startDatePicker == null){
                             mCurrentData = null;
                             item.setTitle(ChartActivity.this.getString(R.string.date_picker_all_data));
+                            initGengralSplineChart();
                         } else {
                             mCurrentData.setYear(startYear);
                             mCurrentData.setMonth(startMonthOfYear + 1);
