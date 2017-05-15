@@ -9,7 +9,6 @@ import com.devdroid.sleepassistant.application.TheApplication;
 import com.devdroid.sleepassistant.utils.Logger;
 
 public class ScreenBroadcastReceiver extends BroadcastReceiver {
-    private final String TAG = ScreenBroadcastReceiver.class.getSimpleName();
     private final IntentFilter mTimeChangefilter;
     private final ChangeTimeReceiver mChangeTimeReceiver;
 

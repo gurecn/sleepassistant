@@ -2,17 +2,11 @@ package com.devdroid.sleepassistant.application;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-
 import com.devdroid.sleepassistant.BuildConfig;
-import com.devdroid.sleepassistant.constant.ApiConstant;
 import com.devdroid.sleepassistant.constant.CustomConstant;
 import com.devdroid.sleepassistant.manager.ApplockManager;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.preferences.SharedPreferencesManager;
-import com.devdroid.sleepassistant.receiver.ChangeTimeReceiver;
-import com.devdroid.sleepassistant.receiver.ScreenBroadcastReceiver;
 import com.devdroid.sleepassistant.utils.AppUtils;
 import com.devdroid.sleepassistant.utils.CrashHandler;
 import com.squareup.leakcanary.LeakCanary;
@@ -43,7 +37,7 @@ public class TheApplication extends Application {
     private void onCreateForMainProcess() {
         LauncherModel.initSingleton(getAppContext());
         startServerAndReceiver();
-        ApplockManager.initSingleton(getAppContext());
+//        ApplockManager.initSingleton(getAppContext());
         checkInitOnce();
     }
 
@@ -58,11 +52,11 @@ public class TheApplication extends Application {
     }
 
     private void startServerAndReceiver() {
-        ScreenBroadcastReceiver mScreenReceiver = new ScreenBroadcastReceiver();
-        final IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        filter.addAction(Intent.ACTION_SCREEN_ON);
-        registerReceiver(mScreenReceiver, filter);
+//        ScreenBroadcastReceiver mScreenReceiver = new ScreenBroadcastReceiver();
+//        final IntentFilter filter = new IntentFilter();
+//        filter.addAction(Intent.ACTION_SCREEN_OFF);
+//        filter.addAction(Intent.ACTION_SCREEN_ON);
+//        registerReceiver(mScreenReceiver, filter);
     }
 
     /**
