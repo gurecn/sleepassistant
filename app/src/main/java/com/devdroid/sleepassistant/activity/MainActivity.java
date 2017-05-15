@@ -152,8 +152,8 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         List<SleepDataMode> insertList = new LinkedList<>();
                         SleepDataMode sleepDataMode = new SleepDataMode(date.getYear(), date.getMonth(), date.getDay(), hourOfDay, minute);
-                        if(hourOfDay < 6){  //认为是上一天的入睡时间,时间设置为 24 + 实际时间。如：凌晨1点，保存为：25
-                            sleepDataMode = DateUtil.getPreviousDate(sleepDataMode);
+                        if(hourOfDay < 6){  //认为,时间设置为 24 + 实际时间。如：凌晨1点，保存为：25
+//                            sleepDataMode = DateUtil.getPreviousDate(sleepDataMode);
                             sleepDataMode.setHour(24 + sleepDataMode.getHour());
                         }
                         insertList.add(sleepDataMode);
