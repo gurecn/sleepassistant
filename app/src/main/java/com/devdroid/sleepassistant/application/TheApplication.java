@@ -17,7 +17,6 @@ public class TheApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LeakCanary.install(this);
         // 记录当前进程名
         sCurrentProcessName = AppUtils.getCurrentProcessName(getApplicationContext());
         // 如果是主进程，初始化主进程的相关功能类实例
@@ -35,10 +34,7 @@ public class TheApplication extends Application {
     }
 
     private void onCreateForMainProcess() {
-        LauncherModel.initSingleton(getAppContext());
         startServerAndReceiver();
-//        ApplockManager.initSingleton(getAppContext());
-        checkInitOnce();
     }
 
     private void onInitDataChildThread() {
@@ -46,6 +42,10 @@ public class TheApplication extends Application {
             @Override
             public void run() {
                 CrashHandler.getInstance().init(getAppContext());
+                LeakCanary.install(sInstance);
+                LauncherModel.initSingleton(getAppContext());
+                checkInitOnce();
+//              ApplockManager.initSingleton(getAppContext());
             }
         });
         thread.start();
