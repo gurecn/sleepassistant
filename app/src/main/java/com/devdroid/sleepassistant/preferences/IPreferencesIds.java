@@ -25,4 +25,7 @@ public class IPreferencesIds {
 
     public final static String APP_LOCK_RESTRICTION_SRART_TIME = "applock_restriction_start_time"; //应用使用限制开始时间
     public final static String APP_LOCK_RESTRICTION_END_TIME = "applock_restriction_end_time"; //应用使用限制结束时间
+
+
+    public final static String KEY_SLEEP_TIME_HAS_SET = "key_sleep_time_set"; //用户已经设置过睡眠时间
 }

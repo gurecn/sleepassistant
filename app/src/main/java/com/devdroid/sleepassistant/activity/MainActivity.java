@@ -17,15 +17,13 @@ import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.listener.NavigationItemSelectedListener;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
+import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.DateUtil;
 import com.devdroid.sleepassistant.view.CalendarCard;
 import com.devdroid.sleepassistant.view.chart.GeneralSplineChartView;
-
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * 主界面
@@ -75,7 +73,8 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         }
         adapter = new CalendarViewAdapter<>(views);
         setViewPager();
-        boolean isClick = initGengralSplineChart();
+        initGengralSplineChart();
+        boolean isClick = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_SLEEP_TIME_HAS_SET, false);
         if(!isClick){
             addGuideImage(R.id.drawer_layout, R.drawable.main_guide);
         }
@@ -162,6 +161,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                         insertList.add(sleepDataMode);
                         LauncherModel.getInstance().getSnssdkTextDao().insertSleepDataItem(insertList);
                         adapter.getItem(mCurrentIndex % adapter.getAllItems().length).update(false);
+                        LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_SLEEP_TIME_HAS_SET, true);
                         mViewPager.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -178,7 +178,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     }
 
 
-    private boolean initGengralSplineChart(){
+    private void initGengralSplineChart(){
         SleepDataMode currentData = new SleepDataMode();
         LinkedList<SleepDataMode> sleepDataModes = new LinkedList<>();
         for(int i = 0; i < 7; i ++ ) {
@@ -193,6 +193,5 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
             sleepDataModes.add(0, currentData);
         }
         mGSCWeek.chartDataSet(sleepDataModes, true);
-        return sleepDataModes.size() > 0;
     }
 }
