@@ -120,7 +120,8 @@ public class GeneralSplineChartView  extends BaseChartView {
         chartData.clear();
         labels.clear();
         List<PointD> linePoint1 = new ArrayList<>();
-        for(int i = 0;i < sleepDataModes.size();i++){
+        int dataCount = sleepDataModes.size();
+        for(int i = 0;i < dataCount;i++){
             SleepDataMode sleepDataMode = sleepDataModes.get(i);
             if(isWeek) {
                 labels.add(sleepDataMode.getWeek() + "");
