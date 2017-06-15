@@ -13,6 +13,7 @@
         <item
             android:id="@+id/nav_restriction"
             android:icon="@drawable/ic_menu_restriction"
+            android:visible="false"
             android:title="@string/nav_string_restriction" />
         <item
             android:id="@+id/nav_set"
