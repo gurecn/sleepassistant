@@ -75,7 +75,10 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         }
         adapter = new CalendarViewAdapter<>(views);
         setViewPager();
-        initGengralSplineChart();
+        boolean isClick = initGengralSplineChart();
+        if(!isClick){
+            addGuideImage(R.id.drawer_layout, R.drawable.main_guide);
+        }
     }
 
     private void setViewPager() {
@@ -175,7 +178,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     }
 
 
-    private void initGengralSplineChart(){
+    private boolean initGengralSplineChart(){
         SleepDataMode currentData = new SleepDataMode();
         LinkedList<SleepDataMode> sleepDataModes = new LinkedList<>();
         for(int i = 0; i < 7; i ++ ) {
@@ -190,5 +193,6 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
             sleepDataModes.add(0, currentData);
         }
         mGSCWeek.chartDataSet(sleepDataModes, true);
+        return sleepDataModes.size() > 0;
     }
 }
