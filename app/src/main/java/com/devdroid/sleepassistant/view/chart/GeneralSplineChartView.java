@@ -77,9 +77,11 @@ public class GeneralSplineChartView  extends BaseChartView {
             if(isWeek){
                 chart.getDataAxis().setAxisMin(20);
                 chart.getDataAxis().setAxisMax(25);
+                chart.getCategoryAxis().setAxisSteps(1);
             } else {
                 chart.getDataAxis().setAxisMin(6);
                 chart.getDataAxis().setAxisMax(29);
+                chart.getCategoryAxis().setAxisSteps(5);
             }
             //数据轴刻度间隔
             chart.getDataAxis().setAxisSteps(1);
@@ -87,7 +89,6 @@ public class GeneralSplineChartView  extends BaseChartView {
             chart.setCategoryAxisMax(labels.size());
             //标签轴最小值
             chart.setCategoryAxisMin(1);
-            chart.getCategoryAxis().setAxisSteps(1);
             //背景网格
             PlotGrid plot = chart.getPlotGrid();
             plot.showHorizontalLines();
@@ -125,8 +126,10 @@ public class GeneralSplineChartView  extends BaseChartView {
             SleepDataMode sleepDataMode = sleepDataModes.get(i);
             if(isWeek) {
                 labels.add(sleepDataMode.getWeek() + "");
-            } else {
+            } else if(dataCount <= 30 || i % 3 == 0){
                 labels.add(sleepDataMode.getDay() + "");
+            } else {
+                labels.add("");
             }
             int hour = sleepDataMode.getHour();
             if(hour == -1)continue;

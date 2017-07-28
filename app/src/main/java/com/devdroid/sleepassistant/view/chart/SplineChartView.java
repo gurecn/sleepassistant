@@ -120,12 +120,17 @@ public class SplineChartView extends ChartView{
     public void chartDataSet(List<SleepDataMode> sleepDataModes) {
         //线1的数据集
         List<PointD> linePoint1 = new ArrayList<>();
-        for(int i = 0;i < sleepDataModes.size();i++){
+        int dataCount = sleepDataModes.size();
+        for(int i = 0;i < dataCount;i++){
             SleepDataMode sleepDataMode = sleepDataModes.get(i);
             int hour = sleepDataMode.getHour();
             float time = hour + sleepDataMode.getMinute() / 60f;
             linePoint1.add(new PointD((double) i + 1, (double) time));
-            labels.add(sleepDataMode.getDay() + "");
+            if(dataCount <= 30 || i % 3 == 0){
+                labels.add(sleepDataMode.getDay() + "");
+            } else {
+                labels.add("");
+            }
         }
         SplineData dataSeries1 = new SplineData("入睡曲线",linePoint1, Color.rgb(54, 141, 238) );
         //标签轴最大值
