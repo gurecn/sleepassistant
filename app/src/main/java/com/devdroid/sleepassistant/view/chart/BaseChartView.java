@@ -3,7 +3,7 @@ package com.devdroid.sleepassistant.view.chart;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import org.xclcharts.view.ChartView;
+import com.devdroid.sleepassistant.xclcharts.view.ChartView;
 
 /**
  * 图表View基类View

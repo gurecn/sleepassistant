@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.devdroid.sleepassistant.R;
-import com.devdroid.sleepassistant.SleepState;
+import com.devdroid.sleepassistant.mode.SleepState;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.database.SleepDataDao;
 import com.devdroid.sleepassistant.mode.SleepDataMode;

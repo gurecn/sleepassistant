@@ -81,6 +81,5 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
-    compile files('libs/xcl-charts.jar')
     compile files('libs/eventbus-2.4.0.jar')
 }

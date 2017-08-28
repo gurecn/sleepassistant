@@ -2,9 +2,8 @@ package com.devdroid.sleepassistant.utils;
 
 import android.annotation.SuppressLint;
 
-import com.devdroid.sleepassistant.SleepState;
+import com.devdroid.sleepassistant.mode.SleepState;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
-import com.devdroid.sleepassistant.view.CalendarCard;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

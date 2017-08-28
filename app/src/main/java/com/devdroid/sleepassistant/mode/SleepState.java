@@ -1,4 +1,4 @@
-package com.devdroid.sleepassistant;
+package com.devdroid.sleepassistant.mode;
 
 /**
  * Created by Gaolei on 2017/4/26.

@@ -9,15 +9,15 @@ import android.util.Log;
 
 import com.devdroid.sleepassistant.mode.SleepDataMode;
 
-import org.xclcharts.chart.CustomLineData;
-import org.xclcharts.chart.PointD;
-import org.xclcharts.chart.SplineChart;
-import org.xclcharts.chart.SplineData;
-import org.xclcharts.common.DensityUtil;
-import org.xclcharts.common.IFormatterTextCallBack;
-import org.xclcharts.renderer.XEnum;
-import org.xclcharts.renderer.plot.PlotGrid;
-import org.xclcharts.view.ChartView;
+import com.devdroid.sleepassistant.xclcharts.chart.CustomLineData;
+import com.devdroid.sleepassistant.xclcharts.chart.PointD;
+import com.devdroid.sleepassistant.xclcharts.chart.SplineChart;
+import com.devdroid.sleepassistant.xclcharts.chart.SplineData;
+import com.devdroid.sleepassistant.xclcharts.common.DensityUtil;
+import com.devdroid.sleepassistant.xclcharts.common.IFormatterTextCallBack;
+import com.devdroid.sleepassistant.xclcharts.renderer.XEnum;
+import com.devdroid.sleepassistant.xclcharts.renderer.plot.PlotGrid;
+import com.devdroid.sleepassistant.xclcharts.view.ChartView;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;

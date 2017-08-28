@@ -6,10 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.devdroid.sleepassistant.R;
-import com.devdroid.sleepassistant.SleepState;
+import com.devdroid.sleepassistant.mode.SleepState;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
