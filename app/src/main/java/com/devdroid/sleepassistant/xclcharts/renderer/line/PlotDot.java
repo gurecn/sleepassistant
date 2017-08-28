@@ -44,7 +44,7 @@ public class PlotDot {
 	//线上的点为圆或角
 	protected XEnum.DotStyle mDotStyle = XEnum.DotStyle.DOT;
 	
-	private float mRadius = 10.0f;
+	private float mRadius = 3.0f;
 	
 	private int mAlpha = 255;
 	
