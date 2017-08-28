@@ -205,8 +205,8 @@ public class LnChart extends AxesChart {
 				currentTickLabel = MathHelper.getInstance().add(
 						dataAxis.getAxisMin(), mul(i , (float) dataAxis.getAxisSteps()));
 
-				mLstDataTick.add(new PlotAxisTick(i, axisX, currentY, Double
-						.toString(currentTickLabel)));
+				mLstDataTick.add(new PlotAxisTick(i, axisX, currentY, Integer
+						.toString((int)currentTickLabel % 24)));
 				break;
 			case TOP: // X
 			case BOTTOM:
