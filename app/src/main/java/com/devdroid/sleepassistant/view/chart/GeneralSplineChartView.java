@@ -124,9 +124,10 @@ public class GeneralSplineChartView  extends BaseChartView {
         int dataCount = sleepDataModes.size();
         for(int i = 0;i < dataCount;i++){
             SleepDataMode sleepDataMode = sleepDataModes.get(i);
+            int skip = dataCount / 30 + 1;
             if(isWeek) {
                 labels.add(sleepDataMode.getWeek() + "");
-            } else if(dataCount <= 30 || i % 3 == 0){
+            } else if(dataCount <= 30 || i % skip == 0){
                 labels.add(sleepDataMode.getDay() + "");
             } else {
                 labels.add("");

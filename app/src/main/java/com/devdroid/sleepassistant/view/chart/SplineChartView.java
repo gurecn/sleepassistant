@@ -126,7 +126,8 @@ public class SplineChartView extends ChartView{
             int hour = sleepDataMode.getHour();
             float time = hour + sleepDataMode.getMinute() / 60f;
             linePoint1.add(new PointD((double) i + 1, (double) time));
-            if(dataCount <= 30 || i % 3 == 0){
+            int skip = dataCount / 30 + 1;
+            if(dataCount <= 30 || i % skip == 0){
                 labels.add(sleepDataMode.getDay() + "");
             } else {
                 labels.add("");
