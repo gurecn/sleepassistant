@@ -101,7 +101,7 @@ public class GeneralSplineChartView  extends BaseChartView {
             chart.getDataAxis().getTickMarksPaint().setColor(Color.rgb(127, 204, 204));
             chart.getCategoryAxis().getTickMarksPaint().setColor(Color.rgb(127, 204, 204));
             //居中
-            chart.getDataAxis().setHorizontalTickAlign(Align.CENTER);
+            chart.getDataAxis().setHorizontalTickAlign(Align.LEFT);
             chart.getDataAxis().getTickLabelPaint().setTextAlign(Align.CENTER);
             //封闭轴
             chart.setAxesClosed(false);
@@ -220,7 +220,7 @@ public class GeneralSplineChartView  extends BaseChartView {
     //偏移出来的空间用于显示tick,axistitle....
     protected int[] getBarLnDefaultSpadding() {
         int [] ltrb = new int[4];
-        ltrb[0] = DensityUtil.dip2px(getContext(), 10); //left
+        ltrb[0] = DensityUtil.dip2px(getContext(), 20); //left
         ltrb[1] = DensityUtil.dip2px(getContext(), 20); //top
         ltrb[2] = DensityUtil.dip2px(getContext(), 10); //right
         ltrb[3] = DensityUtil.dip2px(getContext(), 15); //bottom

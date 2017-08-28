@@ -94,13 +94,13 @@ public class SplineChartView extends ChartView{
 
             chart.getDataAxis().getTickMarksPaint().setColor(Color.rgb(127, 204, 204));
             chart.getCategoryAxis().getTickMarksPaint().setColor(Color.rgb(127, 204, 204));
+            chart.getDataAxis().setHorizontalTickAlign(Paint.Align.LEFT);
 
             //定义数据轴标签显示格式
             chart.getDataAxis().setLabelFormatter(new IFormatterTextCallBack(){
 
                 @Override
                 public String textFormatter(String value) {
-                    // TODO Auto-generated method stub
                     Double tmp = Double.parseDouble(value);
                     DecimalFormat df=new DecimalFormat("#0");
                     String label = df.format(tmp).toString();
