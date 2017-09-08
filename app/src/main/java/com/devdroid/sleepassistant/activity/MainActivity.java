@@ -1,6 +1,7 @@
 package com.devdroid.sleepassistant.activity;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
@@ -46,6 +47,38 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        if(intent != null){
+            String action = intent.getStringExtra("action");
+            if("create_sleep_time_new".equals(action)){
+                createSleepTimeNew();
+                mViewPager.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 300);
+            }
+        }
+    }
+
+    private void createSleepTimeNew() {
+        SleepDataMode date = new SleepDataMode();
+        Calendar calendar = Calendar.getInstance();
+        date.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+        date.setMinute(calendar.get(Calendar.MINUTE));
+        List<SleepDataMode> insertList = new LinkedList<>();
+        if(date.getHour() < 6){
+            date.setHour(24 + date.getHour());
+        }
+        insertList.add(date);
+        LauncherModel.getInstance().getSnssdkTextDao().insertSleepDataItem(insertList);
+        LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_SLEEP_TIME_HAS_SET, true);
     }
 
     @Override

@@ -70,4 +70,8 @@
     <string name="date_picker_cancel">取消</string>
 
     <string name="guard_date">遇见 %1$d 天</string>
+
+
+    <string name="shortcut_sleep_time_lable">现在睡觉</string>
+    <string name="shortcutbackup_lable">备份数据</string>
 </resources>

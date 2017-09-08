@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="shortcut_create_sleep_time"
+        android:enabled="true"
+        android:icon="@drawable/icon_shortcut_sleep_new"
+        android:shortcutShortLabel="@string/shortcut_sleep_time_lable">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.devdroid.sleepassistant"
+            android:targetClass="com.devdroid.sleepassistant.activity.MainActivity">
+            <extra
+                android:name="action"
+                android:value="create_sleep_time_new"/>
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="shortcut_backup_data"
+        android:enabled="true"
+        android:icon="@drawable/icon_shortcut_backup"
+        android:shortcutShortLabel="@string/shortcutbackup_lable">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.devdroid.sleepassistant"
+            android:targetClass="com.devdroid.sleepassistant.activity.SettingsActivity">
+        </intent>
+    </shortcut>
+</shortcuts>
