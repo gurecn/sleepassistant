@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                     public void run() {
                         finish();
                     }
-                }, 300);
+                }, 500);
             }
         }
     }
