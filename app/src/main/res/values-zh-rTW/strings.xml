@@ -65,4 +65,6 @@
     <string name="menu_item_chart_gengral_date">日期</string>
     <string name="guard_date">遇見 %1$d 天</string>
     <string name="date_picker_all_data">全部</string>
+    <string name="shortcut_sleep_time_lable">現在睡覺</string>
+    <string name="shortcutbackup_lable">備份資料</string>
 </resources>

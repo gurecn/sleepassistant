@@ -75,4 +75,6 @@
     <string name="menu_item_chart_gengral_date">Date</string>
     <string name="guard_date">Guardian %1$d days</string>
     <string name="date_picker_all_data">Whole</string>
+    <string name="shortcut_sleep_time_lable">Sleep now</string>
+    <string name="shortcutbackup_lable">Backup data</string>
 </resources>
