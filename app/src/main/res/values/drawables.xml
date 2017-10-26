@@ -1,9 +1,9 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <item name="ic_menu_calendar" type="drawable">@drawable/ic_calendar</item>
-    <item name="ic_menu_chart" type="drawable">@drawable/ic_chart</item>
-    <item name="ic_menu_restriction" type="drawable">@drawable/ic_restriction</item>
-    <item name="ic_menu_set" type="drawable">@drawable/ic_set</item>
-    <item name="ic_menu_share" type="drawable">@drawable/ic_share</item>
-    <item name="ic_menu_edit" type="drawable">@drawable/ic_edit</item>
-    <item name="ic_menu_about" type="drawable">@drawable/ic_about</item>
+<resources>
+    <item name="ic_menu_calendar" type="drawable">@mipmap/ic_calendar</item>
+    <item name="ic_menu_chart" type="drawable">@mipmap/ic_chart</item>
+    <item name="ic_menu_restriction" type="drawable">@mipmap/ic_restriction</item>
+    <item name="ic_menu_set" type="drawable">@mipmap/ic_set</item>
+    <item name="ic_menu_share" type="drawable">@mipmap/ic_share</item>
+    <item name="ic_menu_edit" type="drawable">@mipmap/ic_edit</item>
+    <item name="ic_menu_about" type="drawable">@mipmap/ic_about</item>
 </resources>

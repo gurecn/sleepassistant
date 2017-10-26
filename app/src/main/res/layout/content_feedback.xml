@@ -42,7 +42,7 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginRight="12dp"
-                android:src="@drawable/arrow_07"/>
+                android:src="@mipmap/arrow_07"/>
         </RelativeLayout>
     </LinearLayout>
     <EditText

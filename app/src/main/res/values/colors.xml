@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="app_icon_background">#213788</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="viewcolor1">#b4b4b4</color>
@@ -14,7 +16,6 @@
     <color name="about_text_sub_color">#72ACE3</color>
 
     //日历显示色纸
-
     <color name="color_calendar_card_gerat">#4A7229</color>
     <color name="color_calendar_card_warn">#F9ED01</color>
     <color name="color_calendar_card_bad">#D92929</color>

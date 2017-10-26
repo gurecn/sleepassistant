@@ -167,7 +167,7 @@ public class AppUtils {
 			if (drawable2 != null) {
 				bitmap = drawable2.getBitmap();
 			} else {
-				BitmapDrawable drawable3 = (BitmapDrawable) context.getResources().getDrawable(R.drawable.zhuopin_logo);
+				BitmapDrawable drawable3 = (BitmapDrawable) context.getResources().getDrawable(R.mipmap.ic_launcher);
 				bitmap = drawable3.getBitmap();
 			}
 		}

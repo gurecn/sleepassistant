@@ -3,7 +3,7 @@
     <shortcut
         android:shortcutId="shortcut_create_sleep_time"
         android:enabled="true"
-        android:icon="@drawable/icon_shortcut_sleep_new"
+        android:icon="@mipmap/icon_shortcut_sleep_new"
         android:shortcutShortLabel="@string/shortcut_sleep_time_lable">
         <intent
             android:action="android.intent.action.VIEW"
@@ -18,7 +18,7 @@
     <shortcut
         android:shortcutId="shortcut_backup_data"
         android:enabled="true"
-        android:icon="@drawable/icon_shortcut_backup"
+        android:icon="@mipmap/icon_shortcut_backup"
         android:shortcutShortLabel="@string/shortcutbackup_lable">
         <intent
             android:action="android.intent.action.VIEW"

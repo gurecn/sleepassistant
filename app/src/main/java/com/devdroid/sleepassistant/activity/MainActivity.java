@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         initGengralSplineChart();
         boolean isClick = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_SLEEP_TIME_HAS_SET, false);
         if(!isClick){
-            addGuideImage(R.id.drawer_layout, R.drawable.main_guide);
+            addGuideImage(R.id.drawer_layout, R.mipmap.main_guide);
         }
     }
 

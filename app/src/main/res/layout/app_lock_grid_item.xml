@@ -13,7 +13,7 @@
         android:id="@+id/image_lock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/applock_lock"
+        android:src="@mipmap/applock_lock"
         android:layout_alignTop="@+id/image_icon"
         android:layout_alignRight="@+id/image_icon"
         android:visibility="gone" />
