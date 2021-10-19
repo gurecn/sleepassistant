@@ -90,7 +90,7 @@ public class CircleChart extends CirChart {
     	if(null != getLabelPaint())
     	{
 	        getLabelPaint().setColor(Color.WHITE);
-	        getLabelPaint().setTextSize(36);
+	        getLabelPaint().setTextSize(50);
 	        getLabelPaint().setTextAlign(Align.CENTER);
     	}
       

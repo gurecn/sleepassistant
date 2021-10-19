@@ -7,8 +7,8 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.devdroid.sleepassistant"
-        minSdkVersion 19
-        targetSdkVersion 26
+        minSdkVersion 26
+        targetSdkVersion 31
         versionCode 10
         versionName "1.3.0"
         manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "devdroid"]
@@ -25,6 +25,12 @@ android {
             storePassword "devdroid110"
             keyAlias "devdroid"
             keyPassword "devdroid110"
+        }
+    }
+    flavorDimensions "default"
+    productFlavors {
+        sleepassistant {
+            applicationId "com.devdroid.sleepassistant"
         }
     }
 
@@ -44,15 +50,19 @@ android {
             // 定义APK名称格式
             applicationVariants.all { variant ->
                 if (variant.buildType.name == "debug") return;
-                variant.outputs.each { output ->
+                variant.outputs.all { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         def fileName = "Sleepassistant_v${defaultConfig.versionName}_${variant.productFlavors[0].name}_release_${dateTime()}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
+                        outputFileName = fileName
                     }
                 }
             }
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     //渠道Flavors
     productFlavors {
@@ -76,10 +86,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:26.0.0+'
-    compile 'com.android.support:design:26.0.0+'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.0.0+'
+    implementation 'com.android.support:design:26.0.0+'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     compile files('libs/eventbus-2.4.0.jar')
 }

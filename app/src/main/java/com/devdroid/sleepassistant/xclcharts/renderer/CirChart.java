@@ -178,7 +178,7 @@ public class CirChart extends EventChart{
 			mPaintLabel.setColor(Color.BLACK);
 			mPaintLabel.setAntiAlias(true);
 			mPaintLabel.setTextAlign(Align.CENTER);	
-			mPaintLabel.setTextSize(18);
+			mPaintLabel.setTextSize(50);
 		}
 		return mPaintLabel;
 	}

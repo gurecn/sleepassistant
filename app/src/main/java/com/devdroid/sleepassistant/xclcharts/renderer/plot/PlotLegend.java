@@ -156,7 +156,7 @@ public class PlotLegend {
 				mKeyPaint = new Paint();
 				mKeyPaint.setColor(Color.BLACK);
 				mKeyPaint.setAntiAlias(true);			
-				mKeyPaint.setTextSize(15);	
+				mKeyPaint.setTextSize(40);
 			 }
 			 return mKeyPaint;
 		 }
