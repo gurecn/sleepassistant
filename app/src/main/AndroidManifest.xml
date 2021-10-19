@@ -12,7 +12,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:backupAgent=".database.DataBackupAgent"
         android:theme="@style/AppTheme.NoActionBar">
+        <meta-data
+            android:name="com.google.android.backup.api_key"
+            android:value="AEdPqrEAAAAI167NPva4gCLWcckeKkKb8r5Zh2MB6Lvdbw5Tjw" />
         <meta-data
             android:name="channel"
             android:value="${COM_DEVDROID_CHANNEL_VALUE}" />

@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.devdroid.sleepassistant"
         minSdkVersion 19
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 10
         versionName "1.3.0"
         manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "devdroid"]
@@ -77,10 +77,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    compile 'com.android.support:appcompat-v7:26.0.0+'
+    compile 'com.android.support:design:26.0.0+'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     compile files('libs/eventbus-2.4.0.jar')
 }
