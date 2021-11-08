@@ -44,7 +44,7 @@ public class ChartActivity extends BaseActivity {
 
     private void initView() {
         mRelativeLayoutChart = (RelativeLayout)findViewById(R.id.rl_content_chart_layout);
-        sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo();
+        sleepDataModes = LauncherModel.getInstance().getSleepDataDao().querySleepDataInfo();
         initGengralSplineChart();
     }
 
@@ -96,11 +96,11 @@ public class ChartActivity extends BaseActivity {
                     public void onDateSet(DatePicker startDatePicker, int startYear, int startMonthOfYear, int startDayOfMonth) {
                         if(startDatePicker == null){
                             item.setTitle(ChartActivity.this.getString(R.string.date_picker_all_data));
-                            sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo();
+                            sleepDataModes = LauncherModel.getInstance().getSleepDataDao().querySleepDataInfo();
                         } else {
                             String date = String.format(getString(R.string.menu_chart_item_value_date), startYear, startMonthOfYear + 1);
                             item.setTitle(date);
-                            sleepDataModes = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(startYear, startMonthOfYear + 1);
+                            sleepDataModes = LauncherModel.getInstance().getSleepDataDao().querySleepDataInfo(startYear, startMonthOfYear + 1);
                         }
                         initData();
                     }

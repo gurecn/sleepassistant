@@ -82,7 +82,7 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
                     }
                     fileCopy(backupdb, dbBackFile);
                     SleepDataDao backupSleepDataDao = LauncherModel.getInstance().getBackupContactsDao(Integer.valueOf(restoreNames[1]));
-                    SleepDataDao sleepDataDao = LauncherModel.getInstance().getSnssdkTextDao();
+                    SleepDataDao sleepDataDao = LauncherModel.getInstance().getSleepDataDao();
                     List<SleepDataMode> backupSleepDatas = backupSleepDataDao.querySleepDataInfo();
                     List<SleepDataMode> sleepDatas = new LinkedList<>();
                     int backupTotal = backupSleepDatas.size();

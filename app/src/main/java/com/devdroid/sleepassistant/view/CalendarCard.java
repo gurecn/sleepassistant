@@ -109,7 +109,7 @@ public class CalendarCard extends View {
         }
         if(!isClick){
             mCellClickListener.changeDate(mShowDate);
-            SleepDataDao sleepDataDao = LauncherModel.getInstance().getSnssdkTextDao();
+            SleepDataDao sleepDataDao = LauncherModel.getInstance().getSleepDataDao();
             mSleepDataModes = sleepDataDao.querySleepDataInfo(mShowDate.getYear(), mShowDate.getMonth());
             SleepDataMode previousMonth = DateUtil.getPreviousMonth(mShowDate);
             mSleepDataModes.addAll(sleepDataDao.querySleepDataInfo(previousMonth.getYear(), previousMonth.getMonth()));
@@ -253,25 +253,25 @@ public class CalendarCard extends View {
         }
 
         void drawSelf(Canvas canvas) {
-            SleepDataMode preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
-            SleepDataMode nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
+//            SleepDataMode preDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()-1, date.getHour(), date.getMinute());
+//            SleepDataMode nexDate = new SleepDataMode(date.getYear(),date.getMonth(),date.getDay()+1, date.getHour(), date.getMinute());
             switch (state) {
                 case GREAT:
-                    drawConnectline(canvas, preDate, nexDate);
+                    //drawConnectline(canvas, preDate, nexDate);
                     canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_gerat));
                     canvas.drawCircle((float) (mCellSpace * (col + 0.5)),(float) ((row + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case WARN:
-                    drawConnectline(canvas, preDate, nexDate);
+                    //drawConnectline(canvas, preDate, nexDate);
                     canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_warn));
                     canvas.drawCircle((float) (mCellSpace * (col + 0.5)),(float) ((row + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
                     break;
                 case BAD:
-                    drawConnectline(canvas, preDate, nexDate);
+                    //drawConnectline(canvas, preDate, nexDate);
                     canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     mCirclePaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_bad));
@@ -286,8 +286,6 @@ public class CalendarCard extends View {
                     break;
                 case PAST_MONTH_DAY: // 过去一个月
                 case NEXT_MONTH_DAY: // 下一个月
-                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_next_text));
-                    break;
                 case UNREACH_DAY: // 还未到的天
                     mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_next_text));
                     break;
@@ -298,6 +296,8 @@ public class CalendarCard extends View {
             String content = date.getDay() + "";
             canvas.drawText(content,(float) ((col + 0.5) * mCellSpace - mTextPaint.measureText(content) / 2), (float) ((row + 0.7)
                     * mCellSpace - mTextPaint.measureText(content, 0, 1) / 2), mTextPaint);
+
+
         }
 
         /**

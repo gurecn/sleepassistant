@@ -158,11 +158,13 @@ public class DateUtil {
      */
     public static SleepState transformState(SleepDataMode sleepDataMode) {
         int minutes = sleepDataMode.getHour() * 60 + sleepDataMode.getMinute();
-        if(minutes >= 1170 && minutes <= 1350){//19:30--22:30
+        if(minutes >= 1200 && minutes <= 1320){//20:00--22:00
             return SleepState.GREAT;
-        }else if(minutes > 1350 && minutes <= 1420){//22:30--23:40
+        }else if(minutes > 1320 && minutes < 1440){//22:00--24:00
             return SleepState.WARN;
-        } else {
+        } else if(minutes >= 1080 && minutes < 1200){//18:00--20:00
+            return SleepState.WARN;
+        }else {
             return SleepState.BAD;//其他时间
         }
     }

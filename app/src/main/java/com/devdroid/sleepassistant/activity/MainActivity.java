@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
             date.setHour(24 + date.getHour());
         }
         insertList.add(date);
-        LauncherModel.getInstance().getSnssdkTextDao().insertSleepDataItem(insertList);
+        LauncherModel.getInstance().getSleepDataDao().insertSleepDataItem(insertList);
         LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_SLEEP_TIME_HAS_SET, true);
     }
 
@@ -192,7 +192,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                             sleepDataMode.setHour(24 + sleepDataMode.getHour());
                         }
                         insertList.add(sleepDataMode);
-                        LauncherModel.getInstance().getSnssdkTextDao().insertSleepDataItem(insertList);
+                        LauncherModel.getInstance().getSleepDataDao().insertSleepDataItem(insertList);
                         adapter.getItem(mCurrentIndex % adapter.getAllItems().length).update(false);
                         LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_SLEEP_TIME_HAS_SET, true);
                         mViewPager.postDelayed(new Runnable() {
@@ -207,7 +207,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
 
     @Override
     public void changeDate(SleepDataMode date) {
-        mTvDateLable.setText(date.getYear() + "年" + date.getMonth() + "月");
+        mTvDateLable.setText(String.format("%s年%s月",date.getYear(),date.getMonth()));
     }
 
 
@@ -218,7 +218,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
             currentData = DateUtil.getPreviousDate(currentData);
             currentData.setHour(-1);
             currentData.setMinute(-1);
-            SleepDataMode sleepDataMode = LauncherModel.getInstance().getSnssdkTextDao().querySleepDataInfo(currentData.getYear(), currentData.getMonth(), currentData.getDay());
+            SleepDataMode sleepDataMode = LauncherModel.getInstance().getSleepDataDao().querySleepDataInfo(currentData.getYear(), currentData.getMonth(), currentData.getDay());
             if(sleepDataMode != null) {
                 sleepDataMode.setWeek(currentData.getWeek());
                 currentData = sleepDataMode;

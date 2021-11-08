@@ -45,7 +45,7 @@ public class LauncherModel {
     public SharedPreferencesManager getSharedPreferencesManager() {
         return mSharedPreferencesManager;
     }
-    public SleepDataDao getSnssdkTextDao() {
+    public SleepDataDao getSleepDataDao() {
         return mSleepDao;
     }
 
