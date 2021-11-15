@@ -57,6 +57,7 @@
     <string name="menu_item_chart_gengral_spline">折線圖</string>
     <string name="menu_item_applock_submit">提交</string>
     <string name="menu_item_applock_quit">退出</string>
+    <string name="applock">應用鎖</string>
     <string name="action_applock_settings">應用鎖設定</string>
     <string name="activity_agreement_lable">使用協定</string>
     <string name="date_picker_submit">確定</string>

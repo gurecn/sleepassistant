@@ -53,6 +53,7 @@
 
     <string name="menu_item_restriction_add">添加</string>
     <string name="menu_item_restriction_quit">退出</string>
+    <string name="applock">应用锁</string>
     <string name="action_applock_settings">应用锁设置</string>
     <string name="menu_item_applock_submit">提交</string>
     <string name="menu_item_applock_quit">退出</string>

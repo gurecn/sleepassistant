@@ -54,6 +54,18 @@
         <activity android:name=".activity.AgreementAvtivity"
             android:label="@string/activity_agreement_lable"
             android:launchMode="singleTask"/>
+
+        <service
+            android:name=".service.QsServer"
+            android:exported="true"
+            android:enabled="true"
+            android:icon="@mipmap/applock_lock"
+            android:label="@string/applock"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
