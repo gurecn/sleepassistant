@@ -10,6 +10,7 @@ import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.activity.AboutActivity;
 import com.devdroid.sleepassistant.activity.ChartActivity;
 import com.devdroid.sleepassistant.activity.FeedbackActivity;
+import com.devdroid.sleepassistant.activity.FeedbackTXActivity;
 import com.devdroid.sleepassistant.activity.MainActivity;
 import com.devdroid.sleepassistant.activity.RestrictionActivity;
 import com.devdroid.sleepassistant.activity.SettingsActivity;
@@ -46,7 +47,7 @@ public class NavigationItemSelectedListener  implements NavigationView.OnNavigat
                 shareText();
                 break;
             case R.id.nav_send :
-                mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, FeedbackActivity.class));
+                mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, FeedbackTXActivity.class));
                 break;
             case R.id.nav_about :
                 mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, AboutActivity.class));
