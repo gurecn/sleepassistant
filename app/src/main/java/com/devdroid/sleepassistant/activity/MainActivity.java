@@ -231,14 +231,13 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         if (v.getId() == R.id.cb_night_mode) {
             boolean isCheck = ((CheckBox) v).isChecked();
             LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, isCheck);
-            restartApplication();
+            restartApplication(isCheck);
         }
     }
 
     // 重启应用
-    private void restartApplication() {
-        boolean isNighMode = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
-        AppCompatDelegate.setDefaultNightMode(isNighMode?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_AUTO);
+    private void restartApplication(boolean isNightMode) {
+        AppCompatDelegate.setDefaultNightMode(isNightMode?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

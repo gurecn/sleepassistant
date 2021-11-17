@@ -47,9 +47,8 @@ public class TheApplication extends Application {
                 CrashHandler.getInstance().init(getAppContext());
                 LeakCanary.install(sInstance);
                 LauncherModel.initSingleton(getAppContext());
-                boolean isNighMode = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
-                Log.d("1111111111", "isNighMode:" + isNighMode);
-                AppCompatDelegate.setDefaultNightMode(isNighMode?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_AUTO);
+                boolean isNightMode = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
+                AppCompatDelegate.setDefaultNightMode(isNightMode?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 checkInitOnce();
 //              ApplockManager.initSingleton(getAppContext());
             }
