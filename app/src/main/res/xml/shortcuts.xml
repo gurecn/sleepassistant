@@ -23,7 +23,10 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.devdroid.sleepassistant"
-            android:targetClass="com.devdroid.sleepassistant.activity.SettingsActivity">
+            android:targetClass="com.devdroid.sleepassistant.activity.SkipActivity">
+            <extra
+                android:name="action"
+                android:value="set"/>
         </intent>
     </shortcut>
 </shortcuts>

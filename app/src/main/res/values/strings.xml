@@ -79,4 +79,6 @@
     <string name="date_picker_all_data">Whole</string>
     <string name="shortcut_sleep_time_lable">Sleep now</string>
     <string name="shortcutbackup_lable">Backup data</string>
+    <string name="shortcutabout_lable">About</string>
+    <string name="shortcuttest_lable">Test</string>
 </resources>

@@ -75,4 +75,6 @@
 
     <string name="shortcut_sleep_time_lable">现在睡觉</string>
     <string name="shortcutbackup_lable">备份数据</string>
+    <string name="shortcutabout_lable">关于</string>
+    <string name="shortcuttest_lable">测试</string>
 </resources>

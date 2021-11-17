@@ -68,4 +68,6 @@
     <string name="date_picker_all_data">全部</string>
     <string name="shortcut_sleep_time_lable">現在睡覺</string>
     <string name="shortcutbackup_lable">備份資料</string>
+    <string name="shortcutabout_lable">關於</string>
+    <string name="shortcuttest_lable">测试</string>
 </resources>
