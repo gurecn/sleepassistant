@@ -1,14 +1,17 @@
 package com.devdroid.sleepassistant.base;
 
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.LauncherModel;
+import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 
 public class BaseActivity extends AppCompatActivity {
 

@@ -8,7 +8,12 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -29,7 +34,7 @@ import java.util.List;
 /**
  * 主界面
  */
-public class MainActivity extends BaseActivity implements CalendarCard.OnCellClickListener{
+public class MainActivity extends BaseActivity implements CalendarCard.OnCellClickListener, View.OnClickListener {
     private ViewPager mViewPager;
     private CalendarViewAdapter<CalendarCard> adapter;
     private int mCurrentIndex = 1000;
@@ -57,12 +62,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
             String action = intent.getStringExtra("action");
             if("create_sleep_time_new".equals(action)){
                 createSleepTimeNew();
-                mViewPager.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        finish();
-                    }
-                }, 500);
+                mViewPager.postDelayed(this::finish, 500);
             }
         }
     }
@@ -91,10 +91,16 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
+        View headerView = navigationView.getHeaderView(0);
+        CheckBox cbNightMode = (CheckBox)headerView.findViewById(R.id.cb_night_mode);
+        boolean isChecked = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
+        cbNightMode.setChecked(isChecked);
+        cbNightMode.setOnClickListener(this);
         NavigationItemSelectedListener navigationItemSelectedListener = new NavigationItemSelectedListener(this, mDrawerLayout);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
         mViewPager = (ViewPager) this.findViewById(R.id.vp_calendar);
@@ -181,28 +187,19 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     @Override
     public void longClickDate(final SleepDataMode date) {
         Calendar calendar = Calendar.getInstance();
-        new TimePickerDialog(MainActivity.this,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        List<SleepDataMode> insertList = new LinkedList<>();
-                        SleepDataMode sleepDataMode = new SleepDataMode(date.getYear(), date.getMonth(), date.getDay(), hourOfDay, minute);
-                        if(hourOfDay < 6){  //认为,时间设置为 24 + 实际时间。如：凌晨1点，保存为：25
+        new TimePickerDialog(MainActivity.this, (view, hourOfDay, minute) -> {
+            List<SleepDataMode> insertList = new LinkedList<>();
+            SleepDataMode sleepDataMode = new SleepDataMode(date.getYear(), date.getMonth(), date.getDay(), hourOfDay, minute);
+            if(hourOfDay < 6){  //认为,时间设置为 24 + 实际时间。如：凌晨1点，保存为：25
 //                            sleepDataMode = DateUtil.getPreviousDate(sleepDataMode);
-                            sleepDataMode.setHour(24 + sleepDataMode.getHour());
-                        }
-                        insertList.add(sleepDataMode);
-                        LauncherModel.getInstance().getSleepDataDao().insertSleepDataItem(insertList);
-                        adapter.getItem(mCurrentIndex % adapter.getAllItems().length).update(false);
-                        LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_SLEEP_TIME_HAS_SET, true);
-                        mViewPager.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                initGengralSplineChart();
-                            }
-                        }, 500);
-                    }
-                },calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true).show();
+                sleepDataMode.setHour(24 + sleepDataMode.getHour());
+            }
+            insertList.add(sleepDataMode);
+            LauncherModel.getInstance().getSleepDataDao().insertSleepDataItem(insertList);
+            adapter.getItem(mCurrentIndex % adapter.getAllItems().length).update(false);
+            LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_SLEEP_TIME_HAS_SET, true);
+            mViewPager.postDelayed(this::initGengralSplineChart, 500);
+        },calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true).show();
     }
 
     @Override
@@ -226,5 +223,24 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
             sleepDataModes.add(0, currentData);
         }
         mGSCWeek.chartDataSet(sleepDataModes, true);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.cb_night_mode) {
+            boolean isCheck = ((CheckBox) v).isChecked();
+            LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, isCheck);
+            restartApplication();
+        }
+    }
+
+    // 重启应用
+    private void restartApplication() {
+        boolean isNighMode = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
+        AppCompatDelegate.setDefaultNightMode(isNighMode?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_AUTO);
+        Intent intent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

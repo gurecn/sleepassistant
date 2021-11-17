@@ -282,7 +282,7 @@ public class CalendarCard extends View {
                     canvas.drawCircle((float) (mCellSpace * (col + 0.5)), (float) ((row + 0.5) * mCellSpace), mCellSpace / 3 + 1f, mCircleHollowPaint);
                     break;
                 case CURRENT_MONTH_DAY: // 当前月日期
-                    mTextPaint.setColor(Color.BLACK);
+                    mTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_calendar_card_future_text));
                     break;
                 case PAST_MONTH_DAY: // 过去一个月
                 case NEXT_MONTH_DAY: // 下一个月

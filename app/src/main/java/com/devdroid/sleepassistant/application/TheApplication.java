@@ -2,6 +2,9 @@ package com.devdroid.sleepassistant.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
+
 import com.devdroid.sleepassistant.BuildConfig;
 import com.devdroid.sleepassistant.constant.CustomConstant;
 import com.devdroid.sleepassistant.manager.ApplockManager;
@@ -44,6 +47,9 @@ public class TheApplication extends Application {
                 CrashHandler.getInstance().init(getAppContext());
                 LeakCanary.install(sInstance);
                 LauncherModel.initSingleton(getAppContext());
+                boolean isNighMode = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
+                Log.d("1111111111", "isNighMode:" + isNighMode);
+                AppCompatDelegate.setDefaultNightMode(isNighMode?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_AUTO);
                 checkInitOnce();
 //              ApplockManager.initSingleton(getAppContext());
             }

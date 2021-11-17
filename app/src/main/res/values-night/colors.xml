@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="app_icon_background">#213788</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="viewcolor1">#b4b4b4</color>
+    <!--应用主题背景-->
+    <color name="app_main_background">#818181</color>
+    <color name="app_setting_background">#616161</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <!-- about 页面 -->
+    <color name="about_app_name">#434a54</color>
+    <color name="about_text_sub_color">#72ACE3</color>
+
+    //日历显示色纸
+    <color name="color_calendar_card_gerat">#4A7229</color>
+    <color name="color_calendar_card_warn">#F9ED01</color>
+    <color name="color_calendar_card_bad">#D92929</color>
+
+    <color name="color_calendar_card_yellow">#000B31</color>>
+    <color name="color_calendar_card_click">#0035F5</color>
+    <color name="color_calendar_card_future_text">#DDDDDD</color>
+    <color name="color_calendar_card_next_text">#666666</color>
+</resources>

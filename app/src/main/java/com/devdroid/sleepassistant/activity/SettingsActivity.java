@@ -78,7 +78,7 @@ public class SettingsActivity extends BaseActivity {
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
             case R.id.ll_setting_feedback:
-                startActivity(new Intent(this, FeedbackActivity.class));
+                startActivity(new Intent(this, FeedbackTXActivity.class));
                 break;
             case R.id.ll_setting_logout:
                 finish();

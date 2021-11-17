@@ -28,4 +28,6 @@ public class IPreferencesIds {
 
 
     public final static String KEY_SLEEP_TIME_HAS_SET = "key_sleep_time_set"; //用户已经设置过睡眠时间
+
+    public final static String KEY_THEME_NIGHT_MODE = "key_theme_night_mode"; //设置主题模式
 }

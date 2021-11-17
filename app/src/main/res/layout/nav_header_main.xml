@@ -32,7 +32,12 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/navigation_header_welcome_email" />
+        <CheckBox
+            android:id="@+id/cb_night_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:checked="false"
+            android:text="夜间模式"/>
     </LinearLayout>
-
-
 </LinearLayout>
