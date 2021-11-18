@@ -26,10 +26,7 @@ import java.util.TimerTask;
 public class RestrictionActivity extends BaseActivity{
     private List<AppLockBean> mAppLockBeens;      //所有应用
     private List<Integer> mClickPosition;       //操作过的应用坐标
-    private List<String> mInstalledPackages;
     private GridView mGvRestrictionApps;
-    private List<String> mComponentNames;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +44,7 @@ public class RestrictionActivity extends BaseActivity{
         super.onStart();
         new Timer().schedule(new TimerTask(){
             public void run() {
-                mInstalledPackages = AppUtils.getLauncherAppPackageNames(RestrictionActivity.this);
-                mComponentNames = LauncherModel.getInstance().getLockerDao().queryLockerInfo();
+                mAppLockBeens = AppUtils.getAppPackages(RestrictionActivity.this);
                 mGvRestrictionApps.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -61,15 +57,7 @@ public class RestrictionActivity extends BaseActivity{
 
     private void initData(){
         mClickPosition = new LinkedList<>();
-        if (mInstalledPackages != null) {
-            mAppLockBeens = new LinkedList<>();
-            for (String packageName:mInstalledPackages){
-                if (packageName != null && mComponentNames.contains(packageName)) {
-                    mAppLockBeens.add(new AppLockBean(true, packageName));
-                    continue;
-                }
-                mAppLockBeens.add(new AppLockBean(false,packageName));
-            }
+        if (mAppLockBeens != null) {
             RestrictionAppsAdapter adapter = new RestrictionAppsAdapter(this, mAppLockBeens);
             mGvRestrictionApps.setAdapter(adapter);
         }

@@ -1,6 +1,7 @@
 package com.devdroid.sleepassistant.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,8 @@ public class RestrictionAppsAdapter extends BaseAdapter {
         }
         AppLockBean appLockBean = list.get(i);
         String packageName = appLockBean.getPackageName();
-        holder.appIcon.setImageBitmap(AppUtils.loadAppIcon(context,packageName));
+        BitmapDrawable drawable = (BitmapDrawable)appLockBean.getDrawable();
+        holder.appIcon.setImageBitmap(drawable.getBitmap());
         String appNameString = AppUtils.getAppName(context,packageName);
         holder.appName.setText(appNameString);
         if (appLockBean.isLock()) {

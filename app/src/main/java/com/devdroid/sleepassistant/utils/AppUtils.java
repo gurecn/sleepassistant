@@ -23,6 +23,8 @@ import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.LauncherModel;
+import com.devdroid.sleepassistant.mode.AppLockBean;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -251,9 +253,37 @@ public class AppUtils {
 				}
 			}
 		}
-
 		return packNames;
 	}
+
+	/**
+	 * 获取安装的应用，返回AppLockBean
+	 * @param context context对象
+	 * @return
+	 */
+	public static List<AppLockBean> getAppPackages(Context context) {
+		List<ResolveInfo> infos = AppUtils.getLauncherApps(context);
+		List<AppLockBean> launcherApps = new ArrayList<>();
+		List<String> packNames = new ArrayList<>();
+		PackageManager pm = context.getPackageManager();
+		List<String> lockedApp = LauncherModel.getInstance().getLockerDao().queryLockerInfo();
+		if (infos != null) {
+			for (int i = 0; i < infos.size(); i++) {
+				ResolveInfo packageInfo = infos.get(i);
+				if (packageInfo != null) {
+					Drawable drawable = packageInfo.loadIcon(pm);
+					String packageName = packageInfo.activityInfo.packageName;
+
+					if (!packNames.contains(packageName)) {
+						packNames.add(packageName);
+						launcherApps.add(new AppLockBean(lockedApp.contains(packageName),packageName, drawable));
+					}
+				}
+			}
+		}
+		return launcherApps;
+	}
+
 	/**
 	 * 获取在功能菜单出现的程序列表
 	 * @param context 上下文
