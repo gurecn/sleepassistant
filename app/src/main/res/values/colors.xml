@@ -7,10 +7,10 @@
     <color name="viewcolor1">#b4b4b4</color>
     <!--应用主题背景-->
     <color name="app_main_background">#ffffff</color>
-    <color name="app_setting_background">#ffffff</color>
+    <color name="data_header_background">#ffffff</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#23134E</color>
     <!-- about 页面 -->
     <color name="about_app_name">#434a54</color>
     <color name="about_text_sub_color">#72ACE3</color>
@@ -24,4 +24,8 @@
     <color name="color_calendar_card_click">#FFCA0A</color>
     <color name="color_calendar_card_future_text">#131313</color>
     <color name="color_calendar_card_next_text">#999999</color>
+
+    <color name="title_text_color">#999999</color>
+    <color name="spline_color">#368DEE</color>
+    <color name="tick_label_color">#000000</color>
 </resources>

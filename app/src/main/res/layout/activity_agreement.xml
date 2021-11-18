@@ -27,7 +27,7 @@
             android:id="@+id/tv_agreement_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/app_setting_background"
+            android:background="@color/app_main_background"
             android:text=""
             android:padding="10dp"
             android:textColor="#333" />

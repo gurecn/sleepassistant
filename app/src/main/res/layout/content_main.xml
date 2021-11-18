@@ -23,12 +23,12 @@
         android:paddingTop="5dp"
         android:paddingBottom="15dp"
         android:orientation="vertical"
-        android:background="@color/app_setting_background">
+        android:background="@color/app_main_background">
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="20dip"
             android:layout_marginBottom="2dip"
-            android:background="@color/app_setting_background"
+            android:background="@color/data_header_background"
             android:paddingTop="2dip" >
             <TableRow>
                 <TextView

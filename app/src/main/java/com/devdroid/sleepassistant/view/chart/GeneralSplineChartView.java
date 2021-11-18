@@ -3,6 +3,9 @@ package com.devdroid.sleepassistant.view.chart;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.TheApplication;
 import com.devdroid.sleepassistant.xclcharts.chart.PointD;
 import com.devdroid.sleepassistant.xclcharts.chart.SplineChart;
 import com.devdroid.sleepassistant.xclcharts.chart.SplineData;
@@ -14,11 +17,13 @@ import com.devdroid.sleepassistant.xclcharts.renderer.info.AnchorDataPoint;
 import com.devdroid.sleepassistant.xclcharts.renderer.plot.PlotGrid;
 import com.devdroid.sleepassistant.xclcharts.view.ChartView;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -103,6 +108,8 @@ public class GeneralSplineChartView  extends BaseChartView {
             //居中
             chart.getDataAxis().setHorizontalTickAlign(Align.LEFT);
             chart.getDataAxis().getTickLabelPaint().setTextAlign(Align.CENTER);
+            int tickLabelColor = ContextCompat.getColor(getContext(), R.color.tick_label_color);
+            chart.getDataAxis().getTickLabelPaint().setColor(tickLabelColor);
             //封闭轴
             chart.setAxesClosed(false);
             //将线显示为直线，而不是平滑的
@@ -137,7 +144,8 @@ public class GeneralSplineChartView  extends BaseChartView {
             float time = hour + sleepDataMode.getMinute() / 60f;
             linePoint1.add(new PointD((double)(i + 1), (double) time));
         }
-        SplineData dataSeries1 = new SplineData("入睡时间曲线",linePoint1, Color.rgb(54, 141, 238) );
+        int splineColor = ContextCompat.getColor(getContext(), R.color.spline_color);
+        SplineData dataSeries1 = new SplineData("入睡时间曲线",linePoint1, splineColor);
         dataSeries1.getLinePaint().setStrokeWidth(2);//把线弄细点
         chartData.add(dataSeries1);
         chartRender(isWeek);

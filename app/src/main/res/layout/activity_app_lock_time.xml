@@ -22,7 +22,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_setting_background"
+        android:background="@color/app_main_background"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.devdroid.sleepassistant.activity.AppLockTimeActivity">
@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
+            android:textColor="@color/title_text_color"
             android:text="开始时间："/>
         <TimePicker
             android:id="@+id/timepicker_start"
@@ -42,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
+            android:textColor="@color/title_text_color"
             android:text="结束时间："/>
         <TimePicker
             android:id="@+id/timepicker_end"
@@ -53,6 +55,7 @@
             android:id="@+id/tv_applock_time_lable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/title_text_color"
             android:text="应用将在23:00 - 07:00不可用"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>

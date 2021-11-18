@@ -25,17 +25,9 @@
             style="@style/SettingItem"
             android:text="@string/item_setting_data_import"/>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_setting_about"
-        style="@style/SettingItemLinearLayout"
-        android:layout_marginTop="20dp">
-        <TextView
-            style="@style/SettingItem"
-            android:text="@string/nav_string_about"/>
-    </LinearLayout>
     <TextView
         style="@style/SettingItemDivide"/>
+
     <LinearLayout
         android:id="@+id/ll_setting_feedback"
         style="@style/SettingItemLinearLayout">
@@ -46,10 +38,21 @@
     <TextView
         style="@style/SettingItemDivide"/>
     <LinearLayout
+        android:id="@+id/ll_setting_about"
+        style="@style/SettingItemLinearLayout">
+        <TextView
+            style="@style/SettingItem"
+            android:text="@string/nav_string_about"/>
+    </LinearLayout>
+    <TextView
+        style="@style/SettingItemDivide"/>
+    <LinearLayout
         android:id="@+id/ll_setting_logout"
         style="@style/SettingItemLinearLayout">
         <TextView
             style="@style/SettingItem"
             android:text="@string/item_setting_logput"/>
     </LinearLayout>
+    <TextView
+        style="@style/SettingItemDivide"/>
 </LinearLayout>

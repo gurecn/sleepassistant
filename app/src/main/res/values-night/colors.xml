@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="app_icon_background">#213788</color>
-    <color name="white">#ffffff</color>
-    <color name="black">#000000</color>
-    <color name="viewcolor1">#b4b4b4</color>
     <!--应用主题背景-->
-    <color name="app_main_background">#818181</color>
-    <color name="app_setting_background">#616161</color>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <!-- about 页面 -->
-    <color name="about_app_name">#434a54</color>
-    <color name="about_text_sub_color">#72ACE3</color>
-
+    <color name="app_main_background">#000000</color>
+    <color name="colorPrimary">#36394E</color>
+    <color name="colorPrimaryDark">#34364E</color>
+    <color name="colorAccent">#23134E</color>
     //日历显示色纸
-    <color name="color_calendar_card_gerat">#4A7229</color>
-    <color name="color_calendar_card_warn">#F9ED01</color>
-    <color name="color_calendar_card_bad">#D92929</color>
+    <color name="data_header_background">#000000</color>
 
-    <color name="color_calendar_card_yellow">#000B31</color>>
-    <color name="color_calendar_card_click">#0035F5</color>
-    <color name="color_calendar_card_future_text">#DDDDDD</color>
-    <color name="color_calendar_card_next_text">#666666</color>
+    <color name="color_calendar_card_gerat">#104E3A</color>
+    <color name="color_calendar_card_warn">#4E4E05</color>
+    <color name="color_calendar_card_bad">#4E2808</color>
+
+    <color name="color_calendar_card_yellow">#494E29</color>>
+    <color name="color_calendar_card_click">#2C5479</color>
+    <color name="color_calendar_card_future_text">#898989</color>
+    <color name="color_calendar_card_next_text">#4E4E4E</color>
+
+    <color name="title_text_color">#999999</color>
+    <color name="spline_color">#999999</color>
+    <color name="tick_label_color">#999999</color>
 </resources>

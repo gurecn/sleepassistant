@@ -1,12 +1,21 @@
 package com.devdroid.sleepassistant.view.chart;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.TheApplication;
 import com.devdroid.sleepassistant.mode.SleepDataMode;
 
 import com.devdroid.sleepassistant.xclcharts.chart.CustomLineData;
@@ -91,9 +100,10 @@ public class SplineChartView extends ChartView{
             plot.hideVerticalLines();
             chart.getDataAxis().getAxisPaint().setColor(Color.rgb(127, 204, 204));
             chart.getCategoryAxis().getAxisPaint().setColor(Color.rgb(127, 204, 204));
-
             chart.getDataAxis().getTickMarksPaint().setColor(Color.rgb(127, 204, 204));
             chart.getCategoryAxis().getTickMarksPaint().setColor(Color.rgb(127, 204, 204));
+            int tickLabelColor = ContextCompat.getColor(getContext(), R.color.tick_label_color);
+            chart.getDataAxis().getTickLabelPaint().setColor(tickLabelColor);
             chart.getDataAxis().setHorizontalTickAlign(Paint.Align.LEFT);
 
             //定义数据轴标签显示格式
@@ -133,7 +143,8 @@ public class SplineChartView extends ChartView{
                 labels.add("");
             }
         }
-        SplineData dataSeries1 = new SplineData("入睡曲线",linePoint1, Color.rgb(54, 141, 238) );
+        int splineColor = ContextCompat.getColor(getContext(), R.color.spline_color);
+        SplineData dataSeries1 = new SplineData("入睡曲线",linePoint1, splineColor);
         //标签轴最大值
         chart.setCategoryAxisMax(sleepDataModes.size());
         //标签轴最小值
