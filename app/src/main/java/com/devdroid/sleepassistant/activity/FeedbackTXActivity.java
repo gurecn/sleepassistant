@@ -3,8 +3,11 @@ package com.devdroid.sleepassistant.activity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.base.BaseActivity;
@@ -21,6 +24,7 @@ public class FeedbackTXActivity extends BaseActivity {
   }
   private void init(){
     WebView webView = (WebView) findViewById(R.id.web_feed_back);
+    ProgressBar progressBar = findViewById(R.id.progressBar);
     webView.getSettings().setJavaScriptEnabled(true);
     webView.getSettings().setDomStorageEnabled(true);
     String url = "https://support.qq.com/product/365802";
@@ -35,6 +39,19 @@ public class FeedbackTXActivity extends BaseActivity {
     };
     webView.setWebViewClient(webViewClient);
 
+    WebChromeClient webChromeClient = new WebChromeClient(){
+      @Override
+      public void onProgressChanged(WebView view, int newProgress) {
+        super.onProgressChanged(view, newProgress);
+        if(newProgress==100){
+          progressBar.setVisibility(View.GONE);
+        } else{
+          progressBar.setVisibility(View.VISIBLE);
+          progressBar.setProgress(newProgress);
+        }
+      }
+    };
+    webView.setWebChromeClient(webChromeClient);
     webView.loadUrl(url);
   }
 

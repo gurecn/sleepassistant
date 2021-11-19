@@ -27,8 +27,16 @@
         tools:context="com.devdroid.sleepassistant.activity.FeedbackTXActivity"
         tools:showIn="@layout/activity_feedback_txactivity"
         android:background="@color/app_main_background">
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:progressDrawable="@drawable/web_progressbar"
+            android:layout_height="3dip"
+            android:visibility="gone"/>
         <WebView
             android:id="@+id/web_feed_back"
+            android:layout_below="@id/progressBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </RelativeLayout>

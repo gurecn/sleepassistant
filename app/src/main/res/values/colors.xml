@@ -4,6 +4,7 @@
     <color name="app_icon_background">#213788</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
+    <color name="web_progress_color">#006400</color>
     <color name="viewcolor1">#b4b4b4</color>
     <!--应用主题背景-->
     <color name="app_main_background">#ffffff</color>

@@ -34,7 +34,6 @@
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
-            android:documentLaunchMode="always"
             android:label="@string/nav_string_about"
             android:name=".activity.AboutActivity" />
         <activity
