@@ -6,4 +6,5 @@
     <item name="ic_menu_share" type="drawable">@mipmap/ic_share</item>
     <item name="ic_menu_edit" type="drawable">@mipmap/ic_edit</item>
     <item name="ic_menu_about" type="drawable">@mipmap/ic_about</item>
+    <item name="ic_menu_blogger" type="drawable">@mipmap/ic_blog</item>
 </resources>

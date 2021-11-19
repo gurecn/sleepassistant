@@ -12,6 +12,7 @@
     <string name="nav_string_restriction">强制</string>
     <string name="nav_string_chart">图表</string>
     <string name="nav_string_feedback">反馈</string>
+    <string name="nav_string_blogger">博客</string>
     <string name="nav_string_about">关于</string>
     <string name="feedback_content">以下是为解决您的问题所需的系统信息。我们绝不会收集您的任何个人信息。</string>
     <string name="container_hint_setting_feedback">请在这里写你的评论，提供尽可能多的细节。我们一直在倾听和改进。</string>

@@ -14,6 +14,7 @@ import com.devdroid.sleepassistant.activity.FeedbackTXActivity;
 import com.devdroid.sleepassistant.activity.MainActivity;
 import com.devdroid.sleepassistant.activity.RestrictionActivity;
 import com.devdroid.sleepassistant.activity.SettingsActivity;
+import com.devdroid.sleepassistant.activity.WebActivity;
 
 /**
  * 侧滑菜单事件监听
@@ -48,6 +49,9 @@ public class NavigationItemSelectedListener  implements NavigationView.OnNavigat
                 break;
             case R.id.nav_send :
                 mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, FeedbackTXActivity.class));
+                break;
+            case R.id.nav_blogger:
+                mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, WebActivity.class));
                 break;
             case R.id.nav_about :
                 mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, AboutActivity.class));

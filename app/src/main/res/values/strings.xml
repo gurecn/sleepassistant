@@ -25,6 +25,7 @@
     <!--侧滑菜单-->
     <string name="nav_string_restriction">Force</string>
     <string name="nav_string_share">Share</string>
+    <string name="nav_string_blogger">Bolgger</string>
     <string name="nav_string_feedback">FeedBack</string>
     <string name="nav_string_about">About</string>
 

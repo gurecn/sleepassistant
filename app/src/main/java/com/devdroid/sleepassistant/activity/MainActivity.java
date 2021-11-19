@@ -100,7 +100,6 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         CheckBox cbNightMode = (CheckBox)headerView.findViewById(R.id.cb_night_mode);
         boolean isChecked = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
         cbNightMode.setChecked(isChecked);
-        cbNightMode.setOnClickListener(this);
         NavigationItemSelectedListener navigationItemSelectedListener = new NavigationItemSelectedListener(this, mDrawerLayout);
         navigationView.setNavigationItemSelectedListener(navigationItemSelectedListener);
         mViewPager = (ViewPager) this.findViewById(R.id.vp_calendar);
@@ -228,10 +227,16 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.cb_night_mode) {
-            boolean isCheck = ((CheckBox) v).isChecked();
-            LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, isCheck);
-            restartApplication(isCheck);
+        switch (v.getId()){
+            case R.id.cb_night_mode:
+                boolean isCheck = ((CheckBox) v).isChecked();
+                LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, isCheck);
+                restartApplication(isCheck);
+                break;
+            case R.id.tv_nav_header_main_devdroid:
+            case R.id.tv_nav_header_main_email:
+                startActivity(new Intent(this, WebActivity.class));
+                break;
         }
     }
 
