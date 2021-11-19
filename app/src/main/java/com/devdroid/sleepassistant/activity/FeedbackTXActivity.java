@@ -20,8 +20,14 @@ public class FeedbackTXActivity extends BaseActivity {
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
     init();
   }
+
   private void init(){
     WebView webView = (WebView) findViewById(R.id.web_feed_back);
     ProgressBar progressBar = findViewById(R.id.progressBar);

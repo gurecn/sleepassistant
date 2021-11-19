@@ -15,6 +15,8 @@ import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.mode.AppLockBean;
 import com.devdroid.sleepassistant.utils.AppUtils;
+import com.devdroid.sleepassistant.utils.thread.ThreadPoolUtils;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
@@ -42,7 +44,8 @@ public class RestrictionActivity extends BaseActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        new Timer().schedule(new TimerTask(){
+        ThreadPoolUtils.executeSingleton(new Runnable() {
+            @Override
             public void run() {
                 mAppLockBeens = AppUtils.getAppPackages(RestrictionActivity.this);
                 mGvRestrictionApps.postDelayed(new Runnable() {
@@ -52,7 +55,7 @@ public class RestrictionActivity extends BaseActivity{
                     }
                 }, 0);
             }
-        }, 10);
+        });
     }
 
     private void initData(){

@@ -5,20 +5,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
-
+import com.devdroid.sleepassistant.utils.thread.ThreadPoolUtils;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 应用引导页
@@ -41,16 +38,15 @@ public class GuideActivity extends BaseActivity {
                 return;
             }
         }
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        initData();
+        ThreadPoolUtils.schedule(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(GuideActivity.this, MainActivity.class);
                 GuideActivity.this.startActivity(intent);
                 GuideActivity.this.finish();
             }
-        }, 1000);
-        initData();
+        }, 500, TimeUnit.MILLISECONDS);
     }
 
     @Override

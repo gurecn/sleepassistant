@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.devdroid.sleepassistant.manager.ApplockManager;
-import com.devdroid.sleepassistant.utils.Logger;
 /**
  * 监听时间变化
  */
