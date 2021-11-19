@@ -1,11 +1,18 @@
 package com.devdroid.sleepassistant.listener;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.activity.AboutActivity;
 import com.devdroid.sleepassistant.activity.ChartActivity;
@@ -15,6 +22,7 @@ import com.devdroid.sleepassistant.activity.MainActivity;
 import com.devdroid.sleepassistant.activity.RestrictionActivity;
 import com.devdroid.sleepassistant.activity.SettingsActivity;
 import com.devdroid.sleepassistant.activity.WebActivity;
+import com.devdroid.sleepassistant.utils.AppUtils;
 
 /**
  * 侧滑菜单事件监听
@@ -48,7 +56,7 @@ public class NavigationItemSelectedListener  implements NavigationView.OnNavigat
                 shareText();
                 break;
             case R.id.nav_send :
-                mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, FeedbackTXActivity.class));
+                AppUtils.feedbackDialog(mAppCompatActivity);
                 break;
             case R.id.nav_blogger:
                 mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, WebActivity.class));

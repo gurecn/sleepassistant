@@ -78,4 +78,9 @@
     <string name="shortcutbackup_lable">备份数据</string>
     <string name="shortcutabout_lable">关于</string>
     <string name="shortcuttest_lable">测试</string>
+
+    <string name="dialog_feed_back_content">我们需要您的声音，向我们提出建议，更好的为大家提供服务。</string>
+    <string name="dialog_feed_back_button_good">好评</string>
+    <string name="dialog_feed_back_button_rant">吐槽</string>
+
 </resources>

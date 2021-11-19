@@ -82,4 +82,8 @@
     <string name="shortcutbackup_lable">Backup data</string>
     <string name="shortcutabout_lable">About</string>
     <string name="shortcuttest_lable">Test</string>
+
+    <string name="dialog_feed_back_content">We need your voice to help us make suggestions and better serve everyone.</string>
+    <string name="dialog_feed_back_button_good">Praise</string>
+    <string name="dialog_feed_back_button_rant">criticize</string>
 </resources>

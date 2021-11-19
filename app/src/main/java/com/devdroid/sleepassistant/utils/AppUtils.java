@@ -5,11 +5,14 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -18,12 +21,16 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.activity.FeedbackTXActivity;
 import com.devdroid.sleepassistant.application.LauncherModel;
+import com.devdroid.sleepassistant.application.TheApplication;
+import com.devdroid.sleepassistant.constant.CustomConstant;
 import com.devdroid.sleepassistant.mode.AppLockBean;
 import java.io.BufferedReader;
 import java.io.File;
@@ -662,5 +669,106 @@ public class AppUtils {
 			}
 		}
 		return topActivity;
+	}
+
+
+	/**
+	 * 打开google play客户端跳转到助理详情页<br>
+	 *
+	 * @param context
+	 */
+	public static void openGP(Context context) {
+		openGooglePlay(context, CustomConstant.PACKAGE_NAME);
+	}
+
+	/**
+	 * 跳转到指定应用的google play的详情页<br>
+	 *
+	 */
+	public static boolean openGooglePlay(Context context, String packageName) {
+		if (TextUtils.isEmpty(packageName)) {
+			return false;
+		}
+		return openGooglePlay(context, "market://details?id=" + packageName, "https://play.google.com/store/apps/details?id=" + packageName);
+	}
+
+	/**
+	 * 跳转到google play, 优先跳转到客户端，若失败尝试跳转到网页
+	 *
+	 */
+	public static boolean openGooglePlay(Context context, String uriString, String urlString) {
+		boolean isOk = false;
+		if (!TextUtils.isEmpty(uriString)) {
+			// 先尝试打开客户端
+			isOk = openActivitySafely(context, Intent.ACTION_VIEW, uriString, "com.android.vending");
+			if (!isOk) {
+				isOk = openActivitySafely(context, Intent.ACTION_VIEW, uriString, null);
+			}
+		}
+		if (!isOk) {
+			if (!TextUtils.isEmpty(urlString)) {
+				// 试试打开浏览器
+				isOk = openActivitySafely(context, Intent.ACTION_VIEW, urlString, null);
+			}
+		}
+		return isOk;
+	}
+
+
+
+	/**
+	 * 安全地打开外部的activity
+	 *
+	 * @param action      如Intent.ACTION_VIEW
+	 * @param uri
+	 * @param packageName 可选，明确要跳转的程序的包名
+	 * @return 是否成功
+	 */
+	public static boolean openActivitySafely(Context context, String action, String uri, String packageName) {
+		boolean isOk = true;
+		try {
+			Uri uriData = Uri.parse(uri);
+			final Intent intent = new Intent(action, uriData);
+			if (!TextUtils.isEmpty(packageName)) {
+				intent.setPackage(packageName);
+			}
+			if (!(context instanceof Activity)) {
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			}
+			context.startActivity(intent);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			isOk = false;
+		}
+		return isOk;
+	}
+
+	/**
+	 * 反馈对话框
+	 */
+	public static void feedbackDialog(Context context) {
+
+		AlertDialog.Builder normalDialog = new AlertDialog.Builder(context);
+		normalDialog.setTitle(context.getString(R.string.nav_string_feedback));
+		normalDialog.setMessage(context.getString(R.string.dialog_feed_back_content));
+		normalDialog.setNeutralButton(context.getString(R.string.dialog_feed_back_button_good),
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						Context context = ((AlertDialog)dialog).getContext();
+						AppUtils.openGP(context);
+					}
+				});
+		normalDialog.setPositiveButton(context.getString(R.string.dialog_feed_back_button_rant),
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						Context context = ((AlertDialog)dialog).getContext();
+						context.startActivity(new Intent(context, FeedbackTXActivity.class));
+					}
+				});
+		normalDialog.show();
 	}
 }
