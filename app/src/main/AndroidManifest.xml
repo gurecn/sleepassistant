@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.devdroid.sleepassistant">
 
     <application
@@ -13,6 +14,7 @@
         <activity
             android:exported="true"
             android:name=".activity.WebActivity" />
+
         <activity
             android:label="@string/nav_string_feedback"
             android:name=".activity.FeedbackTXActivity" />
@@ -26,6 +28,7 @@
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -54,13 +57,17 @@
         <activity
             android:label="@string/activity_agreement_lable"
             android:name=".activity.AgreementAvtivity" />
-
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="AEdPqrEAAAAI167NPva4gCLWcckeKkKb8r5Zh2MB6Lvdbw5Tjw" />
+
         <meta-data
             android:name="channel"
             android:value="${COM_DEVDROID_CHANNEL_VALUE}" />
+        <receiver
+            android:enabled="true"
+            android:exported="true"
+            android:name=".receiver.AlarmReceiver"/>
 
         <service
             android:enabled="true"
@@ -74,12 +81,20 @@
             </intent-filter>
         </service>
     </application>
-    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 获取正在运行的任务列表权限，智能预加载需要权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <!--
+     充许用户在设置(设置 -> 安全 -> 高级 -> 有权查看使用情况的应用(Apps with
+	 * usage access))中授权后可访问用户的应用使用统计信息，如识当前打开的应用
+    -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
 
 </manifest>

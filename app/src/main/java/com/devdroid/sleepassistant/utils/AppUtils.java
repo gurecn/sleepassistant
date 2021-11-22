@@ -1,5 +1,6 @@
 package com.devdroid.sleepassistant.utils;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -26,6 +27,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
+
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.activity.FeedbackTXActivity;
 import com.devdroid.sleepassistant.application.LauncherModel;
@@ -40,6 +43,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 /**
@@ -770,5 +775,33 @@ public class AppUtils {
 					}
 				});
 		normalDialog.show();
+	}
+
+
+	public static String getTaskPackageName(Context context) {
+		String currentApp = "CurrentNULL";
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+			@SuppressLint("WrongConstant") UsageStatsManager usm = (UsageStatsManager) context.getSystemService("usagestats");
+			long time = System.currentTimeMillis();
+			List<UsageStats> appList = usm.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, time - 1000 * 1000, time);
+			if (appList != null && appList.size() > 0) {
+				SortedMap<Long, UsageStats> mySortedMap = new TreeMap<>();
+				for (UsageStats usageStats : appList) {
+					if ("android".equals(usageStats.getPackageName())) {
+						continue;
+					}
+					mySortedMap.put(usageStats.getLastTimeUsed(), usageStats);
+				}
+				if (!mySortedMap.isEmpty()) {
+					currentApp = mySortedMap.get(mySortedMap.lastKey()).getPackageName();
+				}
+			}
+		} else {
+			ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+			List<ActivityManager.RunningAppProcessInfo> tasks = am.getRunningAppProcesses();
+			currentApp = tasks.get(0).processName;
+		}
+		Log.d("1111111", "Current App in foreground is: " + currentApp);
+		return currentApp;
 	}
 }

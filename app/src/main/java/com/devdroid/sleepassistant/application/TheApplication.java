@@ -12,6 +12,7 @@ import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.preferences.SharedPreferencesManager;
 import com.devdroid.sleepassistant.utils.AppUtils;
 import com.devdroid.sleepassistant.utils.CrashHandler;
+import com.devdroid.sleepassistant.utils.LockerManagerUtils;
 import com.squareup.leakcanary.LeakCanary;
 
 public class TheApplication extends Application {
@@ -47,6 +48,8 @@ public class TheApplication extends Application {
                 CrashHandler.getInstance().init(getAppContext());
                 LeakCanary.install(sInstance);
                 LauncherModel.initSingleton(getAppContext());
+                LockerManagerUtils.initSingleton(getAppContext());
+                ApplockManager.initSingleton(getAppContext());
                 boolean isNightMode = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
                 AppCompatDelegate.setDefaultNightMode(isNightMode?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 checkInitOnce();

@@ -4,6 +4,7 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -11,7 +12,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
+import com.devdroid.sleepassistant.application.TheApplication;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
+import com.devdroid.sleepassistant.utils.AlarmManagerUtils;
+
 public class AppLockTimeActivity extends AppCompatActivity{
 
     private TimePicker timePickerStart;
@@ -96,6 +100,8 @@ public class AppLockTimeActivity extends AppCompatActivity{
                 }
                 LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.APP_LOCK_RESTRICTION_SRART_TIME, startTime);
                 LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.APP_LOCK_RESTRICTION_END_TIME, endTime);
+                 AlarmManagerUtils.startAlarm(TheApplication.getAppContext());
+                 Log.d("111111111111", "startAlarm");
                 this.finish();
                 break;
         }
