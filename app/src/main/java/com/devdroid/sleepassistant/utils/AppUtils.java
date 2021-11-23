@@ -279,14 +279,14 @@ public class AppUtils {
 		List<String> packNames = new ArrayList<>();
 		PackageManager pm = context.getPackageManager();
 		List<String> lockedApp = LauncherModel.getInstance().getLockerDao().queryLockerInfo();
+		List<String>  homePackageNames = getLauncherPackageNames(context);
 		if (infos != null) {
 			for (int i = 0; i < infos.size(); i++) {
 				ResolveInfo packageInfo = infos.get(i);
 				if (packageInfo != null) {
 					Drawable drawable = packageInfo.loadIcon(pm);
 					String packageName = packageInfo.activityInfo.packageName;
-
-					if (!packNames.contains(packageName)) {
+					if (!homePackageNames.contains(packageName) && !packNames.contains(packageName) && !packageName.equals(CustomConstant.PACKAGE_NAME)) {
 						packNames.add(packageName);
 						launcherApps.add(new AppLockBean(lockedApp.contains(packageName),packageName, drawable));
 					}
@@ -372,7 +372,7 @@ public class AppUtils {
 	 * 该权限是系统级别的权限, 不授予第三方应用, 但是第三方应用可以让用户主动授权该权限<br>
 	 * 用于5.1版本或以上版本<br>
 	 */
-	private static boolean isPermissionPackageUsageStatsGrandedLollipopMr1(Context context) {
+	public static boolean isPermissionPackageUsageStatsGrandedLollipopMr1(Context context) {
 		return Machine.HAS_SDK_5_1_1 && isPermissionPackageUsageStatsGranded(getSystemServiceUsageStatsManager(context));
 	}
 	/**
@@ -609,8 +609,7 @@ public class AppUtils {
 		intent.addCategory(Intent.CATEGORY_HOME);
 		List<ResolveInfo> resolveInfo = null;
 		try {
-			resolveInfo = packageManager.queryIntentActivities(intent,
-					PackageManager.MATCH_DEFAULT_ONLY);
+			resolveInfo = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -630,7 +629,7 @@ public class AppUtils {
 	 * 该权限是系统级别的权限, 不授予第三方应用, 但是第三方应用可以让用户主动授权该权限<br>
 	 * 用于5.0版本<br>
 	 */
-	private static boolean isPermissionPackageUsageStatsGrandedOnLollipop(Context context) {
+	public static boolean isPermissionPackageUsageStatsGrandedOnLollipop(Context context) {
 		return Machine.HAS_SDK_LOLLIPOP && isPermissionPackageUsageStatsGranded(getSystemServiceUsageStatsManager(context));
 	}
 
@@ -801,7 +800,7 @@ public class AppUtils {
 			List<ActivityManager.RunningAppProcessInfo> tasks = am.getRunningAppProcesses();
 			currentApp = tasks.get(0).processName;
 		}
-		Log.d("1111111", "Current App in foreground is: " + currentApp);
+		Log.d("getTaskPackageName", "Current App in foreground is: " + currentApp);
 		return currentApp;
 	}
 }

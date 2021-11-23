@@ -6,7 +6,7 @@
 
     <string name="action_settings">设置</string>
     <string name="checknet_setting_feedback">请检查你的网络</string>
-    <string name="navigation_header_welcome_email">goleizh@163.com</string>
+    <string name="navigation_header_welcome_email">gurecn@gmail.com</string>
     <string name="nav_string_share">分享</string>
     <string name="nav_string_calendar">日历</string>
     <string name="nav_string_restriction">强制</string>
@@ -82,5 +82,11 @@
     <string name="dialog_feed_back_content">我们需要您的声音，向我们提出建议，更好的为大家提供服务。</string>
     <string name="dialog_feed_back_button_good">好评</string>
     <string name="dialog_feed_back_button_rant">吐槽</string>
+
+
+    <string name="dialog_lock_time_content">应用锁功能需申请“使用情况访问”权限，用于判断当前APP是否在禁用范围之内</string>
+    <string name="dialog_lock_time_open_method">开启方式</string>
+    <string name="dialog_lock_time_ok">立即开启</string>
+    <string name="dialog_lock_time_cancel">暂不使用</string>
 
 </resources>

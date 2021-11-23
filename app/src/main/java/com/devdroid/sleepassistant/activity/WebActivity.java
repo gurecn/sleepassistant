@@ -3,6 +3,7 @@ package com.devdroid.sleepassistant.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +36,10 @@ public class WebActivity extends BaseActivity {
     ProgressBar progressBar = findViewById(R.id.progressBar);
     mWebView.getSettings().setJavaScriptEnabled(true);
     mWebView.getSettings().setDomStorageEnabled(true);
-    String url = "https://devdroid.cn/";
+    String url = getIntent().getStringExtra("url");
+    if(TextUtils.isEmpty(url)) {
+      url = "https://devdroid.cn/";
+    }
     WebViewClient webViewClient = new WebViewClient() {
       @Override
       public boolean shouldOverrideUrlLoading(WebView view, String url) {

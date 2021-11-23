@@ -1,6 +1,11 @@
 package com.devdroid.sleepassistant.activity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +20,7 @@ import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.application.TheApplication;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.AlarmManagerUtils;
+import com.devdroid.sleepassistant.utils.AppUtils;
 
 public class AppLockTimeActivity extends AppCompatActivity{
 
@@ -90,21 +96,75 @@ public class AppLockTimeActivity extends AppCompatActivity{
                 finish();
                 break;
             case R.id.item_applock_submit:
-                int startMinue = timePickerStart.getCurrentMinute();
-                int startTime = Integer.parseInt(timePickerStart.getCurrentHour( )+ "" + (startMinue > 9 ? startMinue:("0" + startMinue)));
-                int endMinue = timePickerEnd.getCurrentMinute();
-                int endTime = Integer.parseInt(timePickerEnd.getCurrentHour() + "" + (endMinue > 9 ? endMinue:("0" + endMinue)));
-                if (startTime == endTime){
-                    Toast.makeText(this,"开始时间不能与结束时间相同",Toast.LENGTH_SHORT).show();
-                    return true;
+                if(!AppUtils.isPermissionPackageUsageStatsGrandedLollipopMr1(this)){
+                    applyPermissionDialog(this);
+                } else {
+                    submiTime();
                 }
-                LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.APP_LOCK_RESTRICTION_SRART_TIME, startTime);
-                LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.APP_LOCK_RESTRICTION_END_TIME, endTime);
-                 AlarmManagerUtils.startAlarm(TheApplication.getAppContext());
-                 Log.d("111111111111", "startAlarm");
-                this.finish();
+                break;
+            default:
                 break;
         }
         return true;
+    }
+
+    /**
+     * 记录时间
+     */
+    private void submiTime() {
+
+        int startMinue = timePickerStart.getCurrentMinute();
+        int startTime = Integer.parseInt(timePickerStart.getCurrentHour( )+ "" + (startMinue > 9 ? startMinue:("0" + startMinue)));
+        int endMinue = timePickerEnd.getCurrentMinute();
+        int endTime = Integer.parseInt(timePickerEnd.getCurrentHour() + "" + (endMinue > 9 ? endMinue:("0" + endMinue)));
+        if (startTime == endTime){
+            Toast.makeText(this,"开始时间不能与结束时间相同",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.APP_LOCK_RESTRICTION_SRART_TIME, startTime);
+        LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.APP_LOCK_RESTRICTION_END_TIME, endTime);
+        AlarmManagerUtils.startAlarm(TheApplication.getAppContext());
+        Log.d("111111111111", "startAlarm");
+        this.finish();
+    }
+
+
+    /**
+     * 开启PACKAGE_USAGE_STAT权限对话框
+     */
+    private void applyPermissionDialog(Context context) {
+
+        AlertDialog.Builder normalDialog = new AlertDialog.Builder(context);
+        normalDialog.setMessage(context.getString(R.string.dialog_lock_time_content));
+        normalDialog.setNeutralButton(context.getString(R.string.dialog_lock_time_open_method),
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    Context context = ((AlertDialog)dialog).getContext();
+                    Intent intent = new Intent(AppLockTimeActivity.this, WebActivity.class);
+                    //TODO 暂时使用钉钉通知权限指导替代
+                    intent.putExtra("url", "https://csmobile.alipay.com/detailSolution.htm?knowledgeType=1&scene=dd_gdwt&questionId=201602241513");
+                    context.startActivity(intent);
+                }
+            });
+        normalDialog.setNegativeButton(context.getString(R.string.dialog_lock_time_ok),
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    Context context = ((AlertDialog)dialog).getContext();
+                    Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                    context.startActivity(intent);
+                }
+            });
+        normalDialog.setPositiveButton(context.getString(R.string.dialog_lock_time_cancel),
+            new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        normalDialog.show();
     }
 }

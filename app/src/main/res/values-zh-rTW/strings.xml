@@ -5,7 +5,7 @@
     <string name="navigation_drawer_close">關閉導航</string>
 
     <string name="action_settings">設置</string>
-    <string name="navigation_header_welcome_email">goleizh@163.com</string>
+    <string name="navigation_header_welcome_email">gurecn@gmail.com</string>
     <string name="about_policy">隱私政策</string>
     <string name="about_rights">\ @ 2014-2016 android開發團隊。版權所有。</string>
     <string name="activity_setting_feedback_common">反饋類型</string>
@@ -75,4 +75,9 @@
     <string name="dialog_feed_back_content">我們需要您的聲音，向我們提出建議，更好的為大家提供服務。</string>
     <string name="dialog_feed_back_button_good">好評</string>
     <string name="dialog_feed_back_button_rant">吐槽</string>
+    <string name="dialog_lock_time_content">應用鎖功能需申請“使用情况訪問”許可權，用於判斷當前APP是否在禁用範圍之內</string>
+    <string name="dialog_lock_time_open_method">開啟方法</string>
+    <string name="dialog_lock_time_ok">立即開啟</string>
+    <string name="dialog_lock_time_cancel">暫不使用</string>
+
 </resources>

@@ -86,4 +86,9 @@
     <string name="dialog_feed_back_content">We need your voice to help us make suggestions and better serve everyone.</string>
     <string name="dialog_feed_back_button_good">Praise</string>
     <string name="dialog_feed_back_button_rant">criticize</string>
+
+    <string name="dialog_lock_time_content">The Force function needs to apply for "Usage information access" permission to judge whether the current app is within the disabled range</string>
+    <string name="dialog_lock_time_open_method">Open Method</string>
+    <string name="dialog_lock_time_ok">Open now</string>
+    <string name="dialog_lock_time_cancel">Not open</string>
 </resources>
