@@ -2,6 +2,8 @@ package com.devdroid.sleepassistant.activity;
 
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
@@ -10,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -27,6 +30,12 @@ import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.DateUtil;
 import com.devdroid.sleepassistant.view.CalendarCard;
 import com.devdroid.sleepassistant.view.chart.GeneralSplineChartView;
+import com.jinrishici.sdk.android.JinrishiciClient;
+import com.jinrishici.sdk.android.listener.JinrishiciCallback;
+import com.jinrishici.sdk.android.model.DataBean;
+import com.jinrishici.sdk.android.model.JinrishiciRuntimeException;
+import com.jinrishici.sdk.android.model.PoetySentence;
+
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +51,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     private TextView mTvDateLable;
     private GeneralSplineChartView mGSCWeek;
     private DrawerLayout mDrawerLayout;
+    private TextView mTvJinRiShiCi;
 
     enum SildeDirection {
         RIGHT, LEFT, NO_SILDE
@@ -65,6 +75,25 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                 mViewPager.postDelayed(this::finish, 500);
             }
         }
+        JinrishiciClient client = JinrishiciClient.getInstance();
+        client.getOneSentenceBackground(new JinrishiciCallback() {
+            @Override
+            public void done(PoetySentence poetySentence) {
+                DataBean dataBean = poetySentence.getData();
+                if(dataBean != null) {
+                    String shici = poetySentence.getData().getContent();
+                    if (!TextUtils.isEmpty(shici)) {
+                        shici = shici.replaceAll(",|，", "，\n");
+                        mTvJinRiShiCi.setText(shici);
+                    }
+                }
+            }
+
+            @Override
+            public void error(JinrishiciRuntimeException e) {
+                Log.d("111111", "error: code = " + e.getCode() + " message = " + e.getMessage());
+            }
+        });
     }
 
     private void createSleepTimeNew() {
@@ -97,6 +126,11 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
         View headerView = navigationView.getHeaderView(0);
+        mTvJinRiShiCi = (TextView)headerView.findViewById(R.id.tv_nav_header_jinrishici);
+        //从asset 读取字体
+        AssetManager mgr = getAssets();
+        Typeface tf = Typeface.createFromAsset(mgr, "fonts/FZSTK.TTF");//仿宋
+        mTvJinRiShiCi.setTypeface(tf);
         CheckBox cbNightMode = (CheckBox)headerView.findViewById(R.id.cb_night_mode);
         boolean isChecked = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
         cbNightMode.setChecked(isChecked);

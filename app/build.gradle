@@ -89,6 +89,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.0.0+'
     implementation 'com.android.support:design:26.0.0+'
+    implementation 'com.jinrishici:android-sdk:1.5'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     compile files('libs/eventbus-2.4.0.jar')

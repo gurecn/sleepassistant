@@ -11,11 +11,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@mipmap/ic_launcher" />
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:src="@mipmap/ic_launcher" />
+        <TextView
+            android:id="@+id/tv_nav_header_jinrishici"
+            android:paddingLeft="10dp"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_nav_header_main_devdroid"
         android:onClick="onClick"

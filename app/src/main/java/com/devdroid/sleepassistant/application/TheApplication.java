@@ -13,6 +13,9 @@ import com.devdroid.sleepassistant.preferences.SharedPreferencesManager;
 import com.devdroid.sleepassistant.utils.AppUtils;
 import com.devdroid.sleepassistant.utils.CrashHandler;
 import com.devdroid.sleepassistant.utils.LockerManagerUtils;
+import com.devdroid.sleepassistant.utils.thread.ThreadPoolUtils;
+import com.jinrishici.sdk.android.JinrishiciClient;
+import com.jinrishici.sdk.android.factory.JinrishiciFactory;
 import com.squareup.leakcanary.LeakCanary;
 
 public class TheApplication extends Application {
@@ -42,21 +45,22 @@ public class TheApplication extends Application {
     }
 
     private void onInitDataChildThread() {
-        Thread thread = new Thread(new Runnable() {
+        ThreadPoolUtils.executeSingleton(new Runnable() {
             @Override
             public void run() {
                 CrashHandler.getInstance().init(getAppContext());
-                LeakCanary.install(sInstance);
+//                LeakCanary.install(sInstance);
                 LauncherModel.initSingleton(getAppContext());
                 LockerManagerUtils.initSingleton(getAppContext());
                 ApplockManager.initSingleton(getAppContext());
                 boolean isNightMode = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
                 AppCompatDelegate.setDefaultNightMode(isNightMode?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 checkInitOnce();
+                //今日诗词初始化
+                JinrishiciFactory.init(getAppContext());
 //              ApplockManager.initSingleton(getAppContext());
             }
         });
-        thread.start();
     }
 
     private void startServerAndReceiver() {
