@@ -34,6 +34,7 @@ import com.jinrishici.sdk.android.JinrishiciClient;
 import com.jinrishici.sdk.android.listener.JinrishiciCallback;
 import com.jinrishici.sdk.android.model.DataBean;
 import com.jinrishici.sdk.android.model.JinrishiciRuntimeException;
+import com.jinrishici.sdk.android.model.OriginBean;
 import com.jinrishici.sdk.android.model.PoetySentence;
 
 import java.util.Calendar;
@@ -52,6 +53,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     private GeneralSplineChartView mGSCWeek;
     private DrawerLayout mDrawerLayout;
     private TextView mTvJinRiShiCi;
+    private OriginBean mBeanOrigin;
 
     enum SildeDirection {
         RIGHT, LEFT, NO_SILDE
@@ -80,10 +82,11 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
             @Override
             public void done(PoetySentence poetySentence) {
                 DataBean dataBean = poetySentence.getData();
+                mBeanOrigin = dataBean.getOrigin();
                 if(dataBean != null) {
                     String shici = poetySentence.getData().getContent();
                     if (!TextUtils.isEmpty(shici)) {
-                        shici = shici.replaceAll(",|，", "，\n");
+                        shici = shici.replaceAll("(，|,|\\.|。|;|；|\\?|？)", "$1\n");
                         mTvJinRiShiCi.setText(shici);
                     }
                 }
@@ -129,7 +132,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         mTvJinRiShiCi = (TextView)headerView.findViewById(R.id.tv_nav_header_jinrishici);
         //从asset 读取字体
         AssetManager mgr = getAssets();
-        Typeface tf = Typeface.createFromAsset(mgr, "fonts/FZSTK.TTF");//仿宋
+        Typeface tf = Typeface.createFromAsset(mgr, "fonts/STKAITI.TTF");//仿宋
         mTvJinRiShiCi.setTypeface(tf);
         CheckBox cbNightMode = (CheckBox)headerView.findViewById(R.id.cb_night_mode);
         boolean isChecked = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
@@ -270,6 +273,11 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
             case R.id.tv_nav_header_main_devdroid:
             case R.id.tv_nav_header_main_email:
                 startActivity(new Intent(this, WebActivity.class));
+                break;
+            case R.id.tv_nav_header_jinrishici:
+                Intent intent = new Intent(this, ShiciActivity.class);
+                intent.putExtra("BeanOrigin", mBeanOrigin);
+                startActivity(intent);
                 break;
         }
     }
