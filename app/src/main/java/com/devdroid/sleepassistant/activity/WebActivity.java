@@ -13,7 +13,9 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
+import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 
 public class WebActivity extends BaseActivity {
   private WebView mWebView;
@@ -38,7 +40,8 @@ public class WebActivity extends BaseActivity {
     mWebView.getSettings().setDomStorageEnabled(true);
     String url = getIntent().getStringExtra("url");
     if(TextUtils.isEmpty(url)) {
-      url = "https://devdroid.cn/";
+      boolean isNightMode = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
+      url = "https://devdroid.cn?nightmode="+(isNightMode?1:0);
     }
     WebViewClient webViewClient = new WebViewClient() {
       @Override
