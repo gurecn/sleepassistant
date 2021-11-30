@@ -4,14 +4,24 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
+import com.devdroid.sleepassistant.freefont.core.animation.A;
+import com.devdroid.sleepassistant.freefont.core.data.DrawData;
+import com.devdroid.sleepassistant.freefont.core.view.STextView;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
+import com.google.gson.Gson;
 import com.jinrishici.sdk.android.model.OriginBean;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Random;
 
 public class ShiciActivity extends BaseActivity {
@@ -19,7 +29,7 @@ public class ShiciActivity extends BaseActivity {
   private TextView mTvShiciTitle;
   private TextView mTvShiciDynasty;
   private TextView mTvShiciAuthor;
-  private TextView mTvShiciContent;
+  private STextView mTvShiciContent;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -70,5 +80,18 @@ public class ShiciActivity extends BaseActivity {
       sb.append(str.replaceAll("(:|：|，|,|\\.|。|;|；|\\?|？|！|!)", "$1\n"));
     }
     mTvShiciContent.setText(sb.toString());
+    try {
+      InputStream is = getAssets().open("gson.txt");
+      InputStreamReader isr = new InputStreamReader(is);
+      DrawData data = new Gson().fromJson(isr, DrawData.class);
+      data.aniType = A.SINGLE_RIGHT_FADE_INF_LEFT_FADE_OUT;
+      int coclor = mTvShiciContent.getCurrentTextColor();
+      Log.d("1111111111", "coclor：" + coclor);
+      data.layers.get(0).paintParam.color = String.valueOf(coclor);
+      mTvShiciContent.setData(data);
+    } catch (Exception e){
+      e.printStackTrace();
+    }
+    mTvShiciContent.getTAnimation().start();
   }
 }

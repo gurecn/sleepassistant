@@ -32,36 +32,36 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(Thread arg0, Throwable arg1) {
-        String logdir;
-        if (Environment.getExternalStorageDirectory() != null) {
-            logdir = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "sleepassistant";
-            File file = new File(logdir);
-            boolean mkSuccess;
-            if (!file.isDirectory()) {
-                mkSuccess = file.mkdirs();
-                if (!mkSuccess) {
-                    mkSuccess = file.mkdirs();
-                }
-            }
-            try {
-                FileWriter fw = new FileWriter(logdir + File.separator + "log.txt", true);
-                if (fw != null) {
-                    fw.write(new Date() + "\n");
-                    StackTraceElement[] stackTrace = arg1.getStackTrace();
-                    fw.write(arg1.getMessage() + "\n");
-                    for (int i = 0; i < stackTrace.length; i++) {
-                        fw.write("file:" + stackTrace[i].getFileName() + " class:" + stackTrace[i].getClassName()
-                                + " method:" + stackTrace[i].getMethodName() + " line:" + stackTrace[i].getLineNumber()
-                                + "\n");
-                    }
-                    fw.write("\n");
-                    fw.close();
-                }
-            } catch (IOException e) {
-                Logger.e("crash handler", "load file failed...", e.getCause());
-            }
-        }
-        arg1.printStackTrace();
-        System.exit(0);
+//        String logdir;
+//        if (Environment.getExternalStorageDirectory() != null) {
+//            logdir = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "sleepassistant";
+//            File file = new File(logdir);
+//            boolean mkSuccess;
+//            if (!file.isDirectory()) {
+//                mkSuccess = file.mkdirs();
+//                if (!mkSuccess) {
+//                    mkSuccess = file.mkdirs();
+//                }
+//            }
+//            try {
+//                FileWriter fw = new FileWriter(logdir + File.separator + "log.txt", true);
+//                if (fw != null) {
+//                    fw.write(new Date() + "\n");
+//                    StackTraceElement[] stackTrace = arg1.getStackTrace();
+//                    fw.write(arg1.getMessage() + "\n");
+//                    for (int i = 0; i < stackTrace.length; i++) {
+//                        fw.write("file:" + stackTrace[i].getFileName() + " class:" + stackTrace[i].getClassName()
+//                                + " method:" + stackTrace[i].getMethodName() + " line:" + stackTrace[i].getLineNumber()
+//                                + "\n");
+//                    }
+//                    fw.write("\n");
+//                    fw.close();
+//                }
+//            } catch (IOException e) {
+//                Logger.e("crash handler", "load file failed...", e.getCause());
+//            }
+//        }
+//        arg1.printStackTrace();
+//        System.exit(0);
     }
 }

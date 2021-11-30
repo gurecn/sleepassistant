@@ -1,0 +1,19 @@
+{
+  "layers": [
+    {
+      "degree": 0.0,
+      "name": "1层-文",
+      "offsetX": 0.0,
+      "offsetY": 0.0,
+      "paintParam": {
+        "colors": {
+          "datas": [
+          ],
+          "rule": "Normal"
+        }
+      },
+      "scale": 0.0,
+      "type": 0
+    }
+  ]
+}
