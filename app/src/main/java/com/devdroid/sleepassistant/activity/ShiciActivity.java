@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.devdroid.sleepassistant.R;
@@ -20,6 +21,7 @@ public class ShiciActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
     setContentView(R.layout.activity_shici);
   }
 
@@ -57,8 +59,7 @@ public class ShiciActivity extends BaseActivity {
     mTvShiciAuthor.setText(mOriginBean.getAuthor());
     StringBuilder sb = new StringBuilder();
     for (String str:mOriginBean.getContent()){
-     // sb.append(str.replaceAll("，|,", "，\n").replaceAll("。|\\.", "。\n").replaceAll("；|;", "；\n")).append("\n");
-      sb.append(str.replaceAll("(，|,|\\.|。|;|；|\\?|？)", "$1\n")).append("\n");
+      sb.append(str.replaceAll("(:|：|，|,|\\.|。|;|；|\\?|？)", "$1\n"));
     }
     mTvShiciContent.setText(sb.toString());
   }

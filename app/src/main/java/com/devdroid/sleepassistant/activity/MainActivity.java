@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                 if(dataBean != null) {
                     String shici = poetySentence.getData().getContent();
                     if (!TextUtils.isEmpty(shici)) {
-                        shici = shici.replaceAll("(，|,|\\.|。|;|；|\\?|？)", "$1\n");
+                        shici = shici.replaceAll("(:|：|，|,|\\.|。|;|；|\\?|？)", "$1\n");
                         mTvJinRiShiCi.setText(shici);
                     }
                 }
