@@ -23,12 +23,12 @@
             android:src="@mipmap/ic_launcher" />
         <TextView
             android:id="@+id/tv_nav_header_jinrishici"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:paddingLeft="10dp"
             android:layout_weight="1"
             android:onClick="onClick"
-            android:textSize="20sp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:textSize="18sp"
             android:gravity="center_vertical"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
