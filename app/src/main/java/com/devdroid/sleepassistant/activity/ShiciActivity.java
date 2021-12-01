@@ -16,6 +16,7 @@ import com.devdroid.sleepassistant.freefont.core.data.DrawData;
 import com.devdroid.sleepassistant.freefont.core.view.STextView;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.google.gson.Gson;
+import com.gyf.barlibrary.ImmersionBar;
 import com.jinrishici.sdk.android.model.OriginBean;
 
 import java.io.ByteArrayOutputStream;
@@ -34,7 +35,10 @@ public class ShiciActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    ImmersionBar.with(this).transparentBar().init();
     getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
+    //不显示状态栏
+    getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     setContentView(R.layout.activity_shici);
     initView();
     initData();

@@ -13,6 +13,7 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar"
             android:name=".activity.ShiciActivity" />
         <activity
             android:exported="true"

@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:scrollbars="none"
             android:paddingTop="25dp"
             android:gravity="center">
             <com.devdroid.sleepassistant.freefont.core.view.STextView

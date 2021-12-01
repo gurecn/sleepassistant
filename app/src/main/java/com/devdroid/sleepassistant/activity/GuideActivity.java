@@ -13,6 +13,7 @@ import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.thread.ThreadPoolUtils;
+import com.gyf.barlibrary.ImmersionBar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +27,9 @@ public class GuideActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme_Launcher);
+        ImmersionBar.with(this).transparentBar().init();
         getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         setContentView(R.layout.activity_guide);
     }
 
@@ -104,5 +107,12 @@ public class GuideActivity extends BaseActivity {
             String date = String.format(getString(R.string.guard_date), 1);
             tvDayLable.setText(date);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 必须调用该方法，防止内存泄漏
+        ImmersionBar.with(this).destroy();
     }
 }
