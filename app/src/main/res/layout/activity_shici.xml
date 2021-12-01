@@ -42,6 +42,7 @@
             android:gravity="center">
             <com.devdroid.sleepassistant.freefont.core.view.STextView
                 android:id="@+id/tv_shici_content"
+                android:textIsSelectable="true"
                 android:layerType="software"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Gaolei
@@ -167,5 +169,18 @@ public class DateUtil {
         }else {
             return SleepState.BAD;//其他时间
         }
+    }
+
+
+    /**
+     * 获取格式化的时间
+     * 输出格式：MMddHH
+     * 其中MM代表月份，mm代表分钟，HH代表24小时制，hh代表12小时制
+     */
+    public static int getFormatDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMddHH", Locale.CHINA);
+        Date date = new Date(System.currentTimeMillis());
+        String dateString = sdf.format(date);
+        return Integer.parseInt(dateString);
     }
 }

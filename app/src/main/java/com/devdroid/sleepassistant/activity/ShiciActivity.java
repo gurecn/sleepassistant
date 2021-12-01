@@ -36,32 +36,21 @@ public class ShiciActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN , WindowManager.LayoutParams. FLAG_FULLSCREEN);
     setContentView(R.layout.activity_shici);
-  }
-
-  @Override
-  protected void onStart() {
-    super.onStart();
     initView();
+    initData();
   }
 
   private void initView() {
-    Intent intent = getIntent();
-    mOriginBean = (OriginBean)intent.getSerializableExtra("BeanOrigin");
+    String shiciContext = LauncherModel.getInstance().getSharedPreferencesManager().getString(IPreferencesIds.KEY_SHICI_CONTENT_LAST, "");
+    mOriginBean = new Gson().fromJson(shiciContext, OriginBean.class);
     mTvShiciTitle = findViewById(R.id.tv_shici_title);
     mTvShiciDynasty = findViewById(R.id.tv_shici_dynasty);
     mTvShiciAuthor = findViewById(R.id.tv_shici_author);
     mTvShiciContent = findViewById(R.id.tv_shici_content);
-    boolean isNightMode = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
     ImageView ivShiciBg = findViewById(R.id.in_shici_bg);
     Random r1 = new Random();
     int[] resources = new int[]{R.drawable.shici_bg_0,R.drawable.shici_bg_1,R.drawable.shici_bg_2};
     ivShiciBg.setImageResource(resources[r1.nextInt(9)%3]);
-  }
-
-  @Override
-  protected void onResume() {
-    super.onResume();
-    initData();
   }
 
   private void initData() {
@@ -86,7 +75,6 @@ public class ShiciActivity extends BaseActivity {
       DrawData data = new Gson().fromJson(isr, DrawData.class);
       data.aniType = A.SINGLE_RIGHT_FADE_INF_LEFT_FADE_OUT;
       int coclor = mTvShiciContent.getCurrentTextColor();
-      Log.d("1111111111", "coclor：" + coclor);
       data.layers.get(0).paintParam.color = String.valueOf(coclor);
       mTvShiciContent.setData(data);
     } catch (Exception e){

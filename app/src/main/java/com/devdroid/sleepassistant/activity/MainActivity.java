@@ -30,6 +30,7 @@ import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.DateUtil;
 import com.devdroid.sleepassistant.view.CalendarCard;
 import com.devdroid.sleepassistant.view.chart.GeneralSplineChartView;
+import com.google.gson.Gson;
 import com.jinrishici.sdk.android.JinrishiciClient;
 import com.jinrishici.sdk.android.listener.JinrishiciCallback;
 import com.jinrishici.sdk.android.model.DataBean;
@@ -53,7 +54,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
     private GeneralSplineChartView mGSCWeek;
     private DrawerLayout mDrawerLayout;
     private TextView mTvJinRiShiCi;
-    private OriginBean mBeanOrigin;
+//    private OriginBean mBeanOrigin;
 
     enum SildeDirection {
         RIGHT, LEFT, NO_SILDE
@@ -78,25 +79,34 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
             }
         }
         JinrishiciClient client = JinrishiciClient.getInstance();
-        client.getOneSentenceBackground(new JinrishiciCallback() {
-            @Override
-            public void done(PoetySentence poetySentence) {
-                DataBean dataBean = poetySentence.getData();
-                mBeanOrigin = dataBean.getOrigin();
-                if(dataBean != null) {
-                    String shici = poetySentence.getData().getContent();
-                    if (!TextUtils.isEmpty(shici)) {
-                        shici = shici.replaceAll("(:|：|，|,|\\.|。|;|；|\\?|？)", "$1\n");
-                        mTvJinRiShiCi.setText(shici);
+        int lastUpdateTime = LauncherModel.getInstance().getSharedPreferencesManager().getInt(IPreferencesIds.KEY_SHICI_TIME_LAST, 0);
+        int currTime = DateUtil.getFormatDate();
+        if(lastUpdateTime == currTime){
+            String shiciSummary = LauncherModel.getInstance().getSharedPreferencesManager().getString(IPreferencesIds.KEY_SHICI_SUMMARY_LAST, "");
+            mTvJinRiShiCi.setText(shiciSummary);
+        } else {
+            client.getOneSentenceBackground(new JinrishiciCallback() {
+                @Override
+                public void done(PoetySentence poetySentence) {
+                    DataBean dataBean = poetySentence.getData();
+                    OriginBean beanOrigin = dataBean.getOrigin();
+                    if (dataBean != null) {
+                        String shici = poetySentence.getData().getContent();
+                        if (!TextUtils.isEmpty(shici)) {
+                            shici = shici.replaceAll("(:|：|，|,|\\.|。|;|；|\\?|？)", "$1\n");
+                            mTvJinRiShiCi.setText(shici);
+                            String dataString = new Gson().toJson(beanOrigin);
+                            LauncherModel.getInstance().getSharedPreferencesManager().commitString(IPreferencesIds.KEY_SHICI_CONTENT_LAST,dataString);
+                            LauncherModel.getInstance().getSharedPreferencesManager().commitString(IPreferencesIds.KEY_SHICI_SUMMARY_LAST,shici);
+                            LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.KEY_SHICI_TIME_LAST, DateUtil.getFormatDate());
+                        }
                     }
                 }
-            }
-
-            @Override
-            public void error(JinrishiciRuntimeException e) {
-                Log.d("111111", "error: code = " + e.getCode() + " message = " + e.getMessage());
-            }
-        });
+                @Override
+                public void error(JinrishiciRuntimeException e) {
+                }
+            });
+        }
     }
 
     private void createSleepTimeNew() {
@@ -276,7 +286,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                 break;
             case R.id.tv_nav_header_jinrishici:
                 Intent intent = new Intent(this, ShiciActivity.class);
-                intent.putExtra("BeanOrigin", mBeanOrigin);
+//                intent.putExtra("BeanOrigin", mBeanOrigin);
                 startActivity(intent);
                 break;
         }
