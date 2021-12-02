@@ -57,7 +57,7 @@
             android:exported="true"
             android:icon="@mipmap/icon"
             android:label="睡眠猪猪"
-            android:name=".activity.GuideActivity1"
+            android:name=".activity.NewGuideActivity"
             android:targetActivity=".activity.GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

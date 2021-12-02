@@ -1,5 +1,6 @@
 package com.devdroid.sleepassistant.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -8,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
+import com.devdroid.sleepassistant.application.TheApplication;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.constant.CustomConstant;
 import com.devdroid.sleepassistant.database.DatabaseBackupTask;
@@ -85,15 +89,15 @@ public class SettingsActivity extends BaseActivity {
 
             case R.id.ll_setting_change_icon:
                 PackageManager pm = getPackageManager();
-                if(PackageManager.COMPONENT_ENABLED_STATE_DISABLED != pm.getComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.GuideActivity"))) {
-                    pm.setComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.GuideActivity"),
+                if(PackageManager.COMPONENT_ENABLED_STATE_DISABLED != pm.getComponentEnabledSetting(new ComponentName(CustomConstant.PACKAGE_NAME, "com.devdroid.sleepassistant.activity.GuideActivity"))) {
+                    pm.setComponentEnabledSetting(new ComponentName(CustomConstant.PACKAGE_NAME, "com.devdroid.sleepassistant.activity.GuideActivity"),
                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-                    pm.setComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.GuideActivity1"),
+                    pm.setComponentEnabledSetting(new ComponentName(CustomConstant.PACKAGE_NAME, "com.devdroid.sleepassistant.activity.NewGuideActivity"),
                         PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
                 } else {
-                    pm.setComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.GuideActivity1"),
+                    pm.setComponentEnabledSetting(new ComponentName(CustomConstant.PACKAGE_NAME, "com.devdroid.sleepassistant.activity.NewGuideActivity"),
                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-                    pm.setComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.GuideActivity"),
+                    pm.setComponentEnabledSetting(new ComponentName(CustomConstant.PACKAGE_NAME, "com.devdroid.sleepassistant.activity.GuideActivity"),
                         PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
                 }
                 break;
