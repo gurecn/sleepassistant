@@ -35,8 +35,19 @@
             style="@style/SettingItem"
             android:text="@string/nav_string_feedback"/>
     </LinearLayout>
+
     <TextView
         style="@style/SettingItemDivide"/>
+    <LinearLayout
+        android:id="@+id/ll_setting_change_icon"
+        style="@style/SettingItemLinearLayout">
+        <TextView
+            style="@style/SettingItem"
+            android:text="@string/nav_string_change_icon"/>
+    </LinearLayout>
+    <TextView
+        style="@style/SettingItemDivide"/>
+
     <LinearLayout
         android:id="@+id/ll_setting_about"
         style="@style/SettingItemLinearLayout">
@@ -46,6 +57,7 @@
     </LinearLayout>
     <TextView
         style="@style/SettingItemDivide"/>
+
     <LinearLayout
         android:id="@+id/ll_setting_logout"
         style="@style/SettingItemLinearLayout">

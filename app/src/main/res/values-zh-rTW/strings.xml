@@ -19,6 +19,7 @@
     <string name="nav_string_about">關於</string>
     <string name="nav_string_feedback">反饋</string>
     <string name="nav_string_blogger">博客</string>
+    <string name="nav_string_change_icon">更换图标</string>
     <string name="nav_string_share">分享</string>
     <string name="navigation_header_welcome_word">卓技卓品：\n共享讓技術更完美</string>
     <string name="no_contain_setting_feedback">嗨，說點什麼？</string>

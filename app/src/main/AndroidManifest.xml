@@ -31,14 +31,31 @@
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+            <intent-filter android:label="@string/app_name">
+                <category android:name="android.intent.category.ALTERNATIVE" />
+                <category android:name="android.intent.category.SELECTED_ALTERNATIVE" />
+            </intent-filter>
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
+        <activity-alias
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/icon"
+            android:label="睡眠猪猪"
+            android:name=".activity.GuideActivity1"
+            android:targetActivity=".activity.GuideActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity-alias>
         <activity
             android:label="@string/nav_string_about"
             android:name=".activity.AboutActivity" />

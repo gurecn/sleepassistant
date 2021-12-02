@@ -2,7 +2,9 @@ package com.devdroid.sleepassistant.activity;
 
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -79,6 +81,21 @@ public class SettingsActivity extends BaseActivity {
                 break;
             case R.id.ll_setting_feedback:
                 startActivity(new Intent(this, FeedbackTXActivity.class));
+                break;
+
+            case R.id.ll_setting_change_icon:
+                PackageManager pm = getPackageManager();
+                if(PackageManager.COMPONENT_ENABLED_STATE_DISABLED != pm.getComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.GuideActivity"))) {
+                    pm.setComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.GuideActivity"),
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                    pm.setComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.GuideActivity1"),
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+                } else {
+                    pm.setComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.GuideActivity1"),
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                    pm.setComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.GuideActivity"),
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+                }
                 break;
             case R.id.ll_setting_logout:
                 finish();
