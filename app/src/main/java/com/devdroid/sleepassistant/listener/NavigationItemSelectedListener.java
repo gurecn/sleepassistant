@@ -50,9 +50,7 @@ public class NavigationItemSelectedListener  implements NavigationView.OnNavigat
                 mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, RestrictionActivity.class));
                 break;
             case R.id.nav_set :
-                Intent intent = new Intent(mAppCompatActivity, SettingsActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                mAppCompatActivity.startActivity(intent);
+                mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, SettingsActivity.class));
                 break;
             case R.id.nav_share :
                 shareText();
