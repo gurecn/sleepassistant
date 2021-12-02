@@ -29,6 +29,26 @@
         style="@style/SettingItemDivide"/>
 
     <LinearLayout
+        android:id="@+id/ll_setting_change_icon"
+        style="@style/SettingItemLinearLayout">
+        <TextView
+            style="@style/SettingItem"
+            android:text="@string/nav_string_change_icon"/>
+    </LinearLayout>
+    <TextView
+        style="@style/SettingItemDivide"/>
+
+    <LinearLayout
+        android:id="@+id/ll_setting_receive_process_text"
+        style="@style/SettingItemLinearLayout">
+        <TextView
+            style="@style/SettingItem"
+            android:text="@string/nav_string_receive_process_text"/>
+    </LinearLayout>
+    <TextView
+        style="@style/SettingItemDivide"/>
+
+    <LinearLayout
         android:id="@+id/ll_setting_feedback"
         style="@style/SettingItemLinearLayout">
         <TextView
@@ -36,15 +56,6 @@
             android:text="@string/nav_string_feedback"/>
     </LinearLayout>
 
-    <TextView
-        style="@style/SettingItemDivide"/>
-    <LinearLayout
-        android:id="@+id/ll_setting_change_icon"
-        style="@style/SettingItemLinearLayout">
-        <TextView
-            style="@style/SettingItem"
-            android:text="@string/nav_string_change_icon"/>
-    </LinearLayout>
     <TextView
         style="@style/SettingItemDivide"/>
 

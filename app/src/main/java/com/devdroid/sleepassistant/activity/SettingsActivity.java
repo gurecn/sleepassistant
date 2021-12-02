@@ -97,6 +97,12 @@ public class SettingsActivity extends BaseActivity {
                         PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
                 }
                 break;
+            case R.id.ll_setting_receive_process_text:
+                pm = getPackageManager();
+                boolean componentDisabled = (PackageManager.COMPONENT_ENABLED_STATE_DISABLED == pm.getComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.ReceiveProcessTextActivity")));
+                pm.setComponentEnabledSetting(new ComponentName(this, "com.devdroid.sleepassistant.activity.ReceiveProcessTextActivity"),
+                    componentDisabled?PackageManager.COMPONENT_ENABLED_STATE_ENABLED:PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                break;
             case R.id.ll_setting_logout:
                 finish();
                 break;
