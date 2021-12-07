@@ -95,4 +95,6 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     implementation 'com.gyf.immersionbar:immersionbar:2.3.3'
     compile files('libs/eventbus-2.4.0.jar')
+    implementation 'org.ahocorasick:ahocorasick:0.3.0'
+
 }

@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class TAnimation extends BaseAnimation {
 
 
-    private long itemDuration = 400;
+    private long itemDuration = 200;
     private float fromX,toX,fromY,toY,fromAlpha,toAlpha,fromScaleX,toScaleX,fromScaleY,toScaleY,fromDegree,toDegree;
     private boolean hasAlpha,hasTranslate,hasRotate,hasScale;
     private ValueComputer valueComputer;

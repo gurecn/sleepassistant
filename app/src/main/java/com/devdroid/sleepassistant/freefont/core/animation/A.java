@@ -250,7 +250,7 @@ public class A {
     }
 
     private static TA createSRILO(TextView tv) {
-        long duration = 400;
+        long duration = 200;
         TAnimationQueen queen = new TAnimationQueen(tv);
         TAnimation animation = new TAnimation.Builder(tv)
                 .translate(4,0,0,0)

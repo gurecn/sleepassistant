@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import com.devdroid.sleepassistant.freefont.core.animation.A;
 import com.devdroid.sleepassistant.freefont.core.data.DrawData;
 import com.devdroid.sleepassistant.freefont.core.view.STextView;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
+import com.devdroid.sleepassistant.utils.PinyinUtils;
 import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
 import com.jinrishici.sdk.android.model.OriginBean;
@@ -28,12 +30,12 @@ import java.io.InputStreamReader;
 import java.util.Random;
 
 public class ShiciActivity extends BaseActivity {
+  public static final String REGEX = "(:|：|，|,|\\.|。|;|；|\\?|？|！|!)";
   private OriginBean mOriginBean;
   private TextView mTvShiciTitle;
   private TextView mTvShiciDynasty;
   private TextView mTvShiciAuthor;
   private STextView mTvShiciContent;
-  private ActionMode mActionMode;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +79,14 @@ public class ShiciActivity extends BaseActivity {
     mTvShiciAuthor.setText(mOriginBean.getAuthor());
     StringBuilder sb = new StringBuilder();
     for (String str:mOriginBean.getContent()){
-      sb.append(str.replaceAll("(:|：|，|,|\\.|。|;|；|\\?|？|！|!)", "$1\n"));
+      sb.append(str.replaceAll(REGEX, "$1\n"));
     }
-    mTvShiciContent.setText(sb.toString());
+    StringBuilder shici = new StringBuilder();
+    for (String ciju:sb.toString().split("\n")) {
+      String pinyin = PinyinUtils.getPinyin(ciju.replaceAll(REGEX, ""));
+      shici.append(pinyin).append("\n").append(ciju).append("\n");
+    }
+    mTvShiciContent.setText(shici.toString());
     try {
       InputStream is = getAssets().open("gson.txt");
       InputStreamReader isr = new InputStreamReader(is);
