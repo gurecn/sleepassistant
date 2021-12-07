@@ -1,10 +1,14 @@
 package com.devdroid.sleepassistant.activity;
 
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.RequiresApi;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,8 +23,6 @@ import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
 import com.jinrishici.sdk.android.model.OriginBean;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Random;
@@ -31,6 +33,7 @@ public class ShiciActivity extends BaseActivity {
   private TextView mTvShiciDynasty;
   private TextView mTvShiciAuthor;
   private STextView mTvShiciContent;
+  private ActionMode mActionMode;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,11 @@ public class ShiciActivity extends BaseActivity {
     setContentView(R.layout.activity_shici);
     initView();
     initData();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      setActionMode();
+    }
   }
+
 
   private void initView() {
     String shiciContext = LauncherModel.getInstance().getSharedPreferencesManager().getString(IPreferencesIds.KEY_SHICI_CONTENT_LAST, "");
@@ -85,5 +92,33 @@ public class ShiciActivity extends BaseActivity {
       e.printStackTrace();
     }
     mTvShiciContent.getTAnimation().start();
+  }
+
+  /**
+   * 设置长按菜单
+   */
+  @RequiresApi(api = Build.VERSION_CODES.M)
+  private void setActionMode() {
+    mTvShiciContent.setCustomSelectionActionModeCallback(new ActionMode.Callback2() {
+      @Override
+      public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        return false;
+      }
+
+      @Override
+      public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return true;
+      }
+
+      @Override
+      public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        return false;
+      }
+
+      @Override
+      public void onDestroyActionMode(ActionMode mode) {
+
+      }
+    });
   }
 }
