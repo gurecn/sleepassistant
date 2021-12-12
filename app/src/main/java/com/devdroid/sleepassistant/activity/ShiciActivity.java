@@ -77,15 +77,15 @@ public class ShiciActivity extends BaseActivity {
     mTvShiciTitle.setText(mOriginBean.getTitle());
     mTvShiciDynasty.setText(mOriginBean.getDynasty());
     mTvShiciAuthor.setText(mOriginBean.getAuthor());
-    StringBuilder sb = new StringBuilder();
-    for (String str:mOriginBean.getContent()){
-      sb.append(str.replaceAll(REGEX, "$1\n"));
-    }
     StringBuilder shici = new StringBuilder();
-    for (String ciju:sb.toString().split("\n")) {
-      String pinyin = PinyinUtils.getPinyin(ciju.replaceAll(REGEX, ""));
-      shici.append(pinyin).append("\n").append(ciju).append("\n");
+    for (String str:mOriginBean.getContent()){
+      shici.append(str.replaceAll(REGEX, "$1\n"));
     }
+//    StringBuilder shici = new StringBuilder();
+//    for (String ciju:sb.toString().split("\n")) {
+//      String pinyin = PinyinUtils.getPinyin(ciju.replaceAll(REGEX, ""));
+//      shici.append(pinyin).append("\n").append(ciju).append("\n");
+//    }
     mTvShiciContent.setText(shici.toString());
     try {
       InputStream is = getAssets().open("gson.txt");
@@ -99,6 +99,8 @@ public class ShiciActivity extends BaseActivity {
       e.printStackTrace();
     }
     mTvShiciContent.getTAnimation().start();
+
+    Log.i("11111111111", "initData OK");
   }
 
   /**

@@ -112,6 +112,33 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:label="@string/widget_i_shici"
+            android:name=".widget.ShiciWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.devdroid.sleepassistant.widget.ACTION_PLAY_PAUSE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_shici"/>
+        </receiver>
+
+<!--        <receiver-->
+<!--            android:label="@string/widget_i_sleep"-->
+<!--            android:name=".widget.SleepWidgetProvider"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>-->
+<!--                <action android:name="com.devdroid.sleepassistant.widget.ACTION_SLEEP"/>-->
+<!--            </intent-filter>-->
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/widget_shici"/>-->
+<!--        </receiver>-->
+
     </application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

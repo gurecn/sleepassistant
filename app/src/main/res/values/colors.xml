@@ -29,4 +29,12 @@
     <color name="title_text_color">#999999</color>
     <color name="spline_color">#368DEE</color>
     <color name="tick_label_color">#000000</color>
+
+    <color name="c_black_ar25">#40000000</color>
+    <color name="c_very_light_gray_eb">#ebebeb</color>
+    <color name="very_light_gray">#f1f1f1</color>
+    <color name="c_very_dark_grayish_blue_ar30">#4d3c3c43</color>
+    <color name="c_black_ar05">#0d000000</color>
+    <color name="very_dark_violet">#161517</color>
+
 </resources>

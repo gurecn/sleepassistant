@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:id="@+id/flWidget"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_gravity="center_vertical"
+        android:id="@+id/rlContent"
+        android:clipChildren="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/widget_bg"
+            android:importantForAccessibility="no"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/shici_bg_0" />
+        <ImageView 
+            android:id="@+id/ivEpi"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentTop="true"
+            android:importantForAccessibility="no"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentStart="true"/>
+        <TextView
+            android:id="@+id/tvEpi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/very_dark_violet"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:layout_alignTop="@+id/ivEpi"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="15dp"
+            android:layout_toEndOf="@+id/ivEpi"/>
+
+        <ImageView
+            android:id="@+id/ivTextLogo"
+            android:importantForAccessibility="no"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/aishici"/>
+
+        <ImageView
+            android:id="@+id/ivPlayState"
+            android:importantForAccessibility="no"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_system_widgets_status_led_on" />
+
+        <ImageButton
+            android:background="@null"
+            android:id="@+id/ibPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_system_widgets_next_play" />
+
+    </RelativeLayout>
+</FrameLayout>

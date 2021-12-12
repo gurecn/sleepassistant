@@ -35,4 +35,6 @@ public class IPreferencesIds {
     public final static String KEY_SHICI_TIME_LAST = "key_shici_time_last"; //上次更新诗词的时间：112124：月日时
     public final static String KEY_SHICI_CONTENT_LAST = "key_shici_content_last"; //上次更新诗词的内容
     public final static String KEY_SHICI_SUMMARY_LAST = "key_shici_summary_last"; //上次更新诗词的主题
+
+    public final static String KEY_APP_WIDGET_ID = "key_app_widget_id"; //缓存widgetid
 }
