@@ -36,5 +36,7 @@ public class IPreferencesIds {
     public final static String KEY_SHICI_CONTENT_LAST = "key_shici_content_last"; //上次更新诗词的内容
     public final static String KEY_SHICI_SUMMARY_LAST = "key_shici_summary_last"; //上次更新诗词的主题
 
-    public final static String KEY_APP_WIDGET_ID = "key_app_widget_id"; //缓存widgetid
+    public final static String KEY_APP_WIDGET_ISHICI_ID = "key_app_widget_ishici_id"; //缓存爱诗词widgetid
+
+    public final static String KEY_APP_WIDGET_ISLEEP_ID = "key_app_widget_isleep_id"; //缓存爱睡眠widgetid
 }

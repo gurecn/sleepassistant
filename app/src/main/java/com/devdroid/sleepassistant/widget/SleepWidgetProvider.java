@@ -5,64 +5,82 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.devdroid.sleepassistant.R;
-import com.devdroid.sleepassistant.activity.ShiciActivity;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
-import com.devdroid.sleepassistant.utils.DateUtil;
-import com.google.gson.Gson;
-import com.jinrishici.sdk.android.JinrishiciClient;
-import com.jinrishici.sdk.android.listener.JinrishiciCallback;
-import com.jinrishici.sdk.android.model.DataBean;
-import com.jinrishici.sdk.android.model.JinrishiciRuntimeException;
-import com.jinrishici.sdk.android.model.OriginBean;
-import com.jinrishici.sdk.android.model.PoetySentence;
 
 public final class SleepWidgetProvider extends AppWidgetProvider {
   public static final String REGEX = "(:|：|，|,|\\.|。|;|；|\\?|？|！|!)";
+  private static final String TAG = SleepWidgetProvider.class.getSimpleName();
   @Override
   public void onDisabled(Context context) {
     super.onDisabled(context);
-    Log.d("11111111111", "onDisabled");
+    Log.d(TAG, "onDisabled");
   }
 
   @Override
   public void onEnabled(Context context) {
     super.onEnabled(context);
-    Log.d("11111111111", "onEnabled");
+    Log.d(TAG, "onEnabled");
   }
 
   @Override
   public void onReceive(Context context, Intent intent) {
     super.onReceive(context, intent);
-    Log.d("11111111111", "onReceive : action = " + intent.getAction());
+    Log.d(TAG, "onReceive : action = " + intent.getAction());
     String action = intent.getAction();
-    if("com.devdroid.sleepassistant.widget.ACTION_SLEEP".equals(action)) {
-      Log.d("11111111111", "updateShici start");
-      updateShici();
-      Log.d("11111111111", "updateShici ok");
+    if("com.devdroid.sleepassistant.widget.ACTION_SLEEP".equals(action)){
       AppWidgetManager appWidgeManger = AppWidgetManager.getInstance(context);
-      int appWidgetId = LauncherModel.getInstance().getSharedPreferencesManager().getInt(IPreferencesIds.KEY_APP_WIDGET_ID, 0);
+      int appWidgetId = LauncherModel.getInstance().getSharedPreferencesManager().getInt(IPreferencesIds.KEY_APP_WIDGET_ISLEEP_ID, 0);
       if (appWidgetId != 0) {
-        onWidgetUpdate(context, appWidgeManger, appWidgetId);
+        onWidgetUpdateData(context, appWidgeManger, appWidgetId);
       }
     }
+  }
+
+  /**
+   * 窗口小部件更新
+   */
+  private void onWidgetUpdateData(Context context, AppWidgetManager appWidgeManger, int appWidgetId) {
+    Log.i(TAG, "appWidgetId = " + appWidgetId);
+    RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_sleep);
+    Intent intent = new Intent(context, SleepWidgetProvider.class);
+    intent.setAction("com.devdroid.sleepassistant.widget.ACTION_SLEEP");
+    remoteViews.setOnClickPendingIntent(R.id.d17, PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+
+    long currentTime = System.currentTimeMillis();
+    if(currentTime%2 == 0) {
+
+      Log.i(TAG, "onWidgetUpdateData = 1");
+      remoteViews.setViewVisibility(R.id.tvContent, View.VISIBLE);
+      remoteViews.setTextViewText(R.id.tvContent,"点击显示显示把价格考虑到各级领导机关两地分居广泛的根据反馈给回访电话" + currentTime);
+    } else {
+      Log.i(TAG, "onWidgetUpdateData = 2");
+      remoteViews.setViewVisibility(R.id.tvContent, View.INVISIBLE);
+    }
+
+
+
+
+    appWidgeManger.updateAppWidget(appWidgetId, remoteViews);
   }
 
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
     super.onUpdate(context, appWidgetManager, appWidgetIds);
-    Log.d("11111111111", "onUpdate");
+    Log.d(TAG, "onUpdate");
     final int counter = appWidgetIds.length;
-    Log.i("11111111111", "counter = " + counter);
+    Log.i(TAG, "counter = " + counter);
     for (int i = 0; i < counter; i++) {
       int appWidgetId = appWidgetIds[i];
-      LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.KEY_APP_WIDGET_ID, appWidgetId);
+      Log.i(TAG, "onUpdate = " + appWidgetId);
+      LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.KEY_APP_WIDGET_ISLEEP_ID, appWidgetId);
       onWidgetUpdate(context, appWidgetManager, appWidgetId);
     }
   }
@@ -70,67 +88,19 @@ public final class SleepWidgetProvider extends AppWidgetProvider {
   @Override
   public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
     super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
-    Log.d("11111111111", "onAppWidgetOptionsChanged");
+    Log.d(TAG, "onAppWidgetOptionsChanged");
     onWidgetUpdate(context, appWidgetManager, appWidgetId);
   }
 
   /**
    * 窗口小部件更新
-   *
-   * @param context
-   * @param appWidgeManger
-   * @param appWidgetId
    */
   private void onWidgetUpdate(Context context, AppWidgetManager appWidgeManger, int appWidgetId) {
-    Log.i("11111111111", "appWidgetId = " + appWidgetId);
-    RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_shici);
-    Intent intent = new Intent(context, ShiciWidgetProvider.class);
+    Log.i(TAG, "appWidgetId = " + appWidgetId);
+    RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_sleep);
+    Intent intent = new Intent(context, SleepWidgetProvider.class);
     intent.setAction("com.devdroid.sleepassistant.widget.ACTION_SLEEP");
-    remoteViews.setOnClickPendingIntent(R.id.ibPlay, PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT));
-    Context context4 = context;
-    Intent intent4 = new Intent(context, ShiciActivity.class);
-    remoteViews.setOnClickPendingIntent(R.id.rlContent, PendingIntent.getActivity(context4, 4, intent4, PendingIntent.FLAG_UPDATE_CURRENT));
-
-    long currentTime = System.currentTimeMillis();
-    if(currentTime%2 == 0) {
-      remoteViews.setImageViewResource(R.id.ivPlayState, R.drawable.ic_system_widgets_status_led_on);
-    } else {
-      remoteViews.setImageViewResource(R.id.ivPlayState, R.drawable.ic_system_widgets_status_led_off);
-    }
-    String shiciContext = LauncherModel.getInstance().getSharedPreferencesManager().getString(IPreferencesIds.KEY_SHICI_CONTENT_LAST, "");
-    OriginBean originBean = new Gson().fromJson(shiciContext, OriginBean.class);
-    if(originBean != null) {
-      StringBuilder sb = new StringBuilder();
-      for (String str:originBean.getContent()){
-        sb.append(str.replaceAll(REGEX, "$1\n"));
-      }
-      remoteViews.setTextViewText(R.id.tvEpi, sb.toString());
-    }
+    remoteViews.setOnClickPendingIntent(R.id.d17, PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT));
     appWidgeManger.updateAppWidget(appWidgetId, remoteViews);
   }
-
-  private void updateShici() {
-    JinrishiciClient client = JinrishiciClient.getInstance();
-    client.getOneSentenceBackground(new JinrishiciCallback() {
-      @Override
-      public void done(PoetySentence poetySentence) {
-        DataBean dataBean = poetySentence.getData();
-        OriginBean beanOrigin = dataBean.getOrigin();
-        if (dataBean != null) {
-          String shici = poetySentence.getData().getContent();
-          if (!TextUtils.isEmpty(shici)) {
-            shici = shici.replaceAll("(:|：|，|,|\\.|。|;|；|\\?|？)", "$1\n");
-            String dataString = new Gson().toJson(beanOrigin);
-            LauncherModel.getInstance().getSharedPreferencesManager().commitString(IPreferencesIds.KEY_SHICI_CONTENT_LAST,dataString);
-            LauncherModel.getInstance().getSharedPreferencesManager().commitString(IPreferencesIds.KEY_SHICI_SUMMARY_LAST,shici);
-            LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.KEY_SHICI_TIME_LAST, DateUtil.getFormatDate());
-          }
-        }
-      }
-      @Override
-      public void error(JinrishiciRuntimeException e) {
-      }
-    });
-  }
-
 }

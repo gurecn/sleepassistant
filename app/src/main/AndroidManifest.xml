@@ -126,18 +126,18 @@
                 android:resource="@xml/widget_shici"/>
         </receiver>
 
-<!--        <receiver-->
-<!--            android:label="@string/widget_i_sleep"-->
-<!--            android:name=".widget.SleepWidgetProvider"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>-->
-<!--                <action android:name="com.devdroid.sleepassistant.widget.ACTION_SLEEP"/>-->
-<!--            </intent-filter>-->
-<!--            <meta-data-->
-<!--                android:name="android.appwidget.provider"-->
-<!--                android:resource="@xml/widget_shici"/>-->
-<!--        </receiver>-->
+        <receiver
+            android:label="@string/widget_i_sleep"
+            android:name=".widget.SleepWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.devdroid.sleepassistant.widget.ACTION_SLEEP"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_i_sleep"/>
+        </receiver>
 
     </application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

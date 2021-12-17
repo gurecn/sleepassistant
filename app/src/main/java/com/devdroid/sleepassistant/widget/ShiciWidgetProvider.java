@@ -25,52 +25,39 @@ import com.jinrishici.sdk.android.model.PoetySentence;
 
 public final class ShiciWidgetProvider extends AppWidgetProvider {
   public static final String REGEX = "(:|：|，|,|\\.|。|;|；|\\?|？|！|!)";
+  private static final String TAG = ShiciWidgetProvider.class.getSimpleName();
   @Override
   public void onDisabled(Context context) {
     super.onDisabled(context);
-    Log.d("11111111111", "onDisabled");
   }
 
   @Override
   public void onEnabled(Context context) {
     super.onEnabled(context);
-    Log.d("11111111111", "onEnabled");
   }
 
   @Override
   public void onReceive(Context context, Intent intent) {
     super.onReceive(context, intent);
-    Log.d("11111111111", "onReceive : action = " + intent.getAction());
     String action = intent.getAction();
     if("com.devdroid.sleepassistant.widget.ACTION_PLAY_PAUSE".equals(action)) {
-      Log.d("11111111111", "updateShici start");
-      updateShici();
-      Log.d("11111111111", "updateShici ok");
-      AppWidgetManager appWidgeManger = AppWidgetManager.getInstance(context);
-      int appWidgetId = LauncherModel.getInstance().getSharedPreferencesManager().getInt(IPreferencesIds.KEY_APP_WIDGET_ID, 0);
-      if (appWidgetId != 0) {
-        onWidgetUpdate(context, appWidgeManger, appWidgetId);
-      }
+      updateShici(context);
     }
   }
 
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
     super.onUpdate(context, appWidgetManager, appWidgetIds);
-    Log.d("11111111111", "onUpdate");
     final int counter = appWidgetIds.length;
-    Log.i("11111111111", "counter = " + counter);
     for (int i = 0; i < counter; i++) {
       int appWidgetId = appWidgetIds[i];
-      LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.KEY_APP_WIDGET_ID, appWidgetId);
-      onWidgetUpdate(context, appWidgetManager, appWidgetId);
+      LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.KEY_APP_WIDGET_ISHICI_ID, appWidgetId);
     }
   }
 
   @Override
   public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
     super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
-    Log.d("11111111111", "onAppWidgetOptionsChanged");
     onWidgetUpdate(context, appWidgetManager, appWidgetId);
   }
 
@@ -82,7 +69,6 @@ public final class ShiciWidgetProvider extends AppWidgetProvider {
    * @param appWidgetId
    */
   private void onWidgetUpdate(Context context, AppWidgetManager appWidgeManger, int appWidgetId) {
-    Log.i("11111111111", "appWidgetId = " + appWidgetId);
     RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_shici);
     Intent intent = new Intent(context, ShiciWidgetProvider.class);
     intent.setAction("com.devdroid.sleepassistant.widget.ACTION_PLAY_PAUSE");
@@ -105,16 +91,12 @@ public final class ShiciWidgetProvider extends AppWidgetProvider {
       for (String str:originBean.getContent()){
         sb.append(str.replaceAll(REGEX, "$1\n"));
       }
-
-      Log.i("11111111111", "onWidgetUpdate = " + sb.toString());
       remoteViews.setTextViewText(R.id.tvEpi, sb.toString());
     }
-
-    Log.i("11111111111", "onWidgetUpdate = " + 3);
     appWidgeManger.updateAppWidget(appWidgetId, remoteViews);
   }
 
-  private void updateShici() {
+  private void updateShici(Context context) {
     JinrishiciClient client = JinrishiciClient.getInstance();
     client.getOneSentenceBackground(new JinrishiciCallback() {
       @Override
@@ -123,15 +105,16 @@ public final class ShiciWidgetProvider extends AppWidgetProvider {
         OriginBean beanOrigin = dataBean.getOrigin();
         String shici = poetySentence.getData().getContent();
         if (!TextUtils.isEmpty(shici)) {
-
-          Log.i("11111111111", "shici = " + shici);
           shici = shici.replaceAll("(:|：|，|,|\\.|。|;|；|\\?|？)", "$1\n");
           String dataString = new Gson().toJson(beanOrigin);
-
-          Log.i("11111111111", "dataString = " + dataString);
           LauncherModel.getInstance().getSharedPreferencesManager().commitString(IPreferencesIds.KEY_SHICI_CONTENT_LAST,dataString);
           LauncherModel.getInstance().getSharedPreferencesManager().commitString(IPreferencesIds.KEY_SHICI_SUMMARY_LAST,shici);
           LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.KEY_SHICI_TIME_LAST, DateUtil.getFormatDate());
+          AppWidgetManager appWidgeManger = AppWidgetManager.getInstance(context);
+          int appWidgetId = LauncherModel.getInstance().getSharedPreferencesManager().getInt(IPreferencesIds.KEY_APP_WIDGET_ISHICI_ID, 0);
+          if (appWidgetId != 0) {
+            onWidgetUpdate(context, appWidgeManger, appWidgetId);
+          }
         }
       }
       @Override
