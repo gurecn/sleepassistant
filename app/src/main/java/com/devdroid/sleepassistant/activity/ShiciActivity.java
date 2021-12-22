@@ -1,10 +1,12 @@
 package com.devdroid.sleepassistant.activity;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -54,8 +56,14 @@ public class ShiciActivity extends BaseActivity {
 
 
   private void initView() {
-    String shiciContext = LauncherModel.getInstance().getSharedPreferencesManager().getString(IPreferencesIds.KEY_SHICI_CONTENT_LAST, "");
-    mOriginBean = new Gson().fromJson(shiciContext, OriginBean.class);
+    Intent intent = getIntent();
+    String shici = intent.getStringExtra("shici");
+    if(!TextUtils.isEmpty(shici)){
+      LauncherModel.getInstance().getSharedPreferencesManager().commitString(IPreferencesIds.KEY_SHICI_CONTENT_LAST, shici);
+    } else {
+      shici = LauncherModel.getInstance().getSharedPreferencesManager().getString(IPreferencesIds.KEY_SHICI_CONTENT_LAST, "");
+    }
+    mOriginBean = new Gson().fromJson(shici, OriginBean.class);
     mTvShiciTitle = findViewById(R.id.tv_shici_title);
     mTvShiciDynasty = findViewById(R.id.tv_shici_dynasty);
     mTvShiciAuthor = findViewById(R.id.tv_shici_author);

@@ -1,6 +1,8 @@
 package com.devdroid.sleepassistant.application;
 
 import android.content.Context;
+import android.util.Log;
+
 import com.devdroid.sleepassistant.database.BaseDataProvider;
 import com.devdroid.sleepassistant.database.LockerDao;
 import com.devdroid.sleepassistant.database.SleepDataDao;
@@ -23,6 +25,7 @@ public class LauncherModel {
     private LockerDao mLockerDao;
 
     private LauncherModel(Context context) {
+        Log.d("1111111111111", "LauncherModel");
         mContext = context;
         mSharedPreferencesManager = new SharedPreferencesManager(mContext);
         BaseDataProvider dataProvider = new BaseDataProvider(mContext);

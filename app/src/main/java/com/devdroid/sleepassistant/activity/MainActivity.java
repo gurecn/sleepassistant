@@ -73,6 +73,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         Intent intent = getIntent();
         if(intent != null){
             String action = intent.getStringExtra("action");
+            Log.d("1111111111111", "action:" + action);
             if("create_sleep_time_new".equals(action)){
                 createSleepTimeNew();
                 mViewPager.postDelayed(this::finish, 500);

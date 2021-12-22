@@ -17,19 +17,8 @@
                 android:id="@+id/bmo"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
-                android:src="@drawable/jiami"
+                android:src="@drawable/sleeping"
                 android:layout_centerHorizontal="true"/>
-            <TextView
-                android:textSize="12sp"
-                android:textColor="#ffffff"
-                android:gravity="center"
-                android:id="@+id/tvContent"
-                android:visibility="invisible"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:text="1"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"/>
         </RelativeLayout>
     </FrameLayout>
     <TextView android:textSize="12dp"
@@ -37,10 +26,9 @@
         android:ellipsize="end"
         android:gravity="center"
         android:layout_width="wrap_content"
-        android:visibility="invisible"
         android:layout_height="17dp"
         android:layout_marginBottom="2dp"
-        android:text="爱睡眠"
+        android:text="睡一下"
         android:singleLine="true"
         android:includeFontPadding="false"
         android:shadowColor="#8f000000"

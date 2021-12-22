@@ -24,6 +24,8 @@ public class TheApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Log.d("1111111111111", "TheApplication");
         // 记录当前进程名
         sCurrentProcessName = AppUtils.getCurrentProcessName(getApplicationContext());
         // 如果是主进程，初始化主进程的相关功能类实例

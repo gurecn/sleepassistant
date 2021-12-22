@@ -12,12 +12,14 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.activity.MainActivity;
+import com.devdroid.sleepassistant.activity.ShiciActivity;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 
 public final class SleepWidgetProvider extends AppWidgetProvider {
   public static final String REGEX = "(:|：|，|,|\\.|。|;|；|\\?|？|！|!)";
-  private static final String TAG = SleepWidgetProvider.class.getSimpleName();
+  private static final String TAG = "111111111";
   @Override
   public void onDisabled(Context context) {
     super.onDisabled(context);
@@ -34,42 +36,9 @@ public final class SleepWidgetProvider extends AppWidgetProvider {
   public void onReceive(Context context, Intent intent) {
     super.onReceive(context, intent);
     Log.d(TAG, "onReceive : action = " + intent.getAction());
-    String action = intent.getAction();
-    if("com.devdroid.sleepassistant.widget.ACTION_SLEEP".equals(action)){
-      AppWidgetManager appWidgeManger = AppWidgetManager.getInstance(context);
-      int appWidgetId = LauncherModel.getInstance().getSharedPreferencesManager().getInt(IPreferencesIds.KEY_APP_WIDGET_ISLEEP_ID, 0);
-      if (appWidgetId != 0) {
-        onWidgetUpdateData(context, appWidgeManger, appWidgetId);
-      }
-    }
   }
 
-  /**
-   * 窗口小部件更新
-   */
-  private void onWidgetUpdateData(Context context, AppWidgetManager appWidgeManger, int appWidgetId) {
-    Log.i(TAG, "appWidgetId = " + appWidgetId);
-    RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_sleep);
-    Intent intent = new Intent(context, SleepWidgetProvider.class);
-    intent.setAction("com.devdroid.sleepassistant.widget.ACTION_SLEEP");
-    remoteViews.setOnClickPendingIntent(R.id.d17, PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
-    long currentTime = System.currentTimeMillis();
-    if(currentTime%2 == 0) {
-
-      Log.i(TAG, "onWidgetUpdateData = 1");
-      remoteViews.setViewVisibility(R.id.tvContent, View.VISIBLE);
-      remoteViews.setTextViewText(R.id.tvContent,"点击显示显示把价格考虑到各级领导机关两地分居广泛的根据反馈给回访电话" + currentTime);
-    } else {
-      Log.i(TAG, "onWidgetUpdateData = 2");
-      remoteViews.setViewVisibility(R.id.tvContent, View.INVISIBLE);
-    }
-
-
-
-
-    appWidgeManger.updateAppWidget(appWidgetId, remoteViews);
-  }
 
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -85,22 +54,16 @@ public final class SleepWidgetProvider extends AppWidgetProvider {
     }
   }
 
-  @Override
-  public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-    super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
-    Log.d(TAG, "onAppWidgetOptionsChanged");
-    onWidgetUpdate(context, appWidgetManager, appWidgetId);
-  }
-
   /**
    * 窗口小部件更新
    */
   private void onWidgetUpdate(Context context, AppWidgetManager appWidgeManger, int appWidgetId) {
     Log.i(TAG, "appWidgetId = " + appWidgetId);
     RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout_sleep);
-    Intent intent = new Intent(context, SleepWidgetProvider.class);
-    intent.setAction("com.devdroid.sleepassistant.widget.ACTION_SLEEP");
-    remoteViews.setOnClickPendingIntent(R.id.d17, PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT));
+    Intent intent4 = new Intent(context, MainActivity.class);
+    intent4.putExtra("action", "create_sleep_time_new");
+    intent4.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+    remoteViews.setOnClickPendingIntent(R.id.d17, PendingIntent.getActivity(context, 4, intent4, PendingIntent.FLAG_UPDATE_CURRENT));
     appWidgeManger.updateAppWidget(appWidgetId, remoteViews);
   }
 }
