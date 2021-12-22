@@ -12,6 +12,7 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,7 +38,8 @@ public class ShiciActivity extends BaseActivity {
   private TextView mTvShiciTitle;
   private TextView mTvShiciDynasty;
   private TextView mTvShiciAuthor;
-  private STextView mTvShiciContent;
+  private STextView mSTvShiciContent;
+  private TextView mTvShiciContent;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class ShiciActivity extends BaseActivity {
     mTvShiciTitle = findViewById(R.id.tv_shici_title);
     mTvShiciDynasty = findViewById(R.id.tv_shici_dynasty);
     mTvShiciAuthor = findViewById(R.id.tv_shici_author);
+    mSTvShiciContent = findViewById(R.id.stv_shici_content);
     mTvShiciContent = findViewById(R.id.tv_shici_content);
     ImageView ivShiciBg = findViewById(R.id.in_shici_bg);
     Random r1 = new Random();
@@ -81,6 +84,7 @@ public class ShiciActivity extends BaseActivity {
     mTvShiciTitle.setTypeface(tf);
     mTvShiciDynasty.setTypeface(tf);
     mTvShiciAuthor.setTypeface(tf);
+    mSTvShiciContent.setTypeface(tf);
     mTvShiciContent.setTypeface(tf);
     mTvShiciTitle.setText(mOriginBean.getTitle());
     mTvShiciDynasty.setText(mOriginBean.getDynasty());
@@ -89,25 +93,32 @@ public class ShiciActivity extends BaseActivity {
     for (String str:mOriginBean.getContent()){
       shici.append(str.replaceAll(REGEX, "$1\n"));
     }
+    if(shici.length() > 270){
+      mSTvShiciContent.setVisibility(View.GONE);
+      mTvShiciContent.setVisibility(View.VISIBLE);
+      mTvShiciContent.setText(shici.toString());
+    } else {
+      mSTvShiciContent.setVisibility(View.VISIBLE);
+      mSTvShiciContent.setText(shici.toString());
+      mTvShiciContent.setVisibility(View.GONE);
+      try {
+        InputStream is = getAssets().open("gson.txt");
+        InputStreamReader isr = new InputStreamReader(is);
+        DrawData data = new Gson().fromJson(isr, DrawData.class);
+        data.aniType = A.SINGLE_RIGHT_FADE_INF_LEFT_FADE_OUT;
+        int coclor = mTvShiciContent.getCurrentTextColor();
+        data.layers.get(0).paintParam.color = String.valueOf(coclor);
+        mSTvShiciContent.setData(data);
+      } catch (Exception e){
+        e.printStackTrace();
+      }
+      mSTvShiciContent.getTAnimation().start();
+    }
 //    StringBuilder shici = new StringBuilder();
 //    for (String ciju:sb.toString().split("\n")) {
 //      String pinyin = PinyinUtils.getPinyin(ciju.replaceAll(REGEX, ""));
 //      shici.append(pinyin).append("\n").append(ciju).append("\n");
 //    }
-    mTvShiciContent.setText(shici.toString());
-    try {
-      InputStream is = getAssets().open("gson.txt");
-      InputStreamReader isr = new InputStreamReader(is);
-      DrawData data = new Gson().fromJson(isr, DrawData.class);
-      data.aniType = A.SINGLE_RIGHT_FADE_INF_LEFT_FADE_OUT;
-      int coclor = mTvShiciContent.getCurrentTextColor();
-      data.layers.get(0).paintParam.color = String.valueOf(coclor);
-      mTvShiciContent.setData(data);
-    } catch (Exception e){
-      e.printStackTrace();
-    }
-    mTvShiciContent.getTAnimation().start();
-
     Log.i("11111111111", "initData OK");
   }
 
