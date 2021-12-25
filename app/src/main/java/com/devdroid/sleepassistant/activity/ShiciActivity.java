@@ -1,20 +1,23 @@
 package com.devdroid.sleepassistant.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Magnifier;
 import android.widget.TextView;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
@@ -23,11 +26,9 @@ import com.devdroid.sleepassistant.freefont.core.animation.A;
 import com.devdroid.sleepassistant.freefont.core.data.DrawData;
 import com.devdroid.sleepassistant.freefont.core.view.STextView;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
-import com.devdroid.sleepassistant.utils.PinyinUtils;
 import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
 import com.jinrishici.sdk.android.model.OriginBean;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Random;
@@ -51,9 +52,9 @@ public class ShiciActivity extends BaseActivity {
     setContentView(R.layout.activity_shici);
     initView();
     initData();
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      setActionMode();
-    }
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//      setActionMode();
+//    }
   }
 
 
@@ -66,15 +67,53 @@ public class ShiciActivity extends BaseActivity {
       shici = LauncherModel.getInstance().getSharedPreferencesManager().getString(IPreferencesIds.KEY_SHICI_CONTENT_LAST, "");
     }
     mOriginBean = new Gson().fromJson(shici, OriginBean.class);
+    View layout = findViewById(R.id.rl_content_layout);
     mTvShiciTitle = findViewById(R.id.tv_shici_title);
     mTvShiciDynasty = findViewById(R.id.tv_shici_dynasty);
     mTvShiciAuthor = findViewById(R.id.tv_shici_author);
     mSTvShiciContent = findViewById(R.id.stv_shici_content);
     mTvShiciContent = findViewById(R.id.tv_shici_content);
     ImageView ivShiciBg = findViewById(R.id.in_shici_bg);
+    setMagnifier(mSTvShiciContent);
+    setMagnifier(mTvShiciContent);
+    setMagnifier(layout);
     Random r1 = new Random();
     int[] resources = new int[]{R.drawable.shici_bg_0,R.drawable.shici_bg_1,R.drawable.shici_bg_2};
     ivShiciBg.setImageResource(resources[r1.nextInt(9)%3]);
+  }
+
+  @SuppressLint("ClickableViewAccessibility")
+  private void setMagnifier(View view) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        Magnifier.Builder builder = new Magnifier.Builder(view);
+        builder.setOverlay(ContextCompat.getDrawable(this, R.drawable.magnifier));//设置覆盖物
+        builder.setInitialZoom(2);//设置初始放大倍数，与Magnifier的setZoom功能相同
+        builder.setCornerRadius(100);  //设置圆角：0-100
+        builder.setClippingEnabled(false);//false时放大镜可以滑到手机屏幕外；true时放大镜只能再屏幕内滑动。
+        builder.setSize(180, 180);//设置放大镜宽高
+        Magnifier magnifier = builder.build();
+        magnifier.setZoom(2);  //设置放大倍数：
+        view.setOnTouchListener((v, event) -> {
+          switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+              // Fall through.
+            case MotionEvent.ACTION_MOVE: {
+              final int[] viewPosition = new int[2];
+              v.getLocationOnScreen(viewPosition);
+              magnifier.show(event.getRawX() - viewPosition[0], event.getRawY() - viewPosition[1]);
+              break;
+            }
+            case MotionEvent.ACTION_CANCEL:
+              // Fall through.
+            case MotionEvent.ACTION_UP: {
+              magnifier.dismiss();
+            }
+          }
+          return true;
+        });
+      }
+    }
   }
 
   private void initData() {
