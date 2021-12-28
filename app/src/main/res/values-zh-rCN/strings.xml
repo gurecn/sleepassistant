@@ -90,5 +90,6 @@
     <string name="dialog_lock_time_open_method">开启方式</string>
     <string name="dialog_lock_time_ok">立即开启</string>
     <string name="dialog_lock_time_cancel">暂不使用</string>
+    <string name="save_img">保存成图片</string>
 
 </resources>

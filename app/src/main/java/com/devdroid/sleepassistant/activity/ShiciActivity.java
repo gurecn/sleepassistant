@@ -3,10 +3,13 @@ package com.devdroid.sleepassistant.activity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,7 +36,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Random;
 
-public class ShiciActivity extends BaseActivity {
+public class ShiciActivity extends BaseActivity implements View.OnClickListener {
   public static final String REGEX = "(:|：|，|,|\\.|。|;|；|\\?|？|！|!)";
   private OriginBean mOriginBean;
   private TextView mTvShiciTitle;
@@ -41,6 +44,8 @@ public class ShiciActivity extends BaseActivity {
   private TextView mTvShiciAuthor;
   private STextView mSTvShiciContent;
   private TextView mTvShiciContent;
+  private View mContentLayout;
+  public static Bitmap mBitmap;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -67,16 +72,18 @@ public class ShiciActivity extends BaseActivity {
       shici = LauncherModel.getInstance().getSharedPreferencesManager().getString(IPreferencesIds.KEY_SHICI_CONTENT_LAST, "");
     }
     mOriginBean = new Gson().fromJson(shici, OriginBean.class);
-    View layout = findViewById(R.id.rl_content_layout);
+    mContentLayout = findViewById(R.id.rl_content_layout);
     mTvShiciTitle = findViewById(R.id.tv_shici_title);
     mTvShiciDynasty = findViewById(R.id.tv_shici_dynasty);
     mTvShiciAuthor = findViewById(R.id.tv_shici_author);
     mSTvShiciContent = findViewById(R.id.stv_shici_content);
     mTvShiciContent = findViewById(R.id.tv_shici_content);
     ImageView ivShiciBg = findViewById(R.id.in_shici_bg);
+    FloatingActionButton floatingActionButton = findViewById(R.id.fab);
+    floatingActionButton.setOnClickListener(this);
     setMagnifier(mSTvShiciContent);
     setMagnifier(mTvShiciContent);
-    setMagnifier(layout);
+    setMagnifier(mContentLayout);
     Random r1 = new Random();
     int[] resources = new int[]{R.drawable.shici_bg_0,R.drawable.shici_bg_1,R.drawable.shici_bg_2};
     ivShiciBg.setImageResource(resources[r1.nextInt(9)%3]);
@@ -184,8 +191,23 @@ public class ShiciActivity extends BaseActivity {
 
       @Override
       public void onDestroyActionMode(ActionMode mode) {
-
       }
     });
+  }
+
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()){
+      case R.id.fab:
+        v.setVisibility(View.GONE);
+        mBitmap = Bitmap.createBitmap(mContentLayout.getWidth(), mContentLayout.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(mBitmap);
+        mContentLayout.draw(canvas);
+        Log.d("11111111111", "mBitmap:" + mBitmap.getByteCount());
+        v.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(ShiciActivity.this, ImageActivity.class);
+        startActivity(intent);
+        break;
+    }
   }
 }

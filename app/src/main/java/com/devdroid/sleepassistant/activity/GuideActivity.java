@@ -58,43 +58,43 @@ public class GuideActivity extends BaseActivity {
         initView();
     }
 
-    /**
-     * 请求需要的权限
-     */
-    private String[] requestPermissions() {
-        String[] permissions = null;
-        List<String> permissionsList = new ArrayList<>();
-        addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE);
-        if (permissionsList.size() > 0) {
-            permissions = new String[permissionsList.size()];
-            for(int i = 0 ; i < permissionsList.size() ; i++){
-                permissions[i] = permissionsList.get(i);
-            }
-        }
-        return permissions;
-    }
-    private void addPermission(List<String> permissionsList, String permission) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                permissionsList.add(permission);
-            }
+/**
+ * 请求需要的权限
+ */
+private String[] requestPermissions() {
+    String[] permissions = null;
+    List<String> permissionsList = new ArrayList<>();
+    addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE);
+    if (permissionsList.size() > 0) {
+        permissions = new String[permissionsList.size()];
+        for(int i = 0 ; i < permissionsList.size() ; i++){
+            permissions[i] = permissionsList.get(i);
         }
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 1003) {
-            for (int i = 0; i < grantResults.length;i++) {
-                int grant = grantResults[i];
-                if (grant != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, getString(R.string.permissionnot), Toast.LENGTH_SHORT).show();
-                } else if(i == grantResults.length -1){
-                    initView();
-                }
+    return permissions;
+}
+private void addPermission(List<String> permissionsList, String permission) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsList.add(permission);
+        }
+    }
+}
+@Override
+public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    if(requestCode == 1003) {
+        for (int i = 0; i < grantResults.length;i++) {
+            int grant = grantResults[i];
+            if (grant != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, getString(R.string.permissionnot), Toast.LENGTH_SHORT).show();
+            } else if(i == grantResults.length -1){
+                initView();
             }
         }
     }
+}
 
     private void initData() {
         TextView tvDayLable = (TextView)this.findViewById(R.id.tv_activity_guide_time_lable);

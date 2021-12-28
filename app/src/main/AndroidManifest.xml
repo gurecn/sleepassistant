@@ -88,6 +88,9 @@
         <activity
             android:label="@string/activity_agreement_lable"
             android:name=".activity.AgreementAvtivity" />
+        <activity
+            android:exported="true"
+            android:name=".activity.ImageActivity" />
 
         <meta-data
             android:name="com.google.android.backup.api_key"

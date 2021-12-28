@@ -102,4 +102,5 @@
     <string name="forward_30_second">前进30秒</string>
     <string name="widget_i_sleep">爱睡眠</string>
     <string name="widget_i_shici">爱诗词</string>
+    <string name="save_img">保存成图片</string>
 </resources>
