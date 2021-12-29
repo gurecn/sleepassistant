@@ -11,10 +11,12 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/ll_title_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:gravity="center"
+        android:tag="LinearLayout"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv_shici_title"
@@ -35,37 +37,34 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="16sp"/>
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:scrollbars="none"
-            android:paddingTop="25dp"
-            android:gravity="center">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <com.devdroid.sleepassistant.freefont.core.view.STextView
-                    android:id="@+id/stv_shici_content"
-                    android:textIsSelectable="false"
-                    android:layerType="software"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:gravity="center"
-                    android:textSize="22sp"/>
-                <TextView
-                    android:id="@+id/tv_shici_content"
-                    android:textIsSelectable="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:gravity="center"
-                    android:textSize="22sp"/>
-            </LinearLayout>
-        </ScrollView >
     </LinearLayout>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_title_layout"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="25dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_shici_content"
+            android:textIsSelectable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textSize="22sp"/>
+        <com.devdroid.sleepassistant.freefont.core.view.STextView
+            android:id="@+id/stv_shici_content"
+            android:textIsSelectable="false"
+            android:layerType="software"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="none"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textSize="22sp"/>
+    </FrameLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_gravity="bottom|end"

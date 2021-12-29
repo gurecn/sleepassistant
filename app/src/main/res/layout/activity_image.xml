@@ -9,5 +9,5 @@
         android:id="@+id/iv_shici_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerInside"/>
 </RelativeLayout>

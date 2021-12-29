@@ -30,11 +30,13 @@ public class ImageActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_image);
+    Log.d("11111111111", "onCreate");
     Intent intent = getIntent();
     Bitmap bitmap = intent.getParcelableExtra("img");
     ImageView imageView = findViewById(R.id.iv_shici_img);
     imageView.setImageBitmap(ShiciActivity.mBitmap);
     save(ShiciActivity.mBitmap);
+    Log.d("11111111111", "onCreate finish");
   }
   /**
    * 保存图片
