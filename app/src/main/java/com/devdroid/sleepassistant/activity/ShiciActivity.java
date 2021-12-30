@@ -251,13 +251,13 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     paint.setDither(true);
     paint.setFilterBitmap(true);
     canvas.drawBitmap(getImageViewBitmap(mIvShiciBg, mIvShiciBg.getWidth(), y + heightContent), 0, 0, paint);
+    Bitmap bitmap = drawableToBitmap(getResources().getDrawable(R.drawable.aishici));
+    canvas.drawBitmap(bitmap,(int)((contentLayoutWidth - bitmap.getWidth())/2), titleY- bitmap.getHeight() * 3, paint);
+
     canvas.translate(titleX, titleY);
     mTitleLayout.draw(canvas);
     canvas.translate(x - titleX, y - titleY);
     staticLayout.draw(canvas);
-    Bitmap bitmap = drawableToBitmap(getResources().getDrawable(R.drawable.aishici));
-    canvas.translate((int)((contentWidth - bitmap.getWidth())/2) , heightContent- bitmap.getHeight());
-    canvas.drawBitmap(bitmap,0, 0, paint);
     canvas.save();
     return bitmapAll;
   }
