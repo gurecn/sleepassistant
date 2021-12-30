@@ -1,9 +1,13 @@
 package com.devdroid.sleepassistant.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,34 +34,32 @@ public class ImageActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_image);
-    Log.d("11111111111", "onCreate");
     Intent intent = getIntent();
     Bitmap bitmap = intent.getParcelableExtra("img");
     ImageView imageView = findViewById(R.id.iv_shici_img);
     imageView.setImageBitmap(ShiciActivity.mBitmap);
-    save(ShiciActivity.mBitmap);
-    Log.d("11111111111", "onCreate finish");
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+      save(ShiciActivity.mBitmap);
+    } else {
+      insertImage(ShiciActivity.mBitmap);
+    }
   }
   /**
-   * 保存图片
+   * 保存图片 SDK <=28
    */
   public void save(Bitmap bitmap) {
     String path = BASE_PATH + System.currentTimeMillis() + ".jpg";
-    Log.d(TAG, "path：" + path);
     File directory = new File(BASE_PATH);
     if(!directory.isDirectory()){
       boolean mkSuccess = directory.mkdirs();
-      Log.d(TAG, "mkdirs：" + mkSuccess);
       if(!mkSuccess){
         directory.mkdirs();
       }
     }
     File file = new File(path);
-    Log.d(TAG, "exists：" + file.exists());
     if(!file.exists()){
       try {
         boolean createNewFile = file.createNewFile();
-        Log.d(TAG, "createNewFile：" + createNewFile);
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -71,28 +73,27 @@ public class ImageActivity extends AppCompatActivity {
       e.printStackTrace();
     }
   }
-
   /**
-   * @return 质量压缩图片
+   * 保存图片,SDK > 28
    */
-  public static Bitmap compressImage(Bitmap image) {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    //质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-    image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-    int options = 80;
-    //循环判断如果压缩后图片是否大于100kb,大于继续压缩
-    while (baos.toByteArray().length / 1024 > 100) {
-      //重置baos即清空baos
-      baos.reset();
-      //这里压缩options%，把压缩后的数据存放到baos中
-      image.compress(Bitmap.CompressFormat.JPEG, options, baos);
-      //每次都减少10
-      options -= 10;
+  private void insertImage(Bitmap bitmap) {
+    // 拿到 MediaStore.Images 表的uri
+    Uri tableUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+    // 创建图片索引
+    ContentValues  value = new ContentValues();
+    value.put(MediaStore.Images.Media.DISPLAY_NAME,System.currentTimeMillis() + ".jpg");
+    value.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
+    value.put(MediaStore.Images.Media.RELATIVE_PATH, "DCIM/devdroid");
+    value.put(MediaStore.Images.Media.DATE_ADDED, System.currentTimeMillis());
+    // 将该索引信息插入数据表，获得图片的Uri
+    Uri imageUri = getContentResolver().insert(tableUri,value);
+    try {
+      // 通过图片uri获得输出流
+      OutputStream os = getContentResolver().openOutputStream(imageUri);
+      // 图片压缩保存
+      bitmap.compress(Bitmap.CompressFormat.JPEG,100,os);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    //把压缩后的数据baos存放到ByteArrayInputStream中
-    ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
-    //把ByteArrayInputStream数据生成图片
-    return BitmapFactory.decodeStream(isBm, null, null);
   }
-
 }
