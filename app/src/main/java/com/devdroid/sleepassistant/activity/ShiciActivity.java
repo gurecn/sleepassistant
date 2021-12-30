@@ -1,10 +1,8 @@
 package com.devdroid.sleepassistant.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,7 +21,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -44,7 +41,11 @@ import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
 import com.jinrishici.sdk.android.model.OriginBean;
-
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Random;
@@ -152,8 +153,13 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     mTvShiciDynasty.setText(mOriginBean.getDynasty());
     mTvShiciAuthor.setText(mOriginBean.getAuthor());
     StringBuilder shici = new StringBuilder();
+    StringBuilder sc = new StringBuilder();
     for (String str:mOriginBean.getContent()){
-      shici.append(str.replaceAll(REGEX, "$1\n"));
+      sc.append(str.replaceAll(REGEX, "$1\n"));
+    }
+    for (String ciju:sc.toString().split("\n")) {
+      String pinyin = getAllPinyin(ciju);
+      shici.append(pinyin).append("\n").append(ciju).append("\n");
     }
     if(shici.length() > 270){
       mSTvShiciContent.setVisibility(View.GONE);
@@ -176,11 +182,6 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
       }
       mSTvShiciContent.getTAnimation().start();
     }
-//    StringBuilder shici = new StringBuilder();
-//    for (String ciju:sb.toString().split("\n")) {
-//      String pinyin = PinyinUtils.getPinyin(ciju.replaceAll(REGEX, ""));
-//      shici.append(pinyin).append("\n").append(ciju).append("\n");
-//    }
     Log.i("11111111111", "initData OK");
   }
 
@@ -233,7 +234,7 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     int titleX = location[0]; // view距离 屏幕左边的距离（即x轴方向）
     int titleY = location[1]; // view距离 屏幕顶边的距离（即y轴方向）
     TextPaint contentPaint = contentView.getPaint();
-    StaticLayout staticLayout = new StaticLayout(contentView.getText(), contentPaint,contentWidth , Layout.Alignment.ALIGN_NORMAL, 1.2F, 0, false);
+    StaticLayout staticLayout = new StaticLayout(contentView.getText(), contentPaint,contentWidth , Layout.Alignment.ALIGN_CENTER, 1.2F, 0, false);
     int heightContent = staticLayout.getHeight();
     Bitmap.Config config = Bitmap.Config.ARGB_8888;
     Bitmap bitmapAll;
@@ -306,6 +307,26 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
       origin.recycle();
     }
     return newBM;
+  }
+
+  private String getAllPinyin(String hanzi){
+    HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+    format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+    format.setToneType(HanyuPinyinToneType.WITH_TONE_MARK);
+    format.setVCharType(HanyuPinyinVCharType.WITH_U_UNICODE);
+    StringBuilder sb = new StringBuilder();
+    try {
+      for(char cha:hanzi.toCharArray()){
+        if(Character.toString(cha).matches("[\\u4E00-\\u9FA5]+")) {
+          String[] pys = PinyinHelper.toHanyuPinyinStringArray(cha, format);
+          sb.append(pys[0]).append(" ");
+        }
+      }
+      sb.deleteCharAt(sb.length()-1);
+    } catch (Exception exception){
+      exception.printStackTrace();
+    }
+    return sb.toString();
   }
 
 }

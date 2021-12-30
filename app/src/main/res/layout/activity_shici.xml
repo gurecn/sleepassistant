@@ -39,7 +39,7 @@
             android:textSize="16sp"/>
     </LinearLayout>
     <FrameLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_title_layout"
         android:layout_centerHorizontal="true"
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/tv_shici_content"
             android:textIsSelectable="false"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:gravity="center"
@@ -57,7 +57,7 @@
             android:id="@+id/stv_shici_content"
             android:textIsSelectable="false"
             android:layerType="software"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbarStyle="insideInset"
             android:scrollbars="none"
