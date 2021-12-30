@@ -4,12 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -224,20 +227,22 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     contentView.getLocationOnScreen(location);
     int x = location[0]; // view距离 屏幕左边的距离（即x轴方向）
     int y = location[1]; // view距离 屏幕顶边的距离（即y轴方向）
+    int contentWidth = contentView.getWidth();
+    int contentLayoutWidth = mContentLayout.getWidth();
     mTitleLayout.getLocationOnScreen(location);
     int titleX = location[0]; // view距离 屏幕左边的距离（即x轴方向）
     int titleY = location[1]; // view距离 屏幕顶边的距离（即y轴方向）
     TextPaint contentPaint = contentView.getPaint();
-    StaticLayout staticLayout = new StaticLayout(contentView.getText(), contentPaint, contentView.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.2F, 0, false);
+    StaticLayout staticLayout = new StaticLayout(contentView.getText(), contentPaint,contentWidth , Layout.Alignment.ALIGN_NORMAL, 1.2F, 0, false);
     int heightContent = staticLayout.getHeight();
     Bitmap.Config config = Bitmap.Config.ARGB_8888;
     Bitmap bitmapAll;
     try {
-      bitmapAll = Bitmap.createBitmap(mContentLayout.getWidth(), y + heightContent, config);
+      bitmapAll = Bitmap.createBitmap(contentLayoutWidth, y + heightContent, config);
     } catch (Exception e) {
       e.printStackTrace();
       config = Bitmap.Config.RGB_565;
-      bitmapAll = Bitmap.createBitmap(mContentLayout.getWidth(), y + heightContent, config);
+      bitmapAll = Bitmap.createBitmap(contentLayoutWidth, y + heightContent, config);
     }
     Canvas canvas = new Canvas(bitmapAll);
     canvas.drawColor(Color.WHITE);
@@ -250,8 +255,23 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     mTitleLayout.draw(canvas);
     canvas.translate(x - titleX, y - titleY);
     staticLayout.draw(canvas);
+    Bitmap bitmap = drawableToBitmap(getResources().getDrawable(R.drawable.aishici));
+    canvas.translate((int)((contentWidth - bitmap.getWidth())/2) , heightContent- bitmap.getHeight());
+    canvas.drawBitmap(bitmap,0, 0, paint);
     canvas.save();
     return bitmapAll;
+  }
+
+
+  static Bitmap drawableToBitmap(Drawable drawable){ // drawable 转换成bitmap
+    int width = drawable.getIntrinsicWidth();// 取drawable的长宽
+    int height = drawable.getIntrinsicHeight();
+    Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ?Bitmap.Config.ARGB_8888:Bitmap.Config.RGB_565;// 取drawable的颜色格式
+    Bitmap bitmap = Bitmap.createBitmap(width, height, config);// 建立对应bitmap
+    Canvas canvas = new Canvas(bitmap);// 建立对应bitmap的画布
+    drawable.setBounds(0, 0, width, height);
+    drawable.draw(canvas);// 把drawable内容画到画布中
+    return bitmap;
   }
 
   /**
