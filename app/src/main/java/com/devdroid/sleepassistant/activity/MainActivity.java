@@ -97,6 +97,7 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
                             shici = shici.replaceAll("(:|：|，|,|\\.|。|;|；|\\?|？)", "$1\n");
                             mTvJinRiShiCi.setText(shici);
                             String dataString = new Gson().toJson(beanOrigin);
+                            Log.d("11111111", "beanOrigin:" + dataString);
                             LauncherModel.getInstance().getSharedPreferencesManager().commitString(IPreferencesIds.KEY_SHICI_CONTENT_LAST,dataString);
                             LauncherModel.getInstance().getSharedPreferencesManager().commitString(IPreferencesIds.KEY_SHICI_SUMMARY_LAST,shici);
                             LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.KEY_SHICI_TIME_LAST, DateUtil.getFormatDate());

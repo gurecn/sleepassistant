@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.text.Layout;
 import android.text.StaticLayout;
@@ -31,6 +30,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Magnifier;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
@@ -62,6 +63,9 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
   private View mTitleLayout;
   public static Bitmap mBitmap;
   private ImageView mIvShiciBg;
+  private int showType = 0;  //0 诗词；1 注释
+  private boolean hasAnimation = true;
+  private boolean hasPinyin = false;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +102,6 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     mTvShiciContent = findViewById(R.id.tv_shici_content);
     mTvShiciContent.setMovementMethod(new ScrollingMovementMethod());
     mIvShiciBg = findViewById(R.id.in_shici_bg);
-    FloatingActionButton floatingActionButton = findViewById(R.id.fab);
-    floatingActionButton.setOnClickListener(this);
     setMagnifier(mTvShiciTitle);
     Random r1 = new Random();
     int[] resources = new int[]{R.drawable.shici_bg_0,R.drawable.shici_bg_1,R.drawable.shici_bg_2};
@@ -153,15 +155,24 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     mTvShiciDynasty.setText(mOriginBean.getDynasty());
     mTvShiciAuthor.setText(mOriginBean.getAuthor());
     StringBuilder shici = new StringBuilder();
-    StringBuilder sc = new StringBuilder();
-    for (String str:mOriginBean.getContent()){
-      sc.append(str.replaceAll(REGEX, "$1\n"));
+    if(showType == 0) {
+      StringBuilder sc = new StringBuilder();
+      for (String str : mOriginBean.getContent()) {
+        sc.append(str.replaceAll(REGEX, "$1\n"));
+      }
+      for (String ciju : sc.toString().split("\n")) {
+        String pinyin = getAllPinyin(ciju);
+        if (hasPinyin) {
+          shici.append(pinyin).append("\n");
+        }
+        shici.append(ciju).append("\n");
+      }
+    } else {
+      for (String str : mOriginBean.getTranslate()) {
+        shici.append(str.replaceAll(REGEX, "$1\n"));
+      }
     }
-    for (String ciju:sc.toString().split("\n")) {
-      String pinyin = getAllPinyin(ciju);
-      shici.append(pinyin).append("\n").append(ciju).append("\n");
-    }
-    if(shici.length() > 270){
+    if(!hasAnimation || shici.length() > 270){
       mSTvShiciContent.setVisibility(View.GONE);
       mTvShiciContent.setVisibility(View.VISIBLE);
       mTvShiciContent.setText(shici.toString());
@@ -215,10 +226,38 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
   @Override
   public void onClick(View v) {
     switch (v.getId()){
-      case R.id.fab:
+      case R.id.btn_shici_share:
         mBitmap = getShiciImage(mSTvShiciContent.getVisibility() == View.VISIBLE?mSTvShiciContent:mTvShiciContent);
         Intent intent = new Intent(ShiciActivity.this, ImageActivity.class);
         startActivity(intent);
+        break;
+      case R.id.btn_shici_content:
+        showType = 0;
+        v.setBackgroundResource(R.drawable.icon_shici_press);
+        findViewById(R.id.btn_shici_translate).setBackgroundResource(R.drawable.icon_shici);
+        initData();
+        break;
+      case R.id.btn_shici_translate:
+        showType = 1;
+        v.setBackgroundResource(R.drawable.icon_shici_press);
+        findViewById(R.id.btn_shici_content).setBackgroundResource(R.drawable.icon_shici);
+        findViewById(R.id.btn_shici_pinyin).setBackgroundResource(R.drawable.icon_shici);
+        hasPinyin = false;
+        initData();
+        break;
+      case R.id.btn_shici_pinyin:
+        if(showType == 0) {
+          hasPinyin = !hasPinyin;
+          v.setBackgroundResource(hasPinyin ? R.drawable.icon_shici_press : R.drawable.icon_shici);
+          initData();
+        } else {
+          Toast.makeText(this,"注解不支持注音", Toast.LENGTH_SHORT).show();
+        }
+        break;
+      case R.id.btn_shici_animation:
+        hasAnimation = !hasAnimation;
+        v.setBackgroundResource(hasAnimation?R.drawable.icon_shici_press:R.drawable.icon_shici);
+        initData();
         break;
     }
   }

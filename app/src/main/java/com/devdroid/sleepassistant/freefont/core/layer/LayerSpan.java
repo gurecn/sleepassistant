@@ -5,9 +5,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.text.style.ReplacementSpan;
-import android.util.Log;
-
-
 import com.devdroid.sleepassistant.freefont.core.animation.ICanvasTransform;
 
 import java.util.ArrayList;
@@ -46,7 +43,6 @@ public class LayerSpan extends ReplacementSpan{
     @Override
     public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
         if (fm != null) {
-            Log.i("txt-getSize-start",fm.toString());
             Paint.FontMetricsInt fontMetricsInt =  paint.getFontMetricsInt();
             fm.ascent = fontMetricsInt.ascent;
             fm.descent = fontMetricsInt.descent;
@@ -63,27 +59,17 @@ public class LayerSpan extends ReplacementSpan{
             fontMetrics.descent = fm.descent;
             fontMetrics.top = fm.top;
             fontMetrics.bottom = fm.bottom;
-            Log.i("txt-getSize-end",fm.toString()+":::size:"+paint.getTextSize());
         }
         int width = measureWidth(paint,text,start,end);
-        Log.i("BaseSpanNew","getSize:"+width);
         return width;
     }
 
     @Override
     public void draw(Canvas canvas, CharSequence text, int start, int end, float x, int top, int y, int bottom, Paint paint) {
 //        float scale = S.S /paint.getTextSize();
-        Log.i("BaseSpanNew","draw");
-        Log.i("txt-draw-top",""+top+"bottom"+bottom);
-        Log.i("txt-draw",fontMetrics.toString());
-        float txtSize = paint.getTextSize();
-
         RectF rect = new RectF();
         int width = measureWidth(paint,text,start,end);
-        int height = bottom-top;
-
         rect.set(x,y+fontMetrics.ascent,width+x,y+fontMetrics.descent);
-
 //        rect.set(x,top,width+x,bottom);
 //        if(scale!=1){
 //            canvas.save();

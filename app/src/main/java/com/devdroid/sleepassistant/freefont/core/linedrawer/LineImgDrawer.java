@@ -1,15 +1,12 @@
 package com.devdroid.sleepassistant.freefont.core.linedrawer;
 
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.style.LineHeightSpan;
-import android.util.Log;
 
 
 /**
@@ -40,7 +37,6 @@ public class LineImgDrawer implements LineHeightSpan.WithDensity,LineDrawer{
             startPos = ((Spanned)text).getSpanStart(this);
             endPos = ((Spanned)text).getSpanEnd(this);
         }
-        Log.i("line","start:"+startPos+"end:"+endPos+"ssss"+start+"eeee"+end);
         if(endPos<start||startPos>=end){
             return;
         }
@@ -49,7 +45,6 @@ public class LineImgDrawer implements LineHeightSpan.WithDensity,LineDrawer{
 
 
     private void updateFM(Paint.FontMetricsInt fm,int txtHeight){
-        Log.i("line----start",fm.toString());
         aimHeight = (int) (relativeDrawableHeight*txtHeight);
         aimOffset = (int) (relativeDrawableHeight*txtHeight);
         switch (gravity){
@@ -89,7 +84,6 @@ public class LineImgDrawer implements LineHeightSpan.WithDensity,LineDrawer{
         fontMetricsInt.ascent = fm.ascent;
         fontMetricsInt.bottom = fm.bottom;
         fontMetricsInt.descent = fm.descent;
-        Log.i("line---end",fm.toString());
     }
 
     @Override
@@ -99,7 +93,6 @@ public class LineImgDrawer implements LineHeightSpan.WithDensity,LineDrawer{
 
     @Override
     public void draw(Canvas c, Paint p, float left, int top, float right, int bottom , int baseLine) {
-        Log.i("line-draw","top:"+top+"bottom:"+bottom);
         top = baseLine+fontMetricsInt.ascent;
         bottom = baseLine+fontMetricsInt.descent;
         switch (gravity){

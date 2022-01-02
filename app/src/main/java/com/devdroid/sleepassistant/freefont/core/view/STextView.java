@@ -1,6 +1,5 @@
 package com.devdroid.sleepassistant.freefont.core.view;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.RectF;
@@ -12,7 +11,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.animation.Animation;
 import android.widget.TextView;
@@ -22,9 +20,6 @@ import com.devdroid.sleepassistant.freefont.core.animation.Animation2IA;
 import com.devdroid.sleepassistant.freefont.core.animation.BaseAnimation2IA;
 import com.devdroid.sleepassistant.freefont.core.animation.ICanvasTransform;
 import com.devdroid.sleepassistant.freefont.core.animation.TA;
-import com.devdroid.sleepassistant.freefont.core.animation.TAnimation;
-import com.devdroid.sleepassistant.freefont.core.animation.TAnimationQueen;
-import com.devdroid.sleepassistant.freefont.core.data.AniData;
 import com.devdroid.sleepassistant.freefont.core.data.DrawData;
 import com.devdroid.sleepassistant.freefont.core.data.IndexParam;
 import com.devdroid.sleepassistant.freefont.core.data.LayerData;
@@ -134,7 +129,6 @@ public class STextView extends ShadeTextView {
 //        }
 //        tv.setTypeface(Typeface.createFromAsset(getAssets(),"08华康娃娃体W5.TTF"));
         if(!TextUtils.isEmpty(drawData.bgImg)){
-            Log.i("jjiis","hasBitmap"+drawData.bgImg);
             Drawable drawable = drawableLoader.loadByName(drawData.bgImg);
             if(!TextUtils.isEmpty(drawData.bgColor)){
                 CU.filterDrawable(drawable,CU.toInt(drawData.bgColor));

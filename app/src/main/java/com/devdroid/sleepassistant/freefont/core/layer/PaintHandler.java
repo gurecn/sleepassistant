@@ -3,7 +3,6 @@ package com.devdroid.sleepassistant.freefont.core.layer;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.BlurMaskFilter;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -13,8 +12,6 @@ import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.graphics.Typeface;
 import android.text.TextUtils;
-import android.util.Log;
-
 import com.devdroid.sleepassistant.freefont.core.data.LayerData;
 import com.devdroid.sleepassistant.freefont.core.data.ShaderBitmapParam;
 import com.devdroid.sleepassistant.freefont.core.data.ShaderParam;
@@ -97,7 +94,6 @@ public class PaintHandler implements ILayer.IPaintHandler {
         }
         if(shader!=null){
             matrix.reset();
-            Log.i("jjjjkkk","handlePaint");
             matrix.setRectToRect(shadeRect,rectF, Matrix.ScaleToFit.FILL);
 //            matrix.setTranslate(rectF.left,rectF.top);
             shader.setLocalMatrix(matrix);

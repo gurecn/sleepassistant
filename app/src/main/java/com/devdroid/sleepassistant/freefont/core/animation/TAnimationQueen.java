@@ -1,18 +1,11 @@
 package com.devdroid.sleepassistant.freefont.core.animation;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
-import android.view.View;
-import android.view.animation.AnimationSet;
 import android.widget.TextView;
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
@@ -21,21 +14,9 @@ import java.util.ArrayList;
 
 public class TAnimationQueen extends BaseAnimation{
     private ArrayList<BaseAnimation> animations = new ArrayList<>();
-//    private Field fRunning;
-
     @SuppressLint("SoonBlockedPrivateApi")
     public TAnimationQueen(TextView tv) {
         super(tv);
-        Log.d("111111111111", "TAnimationQueen1");
-//        try {
-//            fRunning =  ValueAnimator.class.getDeclaredField("mRunning");
-//            Log.d("111111111111", "fRunning：" + fRunning);
-//        } catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//            Log.d("111111111111", "NoSuchFieldException：" + e.getMessage());
-//        }
-//
-        Log.d("111111111111", "TAnimationQueen2");
     }
 
     public void addAnimation(BaseAnimation animation){
@@ -108,20 +89,14 @@ public class TAnimationQueen extends BaseAnimation{
         long currentTime = (long) ((Float)getAnimatedValue()*getDuration());
         long time = 0;
         long duration;
-        boolean hasTrans = false;
         for (BaseAnimation animation:animations) {
             duration = animation.getDuration();
             if(time<=currentTime&&time+duration>currentTime){
-                hasTrans = true;
-                Log.i("kkais","currentTime:"+currentTime+"duration:"+duration+"::time"+time);
                 animation.setCurrentPlayTime(currentTime-time);
                 animation.transformCanvas(index,rect,canvas,paint);
                 break;
             }
             time+=duration;
-        }
-        if(!hasTrans){
-            Log.i("ddsiis","no");
         }
     }
 

@@ -65,15 +65,56 @@
             android:gravity="center"
             android:textSize="22sp"/>
     </FrameLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_gravity="bottom|end"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        app:srcCompat="@android:drawable/ic_menu_send"
-        android:contentDescription="@string/save_img" />
+        android:gravity="center"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btn_shici_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:background="@drawable/icon_shici_press"
+            android:text="文"/>
+        <Button
+            android:id="@+id/btn_shici_translate"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:onClick="onClick"
+            android:background="@drawable/icon_shici"
+            android:text="释"/>
+        <Button
+            android:id="@+id/btn_shici_pinyin"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:onClick="onClick"
+            android:background="@drawable/icon_shici"
+            android:text="注"/>
+        <Button
+            android:id="@+id/btn_shici_animation"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:onClick="onClick"
+            android:background="@drawable/icon_shici_press"
+            android:text="效"/>
+        <Button
+            android:id="@+id/btn_shici_share"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:background="@drawable/ic_menu_share"/>
+    </LinearLayout>
 </RelativeLayout>

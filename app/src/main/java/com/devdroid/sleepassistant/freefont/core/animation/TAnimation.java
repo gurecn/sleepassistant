@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 import android.widget.TextView;
 
 /**
@@ -133,12 +132,6 @@ public class TAnimation extends BaseAnimation {
     public void transformCanvas(int index, RectF rect, Canvas canvas, Paint paint) {
         if(valueComputer!=null){
             float value = valueComputer.getVlaue(index,this);
-
-            if(valueComputer instanceof SquenceComputer&&(value==0||value == 1)){
-                if((int) (255*(fromAlpha+value*(toAlpha-fromAlpha))) == 255){
-                    Log.i("jisisos","value="+value+"index------"+index+"-----"+getCurrentPlayTime()+"::::");
-                }
-            }
             if(hasAlpha){
                 paint.setAlpha((int) (255*(fromAlpha+value*(toAlpha-fromAlpha))));
             }

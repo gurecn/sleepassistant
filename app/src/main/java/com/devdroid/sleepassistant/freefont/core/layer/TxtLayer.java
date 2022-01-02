@@ -2,7 +2,6 @@ package com.devdroid.sleepassistant.freefont.core.layer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
 
 /**
@@ -17,8 +16,6 @@ public class TxtLayer extends BaseLayer{
         if(param instanceof ITxtDrawParam){
             TxtParam txtParam = ((ITxtDrawParam)param).getTxtParam();
             if(txtParam!=null){
-                Paint.FontMetrics metrics = paint.getFontMetrics();
-                Log.i("draw-txt",""+txtParam.y);
                 canvas.drawText(txtParam.text,txtParam.start,txtParam.end,txtParam.x,txtParam.y,paint);
 //                canvas.drawText(txtParam.text,txtParam.start,txtParam.end,txtParam.x,txtParam.centerY-(metrics.bottom+metrics.top)/2f,paint);
             }
