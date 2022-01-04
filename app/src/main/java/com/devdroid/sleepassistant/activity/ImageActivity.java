@@ -72,7 +72,6 @@ public class ImageActivity extends AppCompatActivity {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    MediaStore.
   }
   /**
    * 保存图片,SDK > 28
