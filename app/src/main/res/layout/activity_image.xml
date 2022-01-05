@@ -39,14 +39,14 @@ android:fitsSystemWindows="true">
             android:onClick="onClick"
             android:gravity="center_horizontal">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_share_save_image"/>
+                android:src="@mipmap/share_save_image"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="保存相册"/>
+                android:text="相册"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/share_wechat"
@@ -58,14 +58,14 @@ android:fitsSystemWindows="true">
             android:onClick="onClick"
             android:gravity="center_horizontal">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_share_wechat"/>
+                android:src="@mipmap/share_wechat"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="微信好友"/>
+                android:text="微信"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/share_moment"
@@ -77,10 +77,10 @@ android:fitsSystemWindows="true">
             android:onClick="onClick"
             android:gravity="center">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_share_moment"/>
+                android:src="@mipmap/share_moment"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,14 +96,34 @@ android:fitsSystemWindows="true">
             android:onClick="onClick"
             android:gravity="center_horizontal">
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_share_moment"/>
+                android:src="@mipmap/share_dingtalk"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="钉钉好友"/>
+                android:text="钉钉"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/share_alipay"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:visibility="gone"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/share_alipay"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付宝"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

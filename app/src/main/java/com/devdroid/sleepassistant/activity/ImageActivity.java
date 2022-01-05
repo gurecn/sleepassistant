@@ -16,6 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.android.dingtalk.share.ddsharemodule.DDShareApiFactory;
+import com.android.dingtalk.share.ddsharemodule.IDDShareApi;
+import com.android.dingtalk.share.ddsharemodule.message.DDImageMessage;
+import com.android.dingtalk.share.ddsharemodule.message.DDMediaMessage;
+import com.android.dingtalk.share.ddsharemodule.message.SendMessageToDD;
 import com.devdroid.sleepassistant.R;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
@@ -86,6 +92,10 @@ public class ImageActivity extends AppCompatActivity {
         shareWechat(SendMessageToWX.Req.WXSceneTimeline);
         break;
       case R.id.share_dingtalk:
+        sendByteImage(false);
+        break;
+      case R.id.share_alipay:
+        sendByteImage(true);
         break;
     }
     LinearLayout shareLayout = findViewById(R.id.ll_share_layout);
@@ -146,6 +156,10 @@ public class ImageActivity extends AppCompatActivity {
     }
   }
 
+  /**
+   * 分享微信
+   * @param scene 模式：聊天、朋友圈
+   */
   private void shareWechat(int scene) {
     IWXAPI api = WXAPIFactory.createWXAPI(this, "wx87a479e549343d9f",false);
     WXImageObject imgObj = new WXImageObject(ShiciActivity.mBitmap);
@@ -157,5 +171,24 @@ public class ImageActivity extends AppCompatActivity {
     req.scene = scene;
     boolean isSend =  api.sendReq(req);
     Log.d(TAG, "isSend:" + isSend);
+  }
+
+  /**
+   * 分享阿里
+   * @param isSendDing 钉钉、支付宝
+   */
+  private void sendByteImage(boolean isSendDing) {
+    IDDShareApi iddShareApi = DDShareApiFactory.createDDShareApi(this, "dingoa6vnlm3ytdgfbw1ht", true);
+    DDImageMessage imageObject = new DDImageMessage(ShiciActivity.mBitmap);
+    DDMediaMessage mediaMessage = new DDMediaMessage();
+    mediaMessage.mMediaObject = imageObject;
+    SendMessageToDD.Req req = new SendMessageToDD.Req();
+    req.mMediaMessage = mediaMessage;
+    //调用api接口发送消息到支付宝
+    if(isSendDing){
+      iddShareApi.sendReqToDing(req);
+    } else {
+      iddShareApi.sendReq(req);
+    }
   }
 }
