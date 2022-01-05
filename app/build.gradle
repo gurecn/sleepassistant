@@ -97,5 +97,5 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar:2.3.3'
     compile files('libs/eventbus-2.4.0.jar')
     implementation 'org.ahocorasick:ahocorasick:0.3.0'
-
+    api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
 }
