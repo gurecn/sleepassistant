@@ -49,6 +49,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Random;
 
 public class ShiciActivity extends BaseActivity implements View.OnClickListener {
@@ -154,6 +155,10 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     mTvShiciTitle.setText(mOriginBean.getTitle());
     mTvShiciDynasty.setText(mOriginBean.getDynasty());
     mTvShiciAuthor.setText(mOriginBean.getAuthor());
+    List<String> translates = mOriginBean.getTranslate();
+    if(translates == null || translates.size() <= 0) {
+      findViewById(R.id.btn_shici_translate).setEnabled(false);
+    }
     StringBuilder shici = new StringBuilder();
     if(showType == 0) {
       StringBuilder sc = new StringBuilder();
@@ -168,8 +173,10 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
         shici.append(ciju).append("\n");
       }
     } else {
-      for (String str : mOriginBean.getTranslate()) {
-        shici.append(str.replaceAll(REGEX, "$1\n"));
+      if(translates != null && translates.size() > 0) {
+        for (String str : mOriginBean.getTranslate()) {
+          shici.append(str.replaceAll(REGEX, "$1\n"));
+        }
       }
     }
     if(!hasAnimation || shici.length() > 270){
