@@ -1,5 +1,6 @@
 package com.devdroid.sleepassistant.activity;
 
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,8 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
@@ -46,9 +49,19 @@ public class WebActivity extends BaseActivity {
     WebViewClient webViewClient = new WebViewClient() {
       @Override
       public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        super.shouldOverrideUrlLoading(view, url);
-        view.loadUrl(url);
-        return true;
+        if(!url.startsWith("http:") && !url.startsWith("https:")){
+          return true;
+        }
+        return super.shouldOverrideUrlLoading(view, url);
+      }
+
+      @Override
+      public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        String url = request.getUrl().toString();
+        if(!url.startsWith("http:") && !url.startsWith("https:")){
+          return true;
+        }
+        return super.shouldOverrideUrlLoading(view, url);
       }
     };
     mWebView.setWebViewClient(webViewClient);
