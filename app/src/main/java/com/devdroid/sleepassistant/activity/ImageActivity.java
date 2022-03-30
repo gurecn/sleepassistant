@@ -23,6 +23,7 @@ import com.android.dingtalk.share.ddsharemodule.message.DDImageMessage;
 import com.android.dingtalk.share.ddsharemodule.message.DDMediaMessage;
 import com.android.dingtalk.share.ddsharemodule.message.SendMessageToDD;
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.base.BaseActivity;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXImageObject;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -34,7 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class ImageActivity extends AppCompatActivity {
+public class ImageActivity extends BaseActivity {
 
   final static String TAG =  ImageActivity.class.getSimpleName();
   public static final String BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "devdroid" + File.separator;

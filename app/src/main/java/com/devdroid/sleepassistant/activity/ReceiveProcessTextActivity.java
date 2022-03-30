@@ -8,8 +8,9 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.base.BaseActivity;
 
-public class ReceiveProcessTextActivity extends AppCompatActivity {
+public class ReceiveProcessTextActivity extends BaseActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

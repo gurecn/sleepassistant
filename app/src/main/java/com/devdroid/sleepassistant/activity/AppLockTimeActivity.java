@@ -18,11 +18,12 @@ import android.widget.Toast;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.application.TheApplication;
+import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.AlarmManagerUtils;
 import com.devdroid.sleepassistant.utils.AppUtils;
 
-public class AppLockTimeActivity extends AppCompatActivity{
+public class AppLockTimeActivity extends BaseActivity {
 
     private TimePicker timePickerStart;
     private TimePicker timePickerEnd;

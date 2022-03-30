@@ -18,14 +18,12 @@ import com.jinrishici.sdk.android.JinrishiciClient;
 import com.jinrishici.sdk.android.factory.JinrishiciFactory;
 import com.squareup.leakcanary.LeakCanary;
 
-public class TheApplication extends Application {
+public class TheApplication extends FrontiaApplication {
     private static TheApplication sInstance;
     private static String sCurrentProcessName;
     @Override
     public void onCreate() {
         super.onCreate();
-
-        Log.d("1111111111111", "TheApplication");
         // 记录当前进程名
         sCurrentProcessName = AppUtils.getCurrentProcessName(getApplicationContext());
         // 如果是主进程，初始化主进程的相关功能类实例
@@ -40,6 +38,9 @@ public class TheApplication extends Application {
     }
     public static Context getAppContext() {
         return sInstance.getApplicationContext();
+    }
+    public static TheApplication getApplication() {
+        return sInstance;
     }
 
     private void onCreateForMainProcess() {

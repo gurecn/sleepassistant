@@ -8,7 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 import com.devdroid.sleepassistant.R;
-public class AgreementAvtivity extends AppCompatActivity {
+import com.devdroid.sleepassistant.base.BaseActivity;
+
+public class AgreementAvtivity extends BaseActivity {
 	private TextView container;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

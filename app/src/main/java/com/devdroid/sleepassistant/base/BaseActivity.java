@@ -1,25 +1,56 @@
 package com.devdroid.sleepassistant.base;
 
+import android.app.Application;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.devdroid.sleepassistant.R;
-import com.devdroid.sleepassistant.application.LauncherModel;
-import com.devdroid.sleepassistant.preferences.IPreferencesIds;
+import com.devdroid.sleepassistant.listener.OnScreenShotListener;
+import com.devdroid.sleepassistant.observer.MediaContentObserver;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements OnScreenShotListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Application application = getApplication();
+		if (application instanceof IApplication) {
+			((IApplication) application).addActivityToStack(this);
+		}
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Application application = getApplication();
+		if (application instanceof IApplication) {
+			((IApplication) application).removeActivityFromStack(this);
+		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Application application = getApplication();
+		if (application instanceof IApplication) {
+			((IApplication) application).addActivityStart(this);
+		}
+		MediaContentObserver.getInstance().stareObserve(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Application application = getApplication();
+		if (application instanceof IApplication) {
+			((IApplication) application).addActivityPause(this);
+		}
+	}
 
 	/**
 	 * 添加引导图片
@@ -51,4 +82,12 @@ public class BaseActivity extends AppCompatActivity {
 			}
 		}
 	}
+
+	@Override
+	public void onShot(String imagePath) {
+		Log.d("BaseActivity", "onShot:" + imagePath);
+	}
+
+
+	
 }

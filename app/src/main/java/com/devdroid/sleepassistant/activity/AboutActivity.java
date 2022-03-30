@@ -11,11 +11,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.base.BaseActivity;
 
 /**
  * 关于界面
  */
-public class AboutActivity extends AppCompatActivity implements View.OnClickListener {
+public class AboutActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
