@@ -755,7 +755,7 @@ public class AppUtils {
 		AlertDialog.Builder normalDialog = new AlertDialog.Builder(context);
 		normalDialog.setTitle(context.getString(R.string.nav_string_feedback));
 		normalDialog.setMessage(context.getString(R.string.dialog_feed_back_content));
-		normalDialog.setNeutralButton(context.getString(R.string.dialog_feed_back_button_good),
+		normalDialog.setNegativeButton(context.getString(R.string.dialog_feed_back_button_good),
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
