@@ -6,13 +6,12 @@ import android.database.Cursor;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
-
 import com.devdroid.sleepassistant.application.TheApplication;
 import com.devdroid.sleepassistant.listener.OnScreenShotListener;
-
 import java.util.regex.Pattern;
 
 public class MediaContentObserver extends ContentObserver {
+  public static String TAG = "MediaContentObserver";
   private Context mContext;
   private int imageNums;
   private static MediaContentObserver instance;
@@ -24,6 +23,7 @@ public class MediaContentObserver extends ContentObserver {
   }
 
   public static MediaContentObserver getInstance() {
+    Log.d(TAG, "getInstance");
     if(instance == null){
       instance = new MediaContentObserver(TheApplication.getAppContext());
     }
@@ -31,6 +31,7 @@ public class MediaContentObserver extends ContentObserver {
   }
 
   public  void stareObserve(OnScreenShotListener shotListener){
+    Log.d(TAG, "stareObserve");
     this.shotListener = shotListener;
     if(isRegister) return;
     if(instance == null){
@@ -40,6 +41,7 @@ public class MediaContentObserver extends ContentObserver {
   }
 
   public void stopObserve(){
+    Log.d(TAG, "stopObserve");
     isRegister = false;
     if(instance != null) {
       instance.unregister();
@@ -47,6 +49,7 @@ public class MediaContentObserver extends ContentObserver {
   }
 
   private void register() {
+    Log.d(TAG, "register");
     isRegister = true;
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) { //Android 9及以下版本,否则不会回调onChange
       mContext.getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, false, this);
@@ -65,18 +68,22 @@ public class MediaContentObserver extends ContentObserver {
   @Override
   public void onChange(boolean selfChange) {
     super.onChange(selfChange);
+    Log.d(TAG, "onChange");
     if(!TheApplication.getApplication().isForegroundStack()){
       return;
     }
+    Log.d(TAG, "isForegroundStack");
     String[] columns = { MediaStore.MediaColumns.DATE_ADDED, MediaStore.MediaColumns.DATA };
     Cursor cursor = null;
     try{
       cursor = mContext.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns,null,null, MediaStore.MediaColumns.DATE_MODIFIED + " desc");
       if(cursor == null) return;
       int count = cursor.getCount();
+      Log.d(TAG, "imageNums:" + imageNums + " count:" + count);
       if(imageNums == 0){
         imageNums = count;
       } else if(imageNums >= count){
+        imageNums = count;
         return;
       }
       //咨询客服
@@ -98,6 +105,11 @@ public class MediaContentObserver extends ContentObserver {
     }
   }
 
+  /**
+   * 匹配时间：1.5s内的图片匹配
+   * @param addTime
+   * @return
+   */
   private boolean matchTime(long addTime){
     return System.currentTimeMillis() - addTime *1000 < 1500;
   }
