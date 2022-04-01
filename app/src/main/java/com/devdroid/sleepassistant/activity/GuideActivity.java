@@ -64,10 +64,8 @@ public class GuideActivity extends BaseActivity {
 private String[] requestPermissions() {
     String[] permissions = null;
     List<String> permissionsList = new ArrayList<>();
-//    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-        addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE);
-        addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//    }
+    addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE);
+    addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     if (permissionsList.size() > 0) {
         permissions = new String[permissionsList.size()];
         for(int i = 0 ; i < permissionsList.size() ; i++){

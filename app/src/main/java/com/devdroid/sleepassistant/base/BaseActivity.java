@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,64 +97,77 @@ public class BaseActivity extends AppCompatActivity implements OnScreenShotListe
 	@Override
 	public void onShot(String imagePath) {
 		Log.d("BaseActivity", "onShot:" + imagePath);
-		captureWindow(imagePath);
+		Bitmap screenshot = decodeBitmap(imagePath);
+		popupWindow(screenshot);
 	}
 
-	private void captureWindow(String imagePath){
-		LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		//自定义布局
-		View view = inflater.inflate(R.layout.ll_screenshot_dialog, null);
-		ImageView imageView = view.findViewById(R.id.img_screenshot_image);
-		ImageView imageClose = view.findViewById(R.id.img_cbm_screenshot_close);
-		TextView feedback = view.findViewById(R.id.tv_feed_back);
+	/**
+	 * 图片文件解析成Bitmap
+	 * @param imagePath 截图图片路径
+	 * @return Bitmap对象
+	 */
+	private Bitmap decodeBitmap(String imagePath){
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 4;
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
-		int width = 0;
-		int hight = 0;
 		FileInputStream is = null;
 		try {
 			is = new FileInputStream(imagePath);
 			Bitmap bmp = BitmapFactory.decodeFileDescriptor(is.getFD(), null, options);
-			imageView.setImageBitmap(bmp);
-			width = bmp.getWidth();
-			hight = bmp.getHeight();
-			if(hight > width * 1.5){
-				hight = (int)(width * 1.5);
-			}else if(hight < width){
-				hight =width;
-			}
+			return bmp;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	/**
+	 * 根据图片尺寸计算窗口高度
+	 * @return 窗口高度
+	 */
+	private int matchHight(int width, int hight) {
+		if(hight > width * 1.5){
+			hight = (int)(width * 1.5);
+		}else if(hight < width){
+			hight = width;
+		}
+		return hight;
+	}
+
+	/**
+	 * 弹窗显示
+	 * @param screenshoth
+	 */
+	private void popupWindow(Bitmap screenshoth){
+		LayoutInflater inflater = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.ll_screenshot_dialog, null);
+		ImageView imageView = view.findViewById(R.id.iv_screenshot_image);
+		ImageView imageClose = view.findViewById(R.id.iv_screenshot_close);
+		TextView feedback = view.findViewById(R.id.tv_feed_back);
+		imageView.setImageBitmap(screenshoth);
+		int width = screenshoth.getWidth();
+		int hight = screenshoth.getHeight();
+		hight = matchHight(width, hight);
 		PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+		popupWindow.setTouchable(true);
+		popupWindow.setOutsideTouchable(true);
 		popupWindow.setWidth(width);
 		popupWindow.setHeight(hight);
-		imageClose.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(popupWindow != null && popupWindow.isShowing()){
-					popupWindow.dismiss();
-				}
+		imageClose.setOnClickListener(v -> {
+			if(popupWindow.isShowing()){
+				popupWindow.dismiss();
 			}
 		});
-		feedback.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(popupWindow != null && popupWindow.isShowing()){
-					popupWindow.dismiss();
-				}
-				AppUtils.feedbackDialog(BaseActivity.this);
+		feedback.setOnClickListener(v -> {
+			if(popupWindow.isShowing()){
+				popupWindow.dismiss();
 			}
+			AppUtils.feedbackDialog(BaseActivity.this);
 		});
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if(getWindow() != null && getWindow().getDecorView() != null) {
-					popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER | Gravity.RIGHT, 20, 0);
-				}
+		runOnUiThread(() -> {
+			if(getWindow() != null && getWindow().getDecorView() != null) {
+				popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER | Gravity.RIGHT, 20, 0);
 			}
 		});
 	}
-
 }

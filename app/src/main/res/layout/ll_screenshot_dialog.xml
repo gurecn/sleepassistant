@@ -11,14 +11,14 @@
         android:layout_height="wrap_content"
         android:padding="5dp">
         <ImageView
-            android:id="@+id/img_screenshot_image"
+            android:id="@+id/iv_screenshot_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:scaleType="centerCrop"/>
     </RelativeLayout>
     <ImageView
-        android:id="@+id/img_cbm_screenshot_close"
+        android:id="@+id/iv_screenshot_close"
         android:background="@drawable/bg_screenshot_dialog_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
