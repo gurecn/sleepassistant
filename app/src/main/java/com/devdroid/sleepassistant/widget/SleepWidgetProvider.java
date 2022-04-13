@@ -63,7 +63,7 @@ public final class SleepWidgetProvider extends AppWidgetProvider {
     Intent intent4 = new Intent(context, MainActivity.class);
     intent4.putExtra("action", "create_sleep_time_new");
     intent4.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-    remoteViews.setOnClickPendingIntent(R.id.d17, PendingIntent.getActivity(context, 4, intent4, PendingIntent.FLAG_UPDATE_CURRENT));
+    remoteViews.setOnClickPendingIntent(R.id.rl_widget_sleep_layout, PendingIntent.getActivity(context, 4, intent4, PendingIntent.FLAG_UPDATE_CURRENT));
     appWidgeManger.updateAppWidget(appWidgetId, remoteViews);
   }
 }

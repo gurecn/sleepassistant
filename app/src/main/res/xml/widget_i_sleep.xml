@@ -5,6 +5,5 @@
     android:minHeight="54dp"
     android:updatePeriodMillis="30"
     android:initialLayout="@layout/widget_layout_sleep"
-    android:previewImage="@drawable/sleeping"
-    android:resizeMode="none|horizontal|vertical"
+    android:previewImage="@mipmap/ic_launcher"
     android:widgetCategory="home_screen"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/d17"
+    android:id="@+id/rl_widget_sleep_layout"
     android:clipChildren="false"
     android:layout_width="wrap_content"
     android:layout_height="78dp">
@@ -17,7 +17,7 @@
                 android:id="@+id/bmo"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
-                android:src="@drawable/sleeping"
+                android:src="@mipmap/ic_launcher"
                 android:layout_centerHorizontal="true"/>
         </RelativeLayout>
     </FrameLayout>
