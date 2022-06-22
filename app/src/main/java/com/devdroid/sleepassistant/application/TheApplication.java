@@ -14,9 +14,7 @@ import com.devdroid.sleepassistant.utils.AppUtils;
 import com.devdroid.sleepassistant.utils.CrashHandler;
 import com.devdroid.sleepassistant.utils.LockerManagerUtils;
 import com.devdroid.sleepassistant.utils.thread.ThreadPoolUtils;
-import com.jinrishici.sdk.android.JinrishiciClient;
 import com.jinrishici.sdk.android.factory.JinrishiciFactory;
-import com.squareup.leakcanary.LeakCanary;
 
 public class TheApplication extends FrontiaApplication {
     private static TheApplication sInstance;

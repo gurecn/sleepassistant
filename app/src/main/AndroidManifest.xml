@@ -70,24 +70,31 @@
         </activity-alias>
         <activity
             android:label="@string/nav_string_about"
+            android:exported="true"
             android:name=".activity.AboutActivity" />
         <activity
             android:label="@string/nav_string_feedback"
+            android:exported="true"
             android:name=".activity.FeedbackActivity" />
         <activity
             android:label="@string/nav_string_chart"
+            android:exported="true"
             android:name=".activity.ChartActivity" />
         <activity
             android:label="@string/nav_string_restriction"
+            android:exported="true"
             android:name=".activity.RestrictionActivity" />
         <activity
             android:label="@string/action_settings"
+            android:exported="true"
             android:name=".activity.SettingsActivity" />
         <activity
             android:label="@string/action_applock_settings"
+            android:exported="true"
             android:name=".activity.AppLockTimeActivity" />
         <activity
             android:label="@string/activity_agreement_lable"
+            android:exported="true"
             android:name=".activity.AgreementAvtivity" />
         <activity
             android:exported="true"

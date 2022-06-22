@@ -92,8 +92,8 @@ dependencies {
     implementation 'com.jinrishici:android-sdk:1.5'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation files('libs\\pinyin4j-2.5.0.jar')
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     implementation 'com.gyf.immersionbar:immersionbar:2.3.3'
     compile files('libs/eventbus-2.4.0.jar')
     implementation 'org.ahocorasick:ahocorasick:0.3.0'
