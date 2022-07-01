@@ -1,9 +1,12 @@
 package com.devdroid.sleepassistant.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -11,8 +14,10 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.text.Layout;
@@ -47,6 +52,8 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
+
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -67,6 +74,7 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
   private int showType = 0;  //0 诗词；1 注释
   private boolean hasAnimation = true;
   private boolean hasPinyin = false;
+  private static int PHOTO_PICKER_REQUEST_CODE = 110;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +115,11 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     Random r1 = new Random();
     int[] resources = new int[]{R.drawable.shici_bg_0,R.drawable.shici_bg_1,R.drawable.shici_bg_2};
     mIvShiciBg.setImageResource(resources[r1.nextInt(9)%3]);
+
+    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+      View btnShiciBg = findViewById(R.id.btn_shici_background);
+      btnShiciBg.setVisibility(View.GONE);
+    }
   }
 
   @SuppressLint("ClickableViewAccessibility")
@@ -266,6 +279,30 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
         v.setBackgroundResource(hasAnimation?R.drawable.icon_shici_press:R.drawable.icon_shici);
         initData();
         break;
+      case R.id.btn_shici_background:
+        intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+        startActivityForResult(intent, PHOTO_PICKER_REQUEST_CODE);
+        break;
+    }
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (resultCode != Activity.RESULT_OK) {
+      return;
+    }
+
+    if(requestCode == PHOTO_PICKER_REQUEST_CODE){
+      Uri currentUri = data.getData();
+      Log.i("11111111111", "currentUri:" + currentUri);
+      ContentResolver cr = this.getContentResolver();
+      try {
+        Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(currentUri));
+        mIvShiciBg.setImageBitmap(bitmap);
+      } catch (FileNotFoundException e) {
+        Log.e("Exception", e.getMessage(),e);
+      }
     }
   }
 
