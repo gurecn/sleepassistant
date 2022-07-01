@@ -3,12 +3,12 @@ def dateTime() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+8"))
 }
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.devdroid.sleepassistant"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 10
         versionName "1.3.0"
         manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "devdroid"]
@@ -95,7 +95,7 @@ dependencies {
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     implementation 'com.gyf.immersionbar:immersionbar:2.3.3'
-    compile files('libs/eventbus-2.4.0.jar')
+    implementation files('libs/eventbus-2.4.0.jar')
     implementation 'org.ahocorasick:ahocorasick:0.3.0'
     api 'com.tencent.mm.opensdk:wechat-sdk-android:+'
     api 'com.alibaba.android:ddsharesdk:1.1.0'
