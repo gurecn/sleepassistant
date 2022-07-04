@@ -116,10 +116,10 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     int[] resources = new int[]{R.drawable.shici_bg_0,R.drawable.shici_bg_1,R.drawable.shici_bg_2};
     mIvShiciBg.setImageResource(resources[r1.nextInt(9)%3]);
 
-    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
-      View btnShiciBg = findViewById(R.id.btn_shici_background);
-      btnShiciBg.setVisibility(View.GONE);
-    }
+//    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+//      View btnShiciBg = findViewById(R.id.btn_shici_background);
+//      btnShiciBg.setVisibility(View.GONE);
+//    }
   }
 
   @SuppressLint("ClickableViewAccessibility")
@@ -280,8 +280,13 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
         initData();
         break;
       case R.id.btn_shici_background:
-        intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
-        startActivityForResult(intent, PHOTO_PICKER_REQUEST_CODE);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+          intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+          startActivityForResult(intent, PHOTO_PICKER_REQUEST_CODE);
+        } else {
+          intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+          startActivityForResult(intent, PHOTO_PICKER_REQUEST_CODE);
+        }
         break;
     }
   }
@@ -292,10 +297,8 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     if (resultCode != Activity.RESULT_OK) {
       return;
     }
-
     if(requestCode == PHOTO_PICKER_REQUEST_CODE){
       Uri currentUri = data.getData();
-      Log.i("11111111111", "currentUri:" + currentUri);
       ContentResolver cr = this.getContentResolver();
       try {
         Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(currentUri));
