@@ -13,7 +13,8 @@ import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.thread.ThreadPoolUtils;
-import com.gyf.barlibrary.ImmersionBar;
+import com.gyf.immersionbar.ImmersionBar;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -112,7 +113,5 @@ public void onRequestPermissionsResult(int requestCode, String[] permissions, in
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // 必须调用该方法，防止内存泄漏
-        ImmersionBar.with(this).destroy();
     }
 }

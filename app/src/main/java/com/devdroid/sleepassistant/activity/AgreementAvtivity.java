@@ -3,12 +3,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.base.BaseActivity;
+
+import androidx.appcompat.widget.Toolbar;
 
 public class AgreementAvtivity extends BaseActivity {
 	private TextView container;

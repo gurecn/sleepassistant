@@ -7,10 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.content.res.AppCompatResources;
+import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 

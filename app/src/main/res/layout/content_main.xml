@@ -55,12 +55,12 @@
             </TableRow>
         </TableLayout>
     </LinearLayout>
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_calendar"
         android:layout_width="match_parent"
         android:layout_height="310dp"
         android:layout_gravity="center" >
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

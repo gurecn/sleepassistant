@@ -7,7 +7,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -16,6 +15,8 @@ import android.widget.DatePicker.OnDateChangedListener;
 import com.devdroid.sleepassistant.R;
 
 import java.lang.reflect.Field;
+
+import androidx.annotation.NonNull;
 
 public class DatePickerDialog extends AlertDialog implements OnClickListener, OnDateChangedListener {
 

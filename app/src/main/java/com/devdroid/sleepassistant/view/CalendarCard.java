@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v4.content.ContextCompat;
+
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +20,8 @@ import com.devdroid.sleepassistant.mode.SleepDataMode;
 import com.devdroid.sleepassistant.utils.DateUtil;
 
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * 自定义日历卡

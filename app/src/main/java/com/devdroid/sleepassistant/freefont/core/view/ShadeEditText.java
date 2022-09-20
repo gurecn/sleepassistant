@@ -2,7 +2,6 @@ package com.devdroid.sleepassistant.freefont.core.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -14,6 +13,8 @@ import com.devdroid.sleepassistant.freefont.core.layer.SingleWarpSpan;
 import com.devdroid.sleepassistant.freefont.core.linedrawer.BackgroundDrawer;
 import com.devdroid.sleepassistant.freefont.core.linedrawer.ForegroundDrawer;
 import com.devdroid.sleepassistant.freefont.core.linedrawer.LineDrawer;
+
+import androidx.appcompat.widget.AppCompatEditText;
 
 /**
  * Created by zhaolei on 2017/10/12.

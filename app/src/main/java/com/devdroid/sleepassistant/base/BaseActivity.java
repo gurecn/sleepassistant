@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -23,6 +22,8 @@ import com.devdroid.sleepassistant.observer.MediaContentObserver;
 import com.devdroid.sleepassistant.utils.AppUtils;
 import java.io.FileInputStream;
 import java.io.IOException;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity implements OnScreenShotListener {
 

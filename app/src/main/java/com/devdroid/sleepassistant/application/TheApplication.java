@@ -2,9 +2,6 @@ package com.devdroid.sleepassistant.application;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
-
 import com.devdroid.sleepassistant.BuildConfig;
 import com.devdroid.sleepassistant.constant.CustomConstant;
 import com.devdroid.sleepassistant.manager.ApplockManager;
@@ -14,7 +11,17 @@ import com.devdroid.sleepassistant.utils.AppUtils;
 import com.devdroid.sleepassistant.utils.CrashHandler;
 import com.devdroid.sleepassistant.utils.LockerManagerUtils;
 import com.devdroid.sleepassistant.utils.thread.ThreadPoolUtils;
+import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor;
 import com.jinrishici.sdk.android.factory.JinrishiciFactory;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import okhttp3.Interceptor;
+import okhttp3.Response;
 
 public class TheApplication extends FrontiaApplication {
     private static TheApplication sInstance;
@@ -55,11 +62,13 @@ public class TheApplication extends FrontiaApplication {
                 LockerManagerUtils.initSingleton(getAppContext());
                 ApplockManager.initSingleton(getAppContext());
                 boolean isNightMode = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_THEME_NIGHT_MODE, false);
-                AppCompatDelegate.setDefaultNightMode(isNightMode?AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                AppCompatDelegate.setDefaultNightMode(isNightMode? AppCompatDelegate.MODE_NIGHT_YES:AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 checkInitOnce();
                 //今日诗词初始化
                 JinrishiciFactory.init(getAppContext());
 //              ApplockManager.initSingleton(getAppContext());
+                new DoKit.Builder(TheApplication.this)
+                    .build();
             }
         });
     }

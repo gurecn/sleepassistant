@@ -6,9 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +20,8 @@ import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.AlarmManagerUtils;
 import com.devdroid.sleepassistant.utils.AppUtils;
+
+import androidx.appcompat.widget.Toolbar;
 
 public class AppLockTimeActivity extends BaseActivity {
 
