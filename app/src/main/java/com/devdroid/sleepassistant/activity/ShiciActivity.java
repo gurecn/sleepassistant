@@ -300,7 +300,14 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
         Speech.init(this, getPackageName(), status -> {
           switch (status) {
             case TextToSpeech.SUCCESS:
-              if(Speech.getInstance().isSpeaking() || Speech.getInstance().isListening())return;
+              if(Speech.getInstance().isSpeaking() || Speech.getInstance().isListening()){
+                Speech.getInstance().stopTextToSpeech();
+                return;
+              }
+              if(Speech.getInstance().isListening()){
+                Speech.getInstance().stopListening();
+                return;
+              }
               Logger.i(LOG_TAG, "TextToSpeech engine successfully started");
               String text = mTvShiciContent.getText().toString().trim();
               if (text.isEmpty()) {
