@@ -1,9 +1,9 @@
-package net.gotev.speech.ui.animators;
+package com.devdroid.sleepassistant.speech.ui.animators;
 
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
-import net.gotev.speech.ui.SpeechBar;
+import com.devdroid.sleepassistant.speech.ui.SpeechBar;
 
 import java.util.Random;
 

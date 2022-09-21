@@ -1,4 +1,4 @@
-package net.gotev.speech.engine;
+package com.devdroid.sleepassistant.speech.engine;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,12 +10,12 @@ import android.widget.LinearLayout;
 
 import com.devdroid.sleepassistant.utils.Logger;
 
-import net.gotev.speech.DelayedOperation;
-import net.gotev.speech.SpeechDelegate;
-import net.gotev.speech.GoogleVoiceTypingDisabledException;
-import net.gotev.speech.SpeechRecognitionException;
-import net.gotev.speech.SpeechRecognitionNotAvailable;
-import net.gotev.speech.ui.SpeechProgressView;
+import com.devdroid.sleepassistant.speech.DelayedOperation;
+import com.devdroid.sleepassistant.speech.SpeechDelegate;
+import com.devdroid.sleepassistant.speech.GoogleVoiceTypingDisabledException;
+import com.devdroid.sleepassistant.speech.SpeechRecognitionException;
+import com.devdroid.sleepassistant.speech.SpeechRecognitionNotAvailable;
+import com.devdroid.sleepassistant.speech.ui.SpeechProgressView;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,10 +1,10 @@
-package net.gotev.speech.engine;
+package com.devdroid.sleepassistant.speech.engine;
 
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
 
-import net.gotev.speech.TextToSpeechCallback;
+import com.devdroid.sleepassistant.speech.TextToSpeechCallback;
 
 import java.util.List;
 import java.util.Locale;

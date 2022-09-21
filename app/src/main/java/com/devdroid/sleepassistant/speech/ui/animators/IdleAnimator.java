@@ -1,6 +1,6 @@
-package net.gotev.speech.ui.animators;
+package com.devdroid.sleepassistant.speech.ui.animators;
 
-import net.gotev.speech.ui.SpeechBar;
+import com.devdroid.sleepassistant.speech.ui.SpeechBar;
 
 import java.util.List;
 

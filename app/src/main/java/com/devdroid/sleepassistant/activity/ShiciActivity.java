@@ -51,8 +51,8 @@ import com.devdroid.sleepassistant.utils.Logger;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.jinrishici.sdk.android.model.OriginBean;
-import net.gotev.speech.Speech;
-import net.gotev.speech.TextToSpeechCallback;
+import com.devdroid.sleepassistant.speech.Speech;
+import com.devdroid.sleepassistant.speech.TextToSpeechCallback;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -296,11 +296,11 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
         }
         break;
       case R.id.btn_shici_speech:
-        if(Speech.getInstance().isSpeaking() || Speech.getInstance().isListening())return;
         //初始化系统自带的TTS引擎
         Speech.init(this, getPackageName(), status -> {
           switch (status) {
             case TextToSpeech.SUCCESS:
+              if(Speech.getInstance().isSpeaking() || Speech.getInstance().isListening())return;
               Logger.i(LOG_TAG, "TextToSpeech engine successfully started");
               String text = mTvShiciContent.getText().toString().trim();
               if (text.isEmpty()) {

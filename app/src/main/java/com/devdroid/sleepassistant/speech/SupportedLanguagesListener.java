@@ -1,4 +1,4 @@
-package net.gotev.speech;
+package com.devdroid.sleepassistant.speech;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package net.gotev.speech.engine;
+package com.devdroid.sleepassistant.speech.engine;
 
 import android.content.Context;
 import android.os.Build;
@@ -9,8 +9,8 @@ import android.speech.tts.Voice;
 
 import com.devdroid.sleepassistant.utils.Logger;
 
-import net.gotev.speech.TextToSpeechCallback;
-import net.gotev.speech.TtsProgressListener;
+import com.devdroid.sleepassistant.speech.TextToSpeechCallback;
+import com.devdroid.sleepassistant.speech.TtsProgressListener;
 
 import java.util.*;
 

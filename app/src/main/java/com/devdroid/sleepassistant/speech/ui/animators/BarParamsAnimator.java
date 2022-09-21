@@ -1,4 +1,4 @@
-package net.gotev.speech.ui.animators;
+package com.devdroid.sleepassistant.speech.ui.animators;
 
 public interface BarParamsAnimator {
     void start();

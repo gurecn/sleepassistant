@@ -1,4 +1,4 @@
-package net.gotev.speech.ui;
+package com.devdroid.sleepassistant.speech.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,11 +7,11 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import net.gotev.speech.ui.animators.BarParamsAnimator;
-import net.gotev.speech.ui.animators.IdleAnimator;
-import net.gotev.speech.ui.animators.RmsAnimator;
-import net.gotev.speech.ui.animators.RotatingAnimator;
-import net.gotev.speech.ui.animators.TransformAnimator;
+import com.devdroid.sleepassistant.speech.ui.animators.BarParamsAnimator;
+import com.devdroid.sleepassistant.speech.ui.animators.IdleAnimator;
+import com.devdroid.sleepassistant.speech.ui.animators.RmsAnimator;
+import com.devdroid.sleepassistant.speech.ui.animators.RotatingAnimator;
+import com.devdroid.sleepassistant.speech.ui.animators.TransformAnimator;
 
 import java.util.ArrayList;
 import java.util.List;

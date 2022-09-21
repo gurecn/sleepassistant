@@ -1,4 +1,4 @@
-package net.gotev.speech;
+package com.devdroid.sleepassistant.speech;
 
 public enum UnsupportedReason {
     GOOGLE_APP_NOT_FOUND,

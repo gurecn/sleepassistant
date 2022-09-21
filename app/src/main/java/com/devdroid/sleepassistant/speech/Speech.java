@@ -1,4 +1,4 @@
-package net.gotev.speech;
+package com.devdroid.sleepassistant.speech;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -11,12 +11,12 @@ import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
 
-import net.gotev.speech.engine.BaseSpeechRecognitionEngine;
-import net.gotev.speech.engine.DummyOnInitListener;
-import net.gotev.speech.engine.SpeechRecognitionEngine;
-import net.gotev.speech.engine.BaseTextToSpeechEngine;
-import net.gotev.speech.engine.TextToSpeechEngine;
-import net.gotev.speech.ui.SpeechProgressView;
+import com.devdroid.sleepassistant.speech.engine.BaseSpeechRecognitionEngine;
+import com.devdroid.sleepassistant.speech.engine.DummyOnInitListener;
+import com.devdroid.sleepassistant.speech.engine.SpeechRecognitionEngine;
+import com.devdroid.sleepassistant.speech.engine.BaseTextToSpeechEngine;
+import com.devdroid.sleepassistant.speech.engine.TextToSpeechEngine;
+import com.devdroid.sleepassistant.speech.ui.SpeechProgressView;
 
 import java.util.*;
 
@@ -31,9 +31,9 @@ public class Speech {
     protected static String GOOGLE_APP_PACKAGE = "com.google.android.googlequicksearchbox";
 
     private Context mContext;
-
     private TextToSpeechEngine textToSpeechEngine;
     private SpeechRecognitionEngine speechRecognitionEngine;
+    private boolean isInitSuccess = false;;
 
     private Speech(final Context context, final String callingPackage, TextToSpeech.OnInitListener onInitListener, SpeechRecognitionEngine speechRecognitionEngine, TextToSpeechEngine textToSpeechEngine) {
         mContext = context;
@@ -57,7 +57,6 @@ public class Speech {
         if (instance == null) {
             instance = new Speech(context, null, new DummyOnInitListener(), new BaseSpeechRecognitionEngine(), new BaseTextToSpeechEngine());
         }
-
         return instance;
     }
 
@@ -85,15 +84,42 @@ public class Speech {
 
     public static Speech init(final Context context, final String callingPackage, TextToSpeech.OnInitListener onInitListener) {
         if (instance == null) {
-            instance = new Speech(context, callingPackage, onInitListener, new BaseSpeechRecognitionEngine(), new BaseTextToSpeechEngine());
+            DummyOnInitListener initListener = new DummyOnInitListener(){
+                @Override
+                public void onInit(int status) {
+                    super.onInit(status);
+                    onInitListener.onInit(status);
+                    if(status == TextToSpeech.SUCCESS){
+                        instance.isInitSuccess = true;
+                    }
+                }
+            };
+            instance = new Speech(context, callingPackage, initListener, new BaseSpeechRecognitionEngine(), new BaseTextToSpeechEngine());
+        } else {
+            if(instance.isInitSuccess){
+                onInitListener.onInit(TextToSpeech.SUCCESS);
+            }
         }
-
         return instance;
     }
 
     public static Speech init(final Context context, final String callingPackage, TextToSpeech.OnInitListener onInitListener, SpeechRecognitionEngine speechRecognitionEngine, TextToSpeechEngine textToSpeechEngine) {
         if (instance == null) {
-            instance = new Speech(context, callingPackage, onInitListener, speechRecognitionEngine, textToSpeechEngine);
+            DummyOnInitListener initListener = new DummyOnInitListener(){
+                @Override
+                public void onInit(int status) {
+                    super.onInit(status);
+                    onInitListener.onInit(status);
+                    if(status == TextToSpeech.SUCCESS){
+                        instance.isInitSuccess = true;
+                    }
+                }
+            };
+            instance = new Speech(context, callingPackage, initListener, speechRecognitionEngine, textToSpeechEngine);
+        } else {
+            if(instance.isInitSuccess){
+                onInitListener.onInit(TextToSpeech.SUCCESS);
+            }
         }
 
         return instance;

@@ -1,4 +1,4 @@
-package net.gotev.speech.ui;
+package com.devdroid.sleepassistant.speech.ui;
 
 import android.graphics.RectF;
 

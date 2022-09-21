@@ -1,9 +1,9 @@
-package net.gotev.speech.ui.animators;
+package com.devdroid.sleepassistant.speech.ui.animators;
 
 import android.graphics.Point;
 
-import net.gotev.speech.ui.SpeechBar;
-import net.gotev.speech.ui.SpeechProgressView;
+import com.devdroid.sleepassistant.speech.ui.SpeechBar;
+import com.devdroid.sleepassistant.speech.ui.SpeechProgressView;
 
 import java.util.ArrayList;
 import java.util.List;
