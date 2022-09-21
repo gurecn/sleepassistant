@@ -21,6 +21,8 @@ import android.provider.MediaStore;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+
+import android.speech.tts.TextToSpeech;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -45,9 +47,12 @@ import com.devdroid.sleepassistant.freefont.core.animation.A;
 import com.devdroid.sleepassistant.freefont.core.data.DrawData;
 import com.devdroid.sleepassistant.freefont.core.view.STextView;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
+import com.devdroid.sleepassistant.utils.Logger;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.jinrishici.sdk.android.model.OriginBean;
+import net.gotev.speech.Speech;
+import net.gotev.speech.TextToSpeechCallback;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -76,6 +81,7 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
   private boolean hasAnimation = true;
   private boolean hasPinyin = false;
   private static int PHOTO_PICKER_REQUEST_CODE = 110;
+  private static final String LOG_TAG = ShiciActivity.class.getSimpleName();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -289,7 +295,53 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
           startActivityForResult(intent, PHOTO_PICKER_REQUEST_CODE);
         }
         break;
+      case R.id.btn_shici_speech:
+        if(Speech.getInstance().isSpeaking() || Speech.getInstance().isListening())return;
+        //初始化系统自带的TTS引擎
+        Speech.init(this, getPackageName(), status -> {
+          switch (status) {
+            case TextToSpeech.SUCCESS:
+              Logger.i(LOG_TAG, "TextToSpeech engine successfully started");
+              String text = mTvShiciContent.getText().toString().trim();
+              if (text.isEmpty()) {
+                text = mSTvShiciContent.getText().toString().trim();
+              }
+              if (text.isEmpty()) {
+                text = "无内容";
+              }
+              onSpeak(text);
+              break;
+
+            case TextToSpeech.ERROR:
+              Logger.e(LOG_TAG, "Error while initializing TextToSpeech engine!");
+              break;
+
+            default:
+              Logger.e(LOG_TAG, "Unknown TextToSpeech status: " + status);
+              break;
+          }
+        });
+        break;
     }
+  }
+
+  private void onSpeak(String text) {
+    Speech.getInstance().say(text.trim(), new TextToSpeechCallback() {
+      @Override
+      public void onStart() {
+        Logger.e(LOG_TAG,"TTS onStart");
+      }
+
+      @Override
+      public void onCompleted() {
+        Logger.e(LOG_TAG, "TTS onCompleted");
+      }
+
+      @Override
+      public void onError() {
+        Logger.e(LOG_TAG, "TTS onError");
+      }
+    });
   }
 
   @Override
@@ -415,5 +467,12 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     }
     return sb.toString();
   }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    Speech.getInstance().shutdown();
+  }
+
 
 }

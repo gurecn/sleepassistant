@@ -118,6 +118,15 @@
             android:background="@drawable/icon_shici"
             android:text="图"/>
         <Button
+            android:id="@+id/btn_shici_speech"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:onClick="onClick"
+            android:background="@drawable/icon_shici"
+            android:text="声"/>
+        <Button
             android:id="@+id/btn_shici_share"
             android:layout_width="20dp"
             android:layout_height="20dp"

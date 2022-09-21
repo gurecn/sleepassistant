@@ -171,6 +171,12 @@
      充许用户在设置(设置 -> 安全 -> 高级 -> 有权查看使用情况的应用(Apps with
 	 * usage access))中授权后可访问用户的应用使用统计信息，如识当前打开的应用
     -->
+    <!-- Android 11 queries declaration -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
