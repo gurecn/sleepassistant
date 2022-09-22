@@ -43,10 +43,11 @@ import android.widget.Toast;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
-import com.devdroid.sleepassistant.chinesetts.dispatcher.OnTtsStateListener;
-import com.devdroid.sleepassistant.chinesetts.dispatcher.TtsStateDispatcher;
-import com.devdroid.sleepassistant.chinesetts.tts.TtsManager;
-import com.devdroid.sleepassistant.chinesetts.utils.ThreadPoolManager;
+import com.devdroid.sleepassistant.speech.SpeechManager;
+import com.devdroid.sleepassistant.speech.tensorflow.dispatcher.OnTtsStateListener;
+import com.devdroid.sleepassistant.speech.tensorflow.dispatcher.TtsStateDispatcher;
+import com.devdroid.sleepassistant.speech.tensorflow.tts.TtsManager;
+import com.devdroid.sleepassistant.speech.tensorflow.utils.ThreadPoolManager;
 import com.devdroid.sleepassistant.freefont.core.animation.A;
 import com.devdroid.sleepassistant.freefont.core.data.DrawData;
 import com.devdroid.sleepassistant.freefont.core.view.STextView;
@@ -55,8 +56,8 @@ import com.devdroid.sleepassistant.utils.Logger;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.jinrishici.sdk.android.model.OriginBean;
-import com.devdroid.sleepassistant.speech.Speech;
-import com.devdroid.sleepassistant.speech.TextToSpeechCallback;
+import com.devdroid.sleepassistant.speech.local.Speech;
+import com.devdroid.sleepassistant.speech.local.TextToSpeechCallback;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -300,86 +301,27 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
         }
         break;
       case R.id.btn_shici_speech:
-        TtsStateDispatcher.getInstance().addListener(new OnTtsStateListener() {
-          @Override
-          public void onTtsReady() {
-            Logger.e(LOG_TAG, "onTtsReady");
-          }
 
-          @Override
-          public void onTtsStart(String text) {
-          }
-
-          @Override
-          public void onTtsStop() {
-          }
-        });
-        TtsManager.getInstance().init(this);
-        ThreadPoolManager.getInstance().execute(() -> {
-          float speed = 1.2F;
-          String text = mTvShiciContent.getText().toString().trim();
-          if (text.isEmpty()) {
-            text = mSTvShiciContent.getText().toString().trim();
-          }
-          if (text.isEmpty()) {
-            text = "无内容";
-          }
-          TtsManager.getInstance().speak(text, speed, true);
-        });
-
-        //初始化系统自带的TTS引擎
-//        Speech.init(this, getPackageName(), status -> {
-//          switch (status) {
-//            case TextToSpeech.SUCCESS:
-//              if(Speech.getInstance().isSpeaking() || Speech.getInstance().isListening()){
-//                Speech.getInstance().stopTextToSpeech();
-//                return;
-//              }
-//              if(Speech.getInstance().isListening()){
-//                Speech.getInstance().stopListening();
-//                return;
-//              }
-//              Logger.i(LOG_TAG, "TextToSpeech engine successfully started");
-//              String text = mTvShiciContent.getText().toString().trim();
-//              if (text.isEmpty()) {
-//                text = mSTvShiciContent.getText().toString().trim();
-//              }
-//              if (text.isEmpty()) {
-//                text = "无内容";
-//              }
-//              onSpeak(text);
-//              break;
-//
-//            case TextToSpeech.ERROR:
-//              Logger.e(LOG_TAG, "Error while initializing TextToSpeech engine!");
-//              break;
-//
-//            default:
-//              Logger.e(LOG_TAG, "Unknown TextToSpeech status: " + status);
-//              break;
-//          }
-//        });
+        if(!SpeechManager.getInstance().isSpeaking()) {
+          SpeechManager.getInstance().init(this, 0, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+              if (status == TextToSpeech.SUCCESS) {
+                String text = mTvShiciContent.getText().toString().trim();
+                if (text.isEmpty()) {
+                  text = mSTvShiciContent.getText().toString().trim();
+                }
+                if (text.isEmpty()) {
+                  text = "无内容";
+                }
+                SpeechManager.getInstance().setSpeechRate(1.0f);
+                SpeechManager.getInstance().say(text);
+              }
+            }
+          });
+        }
         break;
     }
-  }
-
-  private void onSpeak(String text) {
-    Speech.getInstance().say(text.trim(), new TextToSpeechCallback() {
-      @Override
-      public void onStart() {
-        Logger.e(LOG_TAG,"TTS onStart");
-      }
-
-      @Override
-      public void onCompleted() {
-        Logger.e(LOG_TAG, "TTS onCompleted");
-      }
-
-      @Override
-      public void onError() {
-        Logger.e(LOG_TAG, "TTS onError");
-      }
-    });
   }
 
   @Override
