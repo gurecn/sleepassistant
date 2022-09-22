@@ -9,6 +9,7 @@ buildscript {
         //阿里镜像
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://developer.huawei.com/repo/' }
+        maven { url 'https://jitpack.io' }
         google()
         mavenCentral()
         jcenter()
@@ -25,6 +26,7 @@ allprojects {
         //阿里镜像
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://developer.huawei.com/repo/' }
+        maven { url 'https://jitpack.io' }
         google()
         mavenCentral()
         jcenter()

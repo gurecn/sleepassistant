@@ -43,6 +43,10 @@ import android.widget.Toast;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
+import com.devdroid.sleepassistant.chinesetts.dispatcher.OnTtsStateListener;
+import com.devdroid.sleepassistant.chinesetts.dispatcher.TtsStateDispatcher;
+import com.devdroid.sleepassistant.chinesetts.tts.TtsManager;
+import com.devdroid.sleepassistant.chinesetts.utils.ThreadPoolManager;
 import com.devdroid.sleepassistant.freefont.core.animation.A;
 import com.devdroid.sleepassistant.freefont.core.data.DrawData;
 import com.devdroid.sleepassistant.freefont.core.view.STextView;
@@ -296,38 +300,65 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
         }
         break;
       case R.id.btn_shici_speech:
-        //初始化系统自带的TTS引擎
-        Speech.init(this, getPackageName(), status -> {
-          switch (status) {
-            case TextToSpeech.SUCCESS:
-              if(Speech.getInstance().isSpeaking() || Speech.getInstance().isListening()){
-                Speech.getInstance().stopTextToSpeech();
-                return;
-              }
-              if(Speech.getInstance().isListening()){
-                Speech.getInstance().stopListening();
-                return;
-              }
-              Logger.i(LOG_TAG, "TextToSpeech engine successfully started");
-              String text = mTvShiciContent.getText().toString().trim();
-              if (text.isEmpty()) {
-                text = mSTvShiciContent.getText().toString().trim();
-              }
-              if (text.isEmpty()) {
-                text = "无内容";
-              }
-              onSpeak(text);
-              break;
+        TtsStateDispatcher.getInstance().addListener(new OnTtsStateListener() {
+          @Override
+          public void onTtsReady() {
+            Logger.e(LOG_TAG, "onTtsReady");
+          }
 
-            case TextToSpeech.ERROR:
-              Logger.e(LOG_TAG, "Error while initializing TextToSpeech engine!");
-              break;
+          @Override
+          public void onTtsStart(String text) {
+          }
 
-            default:
-              Logger.e(LOG_TAG, "Unknown TextToSpeech status: " + status);
-              break;
+          @Override
+          public void onTtsStop() {
           }
         });
+        TtsManager.getInstance().init(this);
+        ThreadPoolManager.getInstance().execute(() -> {
+          float speed = 1.2F;
+          String text = mTvShiciContent.getText().toString().trim();
+          if (text.isEmpty()) {
+            text = mSTvShiciContent.getText().toString().trim();
+          }
+          if (text.isEmpty()) {
+            text = "无内容";
+          }
+          TtsManager.getInstance().speak(text, speed, true);
+        });
+
+        //初始化系统自带的TTS引擎
+//        Speech.init(this, getPackageName(), status -> {
+//          switch (status) {
+//            case TextToSpeech.SUCCESS:
+//              if(Speech.getInstance().isSpeaking() || Speech.getInstance().isListening()){
+//                Speech.getInstance().stopTextToSpeech();
+//                return;
+//              }
+//              if(Speech.getInstance().isListening()){
+//                Speech.getInstance().stopListening();
+//                return;
+//              }
+//              Logger.i(LOG_TAG, "TextToSpeech engine successfully started");
+//              String text = mTvShiciContent.getText().toString().trim();
+//              if (text.isEmpty()) {
+//                text = mSTvShiciContent.getText().toString().trim();
+//              }
+//              if (text.isEmpty()) {
+//                text = "无内容";
+//              }
+//              onSpeak(text);
+//              break;
+//
+//            case TextToSpeech.ERROR:
+//              Logger.e(LOG_TAG, "Error while initializing TextToSpeech engine!");
+//              break;
+//
+//            default:
+//              Logger.e(LOG_TAG, "Unknown TextToSpeech status: " + status);
+//              break;
+//          }
+//        });
         break;
     }
   }
