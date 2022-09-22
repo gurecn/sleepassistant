@@ -103,4 +103,8 @@
     <string name="widget_i_sleep">爱睡眠</string>
     <string name="widget_i_shici">爱诗词</string>
     <string name="save_img">保存成图片</string>
+
+    <string name="dialog_set_speech_engine">设置语音引擎</string>
+    <string name="local_speech_engine">手机内置引擎</string>
+    <string name="tensorflow_speech_engine">TensorFlowTTS引擎</string>
 </resources>

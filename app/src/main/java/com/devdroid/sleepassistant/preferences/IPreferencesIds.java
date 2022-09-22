@@ -39,4 +39,7 @@ public class IPreferencesIds {
     public final static String KEY_APP_WIDGET_ISHICI_ID = "key_app_widget_ishici_id"; //缓存爱诗词widgetid
 
     public final static String KEY_APP_WIDGET_ISLEEP_ID = "key_app_widget_isleep_id"; //缓存爱睡眠widgetid
+
+
+    public final static String SPEECH_ENGINE_MODE = "speech_engine_mode"; //TTS引擎模式
 }

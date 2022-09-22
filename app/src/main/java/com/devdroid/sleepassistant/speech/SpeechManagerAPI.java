@@ -23,6 +23,8 @@ public interface SpeechManagerAPI {
 
   void stop();
 
+  void clear();
+
   void setAudioStream(int audioStream);
 
   void setOnInitListener(TextToSpeech.OnInitListener onInitListener);

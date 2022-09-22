@@ -78,6 +78,10 @@ public class SpeechManager implements SpeechManagerAPI{
     }
   }
 
+  public void clear() {
+    instance = null;
+  }
+
   @Override
   public void setAudioStream(int audioStream) {
 

@@ -92,4 +92,18 @@
     <string name="dialog_lock_time_cancel">暂不使用</string>
     <string name="save_img">保存成图片</string>
 
+
+    <string name="widget_listening_dur_hour">小时</string>
+    <string name="widget_listening_dur_min">分钟</string>
+    <string name="widget_listening_dur_tip">在小宇宙共收听</string>
+    <string name="widget_player_empty_play_state">剩余时长</string>
+    <string name="back_15_second">后退15秒</string>
+    <string name="forward_30_second">前进30秒</string>
+    <string name="widget_i_sleep">爱睡眠</string>
+    <string name="widget_i_shici">爱诗词</string>
+
+    <string name="dialog_set_speech_engine">设置语音引擎</string>
+    <string name="local_speech_engine">手机内置引擎</string>
+    <string name="tensorflow_speech_engine">TensorFlowTTS引擎</string>
+
 </resources>

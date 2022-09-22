@@ -2,7 +2,10 @@ package com.devdroid.sleepassistant.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -35,6 +38,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Magnifier;
 import android.widget.TextView;
@@ -52,6 +56,7 @@ import com.devdroid.sleepassistant.freefont.core.animation.A;
 import com.devdroid.sleepassistant.freefont.core.data.DrawData;
 import com.devdroid.sleepassistant.freefont.core.view.STextView;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
+import com.devdroid.sleepassistant.utils.AppUtils;
 import com.devdroid.sleepassistant.utils.Logger;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
@@ -70,7 +75,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Random;
 
-public class ShiciActivity extends BaseActivity implements View.OnClickListener {
+public class ShiciActivity extends BaseActivity implements View.OnClickListener, View.OnLongClickListener {
   public static final String REGEX = "(:|：|，|,|\\.|。|;|；|\\?|？|！|!)";
   private OriginBean mOriginBean;
   private TextView mTvShiciTitle;
@@ -123,6 +128,10 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     mTvShiciContent = findViewById(R.id.tv_shici_content);
     mTvShiciContent.setMovementMethod(new ScrollingMovementMethod());
     mIvShiciBg = findViewById(R.id.in_shici_bg);
+
+    Button mBtnSpeech = findViewById(R.id.btn_shici_speech);
+    mBtnSpeech.setOnLongClickListener(this);
+
     setMagnifier(mTvShiciTitle);
     Random r1 = new Random();
     int[] resources = new int[]{R.drawable.shici_bg_0,R.drawable.shici_bg_1,R.drawable.shici_bg_2};
@@ -303,20 +312,18 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
       case R.id.btn_shici_speech:
 
         if(!SpeechManager.getInstance().isSpeaking()) {
-          SpeechManager.getInstance().init(this, 0, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-              if (status == TextToSpeech.SUCCESS) {
-                String text = mTvShiciContent.getText().toString().trim();
-                if (text.isEmpty()) {
-                  text = mSTvShiciContent.getText().toString().trim();
-                }
-                if (text.isEmpty()) {
-                  text = "无内容";
-                }
-                SpeechManager.getInstance().setSpeechRate(1.0f);
-                SpeechManager.getInstance().say(text);
+          int mode = LauncherModel.getInstance().getSharedPreferencesManager().getInt(IPreferencesIds.SPEECH_ENGINE_MODE, 0);
+          SpeechManager.getInstance().init(this, mode, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+              String text = mTvShiciContent.getText().toString().trim();
+              if (text.isEmpty()) {
+                text = mSTvShiciContent.getText().toString().trim();
               }
+              if (text.isEmpty()) {
+                text = "无内容";
+              }
+              SpeechManager.getInstance().setSpeechRate(1.0f);
+              SpeechManager.getInstance().say(text);
             }
           });
         }
@@ -454,5 +461,30 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener 
     Speech.getInstance().shutdown();
   }
 
+  @Override
+  public boolean onLongClick(View view) {
+    switch (view.getId()) {
+      case R.id.btn_shici_speech:
+        setSpeechEngineDialog();
+    }
+    return false;
+  }
 
+
+  public void setSpeechEngineDialog() {
+
+    AlertDialog.Builder normalDialog = new AlertDialog.Builder(this);
+    normalDialog.setTitle(getString(R.string.dialog_set_speech_engine));
+    normalDialog.setNegativeButton(getString(R.string.local_speech_engine), (dialog, which) -> {
+      dialog.dismiss();
+      LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.SPEECH_ENGINE_MODE, 0);
+      SpeechManager.getInstance().clear();
+    });
+    normalDialog.setPositiveButton(getString(R.string.tensorflow_speech_engine), (dialog, which) -> {
+      dialog.dismiss();
+      LauncherModel.getInstance().getSharedPreferencesManager().commitInt(IPreferencesIds.SPEECH_ENGINE_MODE, 1);
+      SpeechManager.getInstance().clear();
+    });
+    normalDialog.show();
+  }
 }
