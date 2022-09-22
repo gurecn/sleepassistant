@@ -20,6 +20,8 @@ import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.listener.OnScreenShotListener;
 import com.devdroid.sleepassistant.observer.MediaContentObserver;
 import com.devdroid.sleepassistant.utils.AppUtils;
+import com.gyf.immersionbar.ImmersionBar;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -30,6 +32,7 @@ public class BaseActivity extends AppCompatActivity implements OnScreenShotListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).init();
 		Application application = getApplication();
 		if (application instanceof IApplication) {
 			((IApplication) application).addActivityToStack(this);
