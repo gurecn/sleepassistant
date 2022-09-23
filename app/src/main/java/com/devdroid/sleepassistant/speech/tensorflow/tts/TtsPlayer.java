@@ -4,7 +4,6 @@ import android.media.AudioAttributes;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
-import android.util.Log;
 
 import com.devdroid.sleepassistant.speech.tensorflow.utils.ThreadPoolManager;
 
@@ -15,7 +14,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Created 2020-07-20 18:22
  */
 class TtsPlayer {
-    private static final String TAG = "TtsPlayer";
 
     private final AudioTrack mAudioTrack;
 
@@ -49,7 +47,6 @@ class TtsPlayer {
             while (true) {
                 try {
                     mCurrentAudioData = mAudioQueue.take();
-                    Log.d(TAG, "playing: " + mCurrentAudioData.text);
                     int index = 0;
                     while (index < mCurrentAudioData.audio.length && !mCurrentAudioData.isInterrupt) {
                         int buffer = Math.min(BUFFER_SIZE, mCurrentAudioData.audio.length - index);
@@ -57,14 +54,13 @@ class TtsPlayer {
                         index += BUFFER_SIZE;
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Exception: ", e);
+                    e.printStackTrace();
                 }
             }
         });
     }
 
     void play(AudioData audioData) {
-        Log.d(TAG, "add audio data to queue: " + audioData.text);
         mAudioQueue.offer(audioData);
     }
 
