@@ -24,6 +24,7 @@ public class TtsManager {
     private static final Object INSTANCE_WRITE_LOCK = new Object();
 
     private static volatile TtsManager instance;
+    private OnTtsStateListener mTtsStateListener;
     /**
      *  当前状态：
      *  0：默认状态
@@ -56,23 +57,33 @@ public class TtsManager {
     private final static String MELGAN_MODULE = "mb_melgan_new.tflite";
 
     public void init(Context context, TextToSpeech.OnInitListener onInitListener) {
-        TtsStateDispatcher.getInstance().addListener(new OnTtsStateListener() {
-            @Override
-            public void onTtsReady() {
-                state = 1;
-                onInitListener.onInit(TextToSpeech.SUCCESS);
-                Logger.e(TAG, "onTtsReady");
-            }
-            @Override
-            public void onTtsStart(String text) {
-                state = 2;
-            }
+        if(state == 1 || state == 2){
+            onInitListener.onInit(TextToSpeech.SUCCESS);
+            return;
+        }
+        if(mTtsStateListener == null) {
+            mTtsStateListener = new OnTtsStateListener() {
+                @Override
+                public void onTtsReady() {
+                    state = 1;
+                    onInitListener.onInit(TextToSpeech.SUCCESS);
+                    Logger.d(TAG, "onTtsReady");
+                }
 
-            @Override
-            public void onTtsStop() {
-                state = 1;
-            }
-        });
+                @Override
+                public void onTtsStart(String text) {
+                    state = 2;
+                    Logger.d(TAG, "onTtsStart");
+                }
+
+                @Override
+                public void onTtsStop() {
+                    state = 1;
+                    Logger.d(TAG, "onTtsStop");
+                }
+            };
+        }
+        TtsStateDispatcher.getInstance().addListener(mTtsStateListener);
 
         ThreadPoolManager.getInstance().getSingleExecutor("init").execute(() -> {
             try {
