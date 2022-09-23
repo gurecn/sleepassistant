@@ -145,9 +145,6 @@ public class Processor {
         for (String validSymbol : VALID_SYMBOLS) {
             SYMBOLS.add("@" + validSymbol);
         }
-
-        SYMBOLS.add(EOS);
-
         for (int i = 0; i < SYMBOLS.size(); ++i) {
             SYMBOL_TO_ID.put(SYMBOLS.get(i), i);
         }

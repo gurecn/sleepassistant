@@ -281,8 +281,7 @@ public class ZhProcessor {
 
     private static String pinyin2Symbol(String[] pinyins) {
         StringBuilder result = new StringBuilder();
-        result.append("sil");
-        boolean addEnd = true;
+        boolean addEnd;
         for (String pinyin : pinyins) {
             if (pinyin.isEmpty()) {
                 continue;
@@ -310,7 +309,6 @@ public class ZhProcessor {
             if (addEnd)
                 result.append("#0");
         }
-        result.append(" eos");
         return result.toString();
     }
 
