@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Objects;
 
 /**
  * @author {@link "mailto:xuefeng.ding@outlook.com" "Xuefeng Ding"}
@@ -52,9 +53,8 @@ public class TtsManager {
 
     private InputWorker mWorker;
 
-//    private final static String FASTSPEECH2_MODULE = "fastspeech2_quan.tflite";
-    private final static String FASTSPEECH2_MODULE = "fastspeech2_quan.tflite";
-    private final static String MELGAN_MODULE = "mb_melgan_new.tflite";
+    private final static String FASTSPEECH2_MODULE = "tensorflowtts/fastspeech2_quan.tflite";
+    private final static String MELGAN_MODULE = "tensorflowtts/mb_melgan_new.tflite";
 
     public void init(Context context, TextToSpeech.OnInitListener onInitListener) {
         if(state == 1 || state == 2){
@@ -107,6 +107,8 @@ public class TtsManager {
         if (f.exists()) {
             Log.d(TAG, "file exists " + strOutFileName);
             return f.getAbsolutePath();
+        } else {
+            Objects.requireNonNull(f.getParentFile()).mkdirs();
         }
 
         try (OutputStream myOutput = new FileOutputStream(f);

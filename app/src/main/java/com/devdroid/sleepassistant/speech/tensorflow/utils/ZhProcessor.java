@@ -3,11 +3,11 @@ package com.devdroid.sleepassistant.speech.tensorflow.utils;
 import android.content.Context;
 import android.util.Log;
 
-import net.sourceforge.pinyin4j.PinyinHelper;
-import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
-import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
+import com.devdroid.pinyin4j.PinyinHelper;
+import com.devdroid.pinyin4j.format.HanyuPinyinCaseType;
+import com.devdroid.pinyin4j.format.HanyuPinyinOutputFormat;
+import com.devdroid.pinyin4j.format.HanyuPinyinToneType;
+import com.devdroid.pinyin4j.format.HanyuPinyinVCharType;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -63,7 +63,7 @@ public class ZhProcessor {
     public ZhProcessor(Context context) {
         try {
             InputStream inputStream =
-                    context.getAssets().open("baker_mapper.json");
+                    context.getAssets().open("tensorflowtts/baker_mapper.json");
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int len = 0;

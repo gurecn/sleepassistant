@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -31,7 +29,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,27 +45,21 @@ import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.base.BaseActivity;
 import com.devdroid.sleepassistant.speech.SpeechManager;
-import com.devdroid.sleepassistant.speech.tensorflow.dispatcher.OnTtsStateListener;
-import com.devdroid.sleepassistant.speech.tensorflow.dispatcher.TtsStateDispatcher;
-import com.devdroid.sleepassistant.speech.tensorflow.tts.TtsManager;
-import com.devdroid.sleepassistant.speech.tensorflow.utils.ThreadPoolManager;
 import com.devdroid.sleepassistant.freefont.core.animation.A;
 import com.devdroid.sleepassistant.freefont.core.data.DrawData;
 import com.devdroid.sleepassistant.freefont.core.view.STextView;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
-import com.devdroid.sleepassistant.utils.AppUtils;
 import com.devdroid.sleepassistant.utils.Logger;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.jinrishici.sdk.android.model.OriginBean;
 import com.devdroid.sleepassistant.speech.local.Speech;
-import com.devdroid.sleepassistant.speech.local.TextToSpeechCallback;
-import net.sourceforge.pinyin4j.PinyinHelper;
-import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
-import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
-import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+import com.devdroid.pinyin4j.PinyinHelper;
+import com.devdroid.pinyin4j.format.HanyuPinyinCaseType;
+import com.devdroid.pinyin4j.format.HanyuPinyinOutputFormat;
+import com.devdroid.pinyin4j.format.HanyuPinyinToneType;
+import com.devdroid.pinyin4j.format.HanyuPinyinVCharType;
+import com.devdroid.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -223,7 +214,7 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
       mSTvShiciContent.setText(shici.toString());
       mTvShiciContent.setVisibility(View.GONE);
       try {
-        InputStream is = getAssets().open("gson.txt");
+        InputStream is = getAssets().open("layers/gson.txt");
         InputStreamReader isr = new InputStreamReader(is);
         DrawData data = new Gson().fromJson(isr, DrawData.class);
         data.aniType = A.SINGLE_RIGHT_FADE_INF_LEFT_FADE_OUT;
@@ -235,7 +226,6 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
       }
       mSTvShiciContent.getTAnimation().start();
     }
-    Log.i("11111111111", "initData OK");
   }
 
   /**
@@ -345,7 +335,7 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
         Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(currentUri));
         mIvShiciBg.setImageBitmap(bitmap);
       } catch (FileNotFoundException e) {
-        Log.e("Exception", e.getMessage(),e);
+        Logger.e("Exception", e.getMessage(),e);
       }
     }
   }
