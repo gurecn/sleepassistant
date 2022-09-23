@@ -264,7 +264,7 @@ public class ZhProcessor {
         format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
         format.setToneType(HanyuPinyinToneType.WITH_TONE_NUMBER);
         format.setVCharType(HanyuPinyinVCharType.WITH_V);
-        String pinyin = PinyinHelper.toHanyuPinyinString(text, format, "");
+        String pinyin = PinyinHelper.toHanYuPinyinString(text, format, "", true);
         StringBuilder builder = new StringBuilder();
         char[] chars = pinyin.toCharArray();
         for (int i = 0; i < chars.length; i++) {

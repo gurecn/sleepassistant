@@ -88,7 +88,6 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.jinrishici:android-sdk:1.5'
     implementation 'com.google.code.gson:gson:2.8.2'
-    implementation files('libs\\pinyin4j-2.5.0.jar')
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'

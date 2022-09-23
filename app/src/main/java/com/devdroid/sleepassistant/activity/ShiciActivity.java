@@ -68,6 +68,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -440,19 +441,13 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
     format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
     format.setToneType(HanyuPinyinToneType.WITH_TONE_MARK);
     format.setVCharType(HanyuPinyinVCharType.WITH_U_UNICODE);
-    StringBuilder sb = new StringBuilder();
     try {
-      for(char cha:hanzi.toCharArray()){
-        if(Character.toString(cha).matches("[\\u4E00-\\u9FA5]+")) {
-          String[] pys = PinyinHelper.toHanyuPinyinStringArray(cha, format);
-          sb.append(pys[0]).append(" ");
-        }
-      }
-      sb.deleteCharAt(sb.length()-1);
-    } catch (Exception exception){
-      exception.printStackTrace();
+      String pys = PinyinHelper.toHanYuPinyinString(hanzi, format, " ", true);
+      return pys;
+    } catch (BadHanyuPinyinOutputFormatCombination combination) {
+      combination.printStackTrace();
     }
-    return sb.toString();
+    return "";
   }
 
   @Override
