@@ -3644,7 +3644,7 @@
 5C3A (chi3,che3)
 5C3B (kao1)
 5C3C (ni2)
-5C3D (jin3,jin4)
+5C3D (jin4,jin3)
 5C3E (wei3,yi3)
 5C3F (niao4,sui1,ni4)
 5C40 (ju2)
