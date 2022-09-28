@@ -24,6 +24,8 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
 import android.speech.tts.TextToSpeech;
+import android.system.ErrnoException;
+import android.system.Os;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -52,6 +54,9 @@ import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.Logger;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
+import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.corpus.io.IIOAdapter;
+import com.hankcs.hanlp.seg.common.Term;
 import com.jinrishici.sdk.android.model.OriginBean;
 import com.devdroid.speech.local.Speech;
 import com.devdroid.pinyin4j.PinyinHelper;
@@ -62,8 +67,10 @@ import com.devdroid.pinyin4j.format.HanyuPinyinVCharType;
 import com.devdroid.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Random;
 
@@ -225,6 +232,9 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
         e.printStackTrace();
       }
       mSTvShiciContent.getTAnimation().start();
+
+
+      initHanLP();
     }
   }
 
@@ -306,20 +316,49 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
           int mode = LauncherModel.getInstance().getSharedPreferencesManager().getInt(IPreferencesIds.SPEECH_ENGINE_MODE, 0);
           SpeechManager.getInstance().init(this, mode, status -> {
             if (status == TextToSpeech.SUCCESS) {
-              String text = mTvShiciContent.getText().toString().trim();
-              if (text.isEmpty()) {
-                text = mSTvShiciContent.getText().toString().trim();
-              }
-              if (text.isEmpty()) {
-                text = "无内容";
-              }
-              SpeechManager.getInstance().setSpeechRate(1.0f);
-              SpeechManager.getInstance().say(text);
+//              String text = mTvShiciContent.getText().toString().trim();
+//              if (text.isEmpty()) {
+//                text = mSTvShiciContent.getText().toString().trim();
+//              }
+//              if (text.isEmpty()) {
+//                text = "无内容";
+//              }
+//              SpeechManager.getInstance().setSpeechRate(1.0f);
+//              SpeechManager.getInstance().say(text);
+              String text = "9月27日，习近平总书记来到北京展览馆，参观“奋进新时代”主题成就展。总书记曾经以“在人类的伟大时间历史中创造中华民族的伟大历史时间”描述一个奋进的中国，新时代10年，中国大地书写了具有里程碑意义的奋进史诗。";
+              List<Term> termList = HanLP.segment(text);
+              Logger.d("1111111111","Term:" + termList.toString());
             }
           });
+
+
         }
         break;
     }
+  }
+
+  private void initHanLP() {
+    Logger.d("1111111111","initHanLP start");
+    try {
+      Os.setenv("HANLP_ROOT", "", true);
+    } catch (ErrnoException e) {
+      throw new RuntimeException(e);
+    }
+    AssetManager assetManager = getAssets();
+    HanLP.Config.IOAdapter = new IIOAdapter()
+    {
+      @Override
+      public InputStream open(String path) throws IOException {
+        Logger.d("1111111111","IIOAdapter open：" + path);
+        return assetManager.open(path);
+      }
+
+      @Override
+      public OutputStream create(String path) {
+        Logger.d("1111111111","IIOAdapter create：" + path);
+        throw new IllegalAccessError("不支持写入" + path + "！请在编译前将需要的数据放入app/src/main/assets/data");
+      }
+    };
   }
 
   @Override

@@ -96,4 +96,5 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite:2.8.0'
     implementation 'org.tensorflow:tensorflow-lite-select-tf-ops:2.8.0'
     implementation 'org.tensorflow:tensorflow-lite-support:0.3.1'
+    implementation 'com.hankcs:hanlp:portable-1.6.8'
 }
