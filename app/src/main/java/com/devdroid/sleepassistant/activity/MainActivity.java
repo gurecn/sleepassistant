@@ -170,12 +170,6 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         if(!isClick){
             addGuideImage(R.id.drawer_layout, R.mipmap.main_guide);
         }
-
-        String text = "阿姨阿胶扒开扒手压扁扁舟剥削剥皮长期年长参加参差不齐人参朝阳朝代发财头发干涉干燥干部后面皇后";
-//              List<Term> termList = HanLP.segment(text);
-//              Logger.d("1111111111","Term:" + termList.toString());
-//              Logger.d("1111111111","简转繁:" + HanLP.convertToTraditionalChinese(text));
-        Logger.d("1111111111","拼音:" + HanLP.convertToPinyinString(text, " ", false));
     }
 
     private void setViewPager() {

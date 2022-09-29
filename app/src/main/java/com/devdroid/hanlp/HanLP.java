@@ -326,7 +326,7 @@ public class HanLP {
             {
                 sb.append(text.charAt(i - 1));
             }
-            else sb.append(pinyin.getPinyinWithToneMark());
+            else sb.append(pinyin.getPinyinWithoutTone()).append(pinyin.getTone());
             if (i < length)
             {
                 sb.append(separator);

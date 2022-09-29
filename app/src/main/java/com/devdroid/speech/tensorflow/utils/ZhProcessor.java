@@ -3,11 +3,13 @@ package com.devdroid.speech.tensorflow.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.devdroid.hanlp.HanLP;
 import com.devdroid.pinyin4j.PinyinHelper;
 import com.devdroid.pinyin4j.format.HanyuPinyinCaseType;
 import com.devdroid.pinyin4j.format.HanyuPinyinOutputFormat;
 import com.devdroid.pinyin4j.format.HanyuPinyinToneType;
 import com.devdroid.pinyin4j.format.HanyuPinyinVCharType;
+import com.devdroid.sleepassistant.utils.Logger;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -100,16 +102,8 @@ public class ZhProcessor {
 
     public int[] text2ids(String text) {
         String parseText = parseText(text);
-        String[] pinyin;
-        try {
-            pinyin = convert2Pinyin(parseText);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
+        String[] pinyin = convert2Pinyin(parseText);
         String symbols = pinyin2Symbol(pinyin);
-        Log.i(TAG, symbols);
         return symbol2ids(symbols.split(" "));
     }
 
@@ -259,23 +253,9 @@ public class ZhProcessor {
         return SYMBOL_PATTERN.matcher(s).matches();
     }
 
-    private static String[] convert2Pinyin(String text) throws Exception {
-        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
-        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-        format.setToneType(HanyuPinyinToneType.WITH_TONE_NUMBER);
-        format.setVCharType(HanyuPinyinVCharType.WITH_V);
-        String pinyin = PinyinHelper.toHanYuPinyinString(text, format, "", true);
-        StringBuilder builder = new StringBuilder();
-        char[] chars = pinyin.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            String s = String.valueOf(chars[i]);
-            builder.append(s);
-            if (isNumber(s)) {
-                builder.append(" ");
-            }
-        }
-        Log.i(TAG, builder.toString());
-        return builder.toString().split(" ");
+    private static String[] convert2Pinyin(String text){
+        String pinyin = HanLP.convertToPinyinString(text, " ", false);
+        return pinyin.split(" ");
     }
 
 

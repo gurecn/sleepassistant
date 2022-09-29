@@ -44,7 +44,6 @@ class InputWorker {
             while (true) {
                 try {
                     mCurrentInputText = mInputQueue.take();
-                    Log.d(TAG, "processing: " + mCurrentInputText.INPUT_TEXT);
                     TtsStateDispatcher.getInstance().onTtsStart(mCurrentInputText.INPUT_TEXT);
                     mCurrentInputText.proceed();
                     TtsStateDispatcher.getInstance().onTtsStop();
@@ -56,7 +55,6 @@ class InputWorker {
     }
 
     void processInput(String inputText, float speed) {
-        Log.d(TAG, "add to queue: " + inputText);
         mInputQueue.offer(new InputText(inputText, speed));
     }
 
@@ -81,23 +79,13 @@ class InputWorker {
 
         private void proceed() {
             String[] sentences = INPUT_TEXT.split("[\n，。？?！!,;；]");
-            Log.d(TAG, "speak: " + Arrays.toString(sentences));
-
             for (String sentence : sentences) {
-
-                long time = System.currentTimeMillis();
-
-//                int[] inputIds = mProcessor.textToIds(sentence);
                 int[] inputIds = zhProcessor.text2ids(sentence);
                 TensorBuffer output = mFastSpeech2.getMelSpectrogram(inputIds, SPEED);
-
                 if (isInterrupt) {
                     Log.d(TAG, "proceed: interrupt");
                     return;
                 }
-
-                long encoderTime = System.currentTimeMillis();
-
                 float[] audioData;
                 try {
                     audioData = mMBMelGan.getAudio(output);
@@ -105,16 +93,10 @@ class InputWorker {
                     e.printStackTrace();
                     continue;
                 }
-
                 if (isInterrupt) {
                     Log.d(TAG, "proceed: interrupt");
                     return;
                 }
-
-                long vocoderTime = System.currentTimeMillis();
-
-                Log.d(TAG, "Time cost: " + (encoderTime - time) + "+" + (vocoderTime - encoderTime) + "=" + (vocoderTime - time));
-
                 mTtsPlayer.play(new TtsPlayer.AudioData(sentence, audioData));
             }
         }

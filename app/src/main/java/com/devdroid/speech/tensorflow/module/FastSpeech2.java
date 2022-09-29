@@ -25,38 +25,14 @@ public class FastSpeech2 extends AbstractModule {
     public FastSpeech2(String modulePath) {
         try {
             mModule = new Interpreter(new File(modulePath), getOption());
-            int input = mModule.getInputTensorCount();
-            for (int i = 0; i < input; i++) {
-                Tensor inputTensor = mModule.getInputTensor(i);
-                Log.d(TAG, "input:" + i +
-                        " name:" + inputTensor.name() +
-                        " shape:" + Arrays.toString(inputTensor.shape()) +
-                        " dtype:" + inputTensor.dataType());
-            }
-
-            int output = mModule.getOutputTensorCount();
-            for (int i = 0; i < output; i++) {
-                Tensor outputTensor = mModule.getOutputTensor(i);
-                Log.d(TAG, "output:" + i +
-                        " name:" + outputTensor.name() +
-                        " shape:" + Arrays.toString(outputTensor.shape()) +
-                        " dtype:" + outputTensor.dataType());
-            }
-            Log.d(TAG, "successfully init");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public TensorBuffer getMelSpectrogram(int[] inputIds, float speed) {
-        Log.d(TAG, "input id length: " + inputIds.length);
         mModule.resizeInput(0, new int[]{1, inputIds.length});
-//        mModule.resizeInput(1, new int[]{1});
-//        mModule.resizeInput(2, new int[]{1});
-//        mModule.resizeInput(3, new int[]{1});
-//        mModule.resizeInput(4, new int[]{1});
         mModule.allocateTensors();
-
         @SuppressLint("UseSparseArrays")
         Map<Integer, Object> outputMap = new HashMap<>();
 
@@ -65,19 +41,9 @@ public class FastSpeech2 extends AbstractModule {
 
         int[][] inputs = new int[1][inputIds.length];
         inputs[0] = inputIds;
-
-        long time = System.currentTimeMillis();
-//        mModule.runForMultipleInputsOutputs(
-//                new Object[]{inputs, new int[1][1], new int[]{0}, new float[]{speed}, new float[]{1F}, new float[]{1F}},
-//                outputMap);
         mModule.runForMultipleInputsOutputs(
                 new Object[]{inputs, new int[]{0}, new float[]{speed}, new float[]{1F}, new float[]{1F}},
                 outputMap);
-//        mModule.runForMultipleInputsOutputs(
-//                new Object[]{inputs, new int[]{1}, new int[]{0}},
-//                outputMap);
-        Log.d(TAG, "time cost: " + (System.currentTimeMillis() - time));
-
         int size = mModule.getOutputTensor(0).shape()[2];
         int[] shape = {1, outputBuffer.position() / size, size};
         TensorBuffer spectrogram = TensorBuffer.createFixedSize(shape, DataType.FLOAT32);
@@ -85,7 +51,6 @@ public class FastSpeech2 extends AbstractModule {
         outputBuffer.rewind();
         outputBuffer.get(outputArray);
         spectrogram.loadArray(outputArray);
-
         return spectrogram;
     }
 }
