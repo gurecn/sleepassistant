@@ -382,14 +382,14 @@ public class LinearModel implements ICacheAble
      */
     public void load(String modelFile) throws IOException
     {
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
             logger.start("加载 %s ... ", modelFile);
         ByteArrayStream byteArray = ByteArrayStream.createByteArrayStream(modelFile);
         if (!load(byteArray))
         {
             throw new IOException(String.format("%s 加载失败", modelFile));
         }
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
             logger.finish(" 加载完毕\n");
     }
 

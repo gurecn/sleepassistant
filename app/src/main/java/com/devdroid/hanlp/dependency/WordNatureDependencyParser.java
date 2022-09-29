@@ -45,7 +45,7 @@ public class WordNatureDependencyParser extends MinimumSpanningTreeParser
 
     public WordNatureDependencyParser()
     {
-        this(HanLP.Config.WordNatureModelPath);
+        this(HanLP.WordNatureModelPath);
     }
 
     /**

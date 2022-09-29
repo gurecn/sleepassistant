@@ -25,7 +25,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.*;
-import static com.devdroid.hanlp.HanLP.Config.IOAdapter;
+import static com.devdroid.hanlp.HanLP.IOAdapter;
 
 /**
  * 双数组Trie树

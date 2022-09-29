@@ -59,7 +59,7 @@ public class WordNatureWeightModelMaker
         {
             sb.append("case \"" + pos + "\":\n");
         }
-        IOUtil.saveTxt("data/model/dependency/pos-thu.txt", sb.toString());
+        IOUtil.saveTxt("hanlp/data/model/dependency/pos-thu.txt", sb.toString());
         return dictionaryMaker.saveTxtTo(modelSavePath);
     }
 

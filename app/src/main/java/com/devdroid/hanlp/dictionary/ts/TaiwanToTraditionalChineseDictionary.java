@@ -28,11 +28,11 @@ public class TaiwanToTraditionalChineseDictionary extends BaseChineseDictionary
     static
     {
         long start = System.currentTimeMillis();
-        String datPath = HanLP.Config.tcDictionaryRoot + "tw2t";
+        String datPath = HanLP.tcDictionaryRoot + "tw2t";
         if (!loadDat(datPath, trie))
         {
             TreeMap<String, String> tw2t = new TreeMap<String, String>();
-            if (!load(tw2t, true, HanLP.Config.tcDictionaryRoot + "t2tw.txt"))
+            if (!load(tw2t, true, HanLP.tcDictionaryRoot + "t2tw.txt"))
             {
                 throw new IllegalArgumentException("台湾繁体转繁体加载失败");
             }

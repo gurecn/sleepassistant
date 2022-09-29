@@ -29,7 +29,7 @@ import static com.devdroid.hanlp.utility.Predefine.logger;
  */
 public class TranslatedPersonDictionary
 {
-    static String path = HanLP.Config.TranslatedPersonDictionaryPath;
+    static String path = HanLP.TranslatedPersonDictionaryPath;
     static DoubleArrayTrie<Boolean> trie;
 
     static

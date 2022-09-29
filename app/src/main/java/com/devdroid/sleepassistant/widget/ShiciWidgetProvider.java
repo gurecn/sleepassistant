@@ -25,7 +25,7 @@ import com.jinrishici.sdk.android.model.PoetySentence;
 
 public final class ShiciWidgetProvider extends AppWidgetProvider {
   public static final String REGEX = "(:|：|，|,|\\.|。|;|；|\\?|？|！|!)";
-  private static final String TAG = "1111111111111";
+  private static final String TAG = "ShiciWidgetProvider";
   private static int[] mAppWidgetIds;
   private boolean isSync = false;
   @Override

@@ -24,7 +24,7 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 import static com.devdroid.hanlp.utility.Predefine.logger;
-import static com.devdroid.hanlp.HanLP.Config.IOAdapter;
+import static com.devdroid.hanlp.HanLP.IOAdapter;
 
 /**
  * 一些常用的IO操作

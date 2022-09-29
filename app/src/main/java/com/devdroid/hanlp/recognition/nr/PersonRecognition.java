@@ -36,7 +36,7 @@ public class PersonRecognition
     public static boolean recognition(List<Vertex> pWordSegResult, WordNet wordNetOptimum, WordNet wordNetAll)
     {
         List<EnumItem<NR>> roleTagList = roleObserve(pWordSegResult);
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
         {
             StringBuilder sbLog = new StringBuilder();
             Iterator<Vertex> iterator = pWordSegResult.iterator();
@@ -51,7 +51,7 @@ public class PersonRecognition
             System.out.printf("人名角色观察：%s\n", sbLog.toString());
         }
         List<NR> nrList = viterbiComputeSimply(roleTagList);
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
         {
             StringBuilder sbLog = new StringBuilder();
             Iterator<Vertex> iterator = pWordSegResult.iterator();

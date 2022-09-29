@@ -49,7 +49,7 @@ public class PerceptronPOSTagger extends PerceptronTagger implements POSTagger
      */
     public PerceptronPOSTagger() throws IOException
     {
-        this(HanLP.Config.PerceptronPOSModelPath);
+        this(HanLP.PerceptronPOSModelPath);
     }
 
     /**

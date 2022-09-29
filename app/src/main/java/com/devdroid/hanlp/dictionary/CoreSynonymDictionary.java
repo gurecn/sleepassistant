@@ -34,7 +34,7 @@ public class CoreSynonymDictionary
         try
         {
             long start = System.currentTimeMillis();
-            dictionary = CommonSynonymDictionary.create(IOUtil.newInputStream(HanLP.Config.CoreSynonymDictionaryDictionaryPath));
+            dictionary = CommonSynonymDictionary.create(IOUtil.newInputStream(HanLP.CoreSynonymDictionaryDictionaryPath));
             logger.info("载入核心同义词词典成功，耗时 " + (System.currentTimeMillis() - start) + " ms");
         }
         catch (Exception e)

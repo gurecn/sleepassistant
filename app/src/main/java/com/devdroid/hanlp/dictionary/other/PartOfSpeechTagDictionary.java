@@ -30,7 +30,7 @@ public class PartOfSpeechTagDictionary
 
     static
     {
-        load(HanLP.Config.PartOfSpeechTagDictionary);
+        load(HanLP.PartOfSpeechTagDictionary);
     }
 
     public static void load(String path)

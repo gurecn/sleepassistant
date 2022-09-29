@@ -221,7 +221,7 @@ public abstract class PerceptronTrainer extends InstanceConsumer
                 }
             }
             logger.start("以压缩比 %.2f 保存模型到 %s ... ", compressRatio, modelFile);
-            models[0].save(modelFile, immutableFeatureMap.featureIdMap.entrySet(), compressRatio, HanLP.Config.DEBUG);
+            models[0].save(modelFile, immutableFeatureMap.featureIdMap.entrySet(), compressRatio, HanLP.DEBUG);
             logger.finish(" 保存完毕\n");
             if (compressRatio == 0) return new Result(models[0], accuracy);
         }

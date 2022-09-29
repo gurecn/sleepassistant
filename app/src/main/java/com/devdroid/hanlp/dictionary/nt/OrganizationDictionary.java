@@ -62,12 +62,12 @@ public class OrganizationDictionary
     {
         long start = System.currentTimeMillis();
         dictionary = new NTDictionary();
-        if (dictionary.load(HanLP.Config.OrganizationDictionaryPath))
-            logger.info(HanLP.Config.OrganizationDictionaryPath + "加载成功，耗时" + (System.currentTimeMillis() - start) + "ms");
+        if (dictionary.load(HanLP.OrganizationDictionaryPath))
+            logger.info(HanLP.OrganizationDictionaryPath + "加载成功，耗时" + (System.currentTimeMillis() - start) + "ms");
         else
-            throw new IllegalArgumentException(HanLP.Config.OrganizationDictionaryPath + "加载失败");
+            throw new IllegalArgumentException(HanLP.OrganizationDictionaryPath + "加载失败");
         transformMatrixDictionary = new TransformMatrixDictionary<NT>(NT.class);
-        transformMatrixDictionary.load(HanLP.Config.OrganizationDictionaryTrPath);
+        transformMatrixDictionary.load(HanLP.OrganizationDictionaryTrPath);
         trie = new AhoCorasickDoubleArrayTrie<String>();
         TreeMap<String, String> patternMap = new TreeMap<String, String>();
         addKeyword(patternMap, "CCCCCCCCD");
@@ -3767,7 +3767,7 @@ public class OrganizationDictionary
                 if (isBadCase(name)) return;
 
                 // 正式算它是一个名字
-                if (HanLP.Config.DEBUG)
+                if (HanLP.DEBUG)
                 {
                     System.out.printf("识别出机构名：%s %s\n", name, keyword);
                 }

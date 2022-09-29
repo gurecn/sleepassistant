@@ -30,13 +30,13 @@ public class HongKongToTaiwanChineseDictionary extends BaseChineseDictionary
     static
     {
         long start = System.currentTimeMillis();
-        String datPath = HanLP.Config.tcDictionaryRoot + "hk2tw";
+        String datPath = HanLP.tcDictionaryRoot + "hk2tw";
         if (!loadDat(datPath, trie))
         {
             TreeMap<String, String> t2tw = new TreeMap<String, String>();
             TreeMap<String, String> hk2t = new TreeMap<String, String>();
-            if (!load(t2tw, false, HanLP.Config.tcDictionaryRoot + "t2tw.txt") ||
-                    !load(hk2t, true, HanLP.Config.tcDictionaryRoot + "t2hk.txt"))
+            if (!load(t2tw, false, HanLP.tcDictionaryRoot + "t2tw.txt") ||
+                    !load(hk2t, true, HanLP.tcDictionaryRoot + "t2hk.txt"))
             {
                 throw new IllegalArgumentException("香港繁体转台湾繁体词典加载失败");
             }

@@ -21,6 +21,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.devdroid.hanlp.HanLP;
 import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.adapter.CalendarViewAdapter;
 import com.devdroid.sleepassistant.application.LauncherModel;
@@ -30,6 +32,7 @@ import com.devdroid.sleepassistant.mode.SleepDataMode;
 import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.DateUtil;
 import com.devdroid.sleepassistant.utils.DevicesUtils;
+import com.devdroid.sleepassistant.utils.Logger;
 import com.devdroid.sleepassistant.view.CalendarCard;
 import com.devdroid.sleepassistant.view.chart.GeneralSplineChartView;
 import com.google.android.material.navigation.NavigationView;
@@ -76,7 +79,6 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         Intent intent = getIntent();
         if(intent != null){
             String action = intent.getStringExtra("action");
-            Log.d("1111111111111", "action:" + action);
             if("create_sleep_time_new".equals(action)){
                 createSleepTimeNew();
                 mViewPager.postDelayed(this::finish, 500);
@@ -168,6 +170,12 @@ public class MainActivity extends BaseActivity implements CalendarCard.OnCellCli
         if(!isClick){
             addGuideImage(R.id.drawer_layout, R.mipmap.main_guide);
         }
+
+        String text = "阿姨阿胶扒开扒手压扁扁舟剥削剥皮长期年长参加参差不齐人参朝阳朝代发财头发干涉干燥干部后面皇后";
+//              List<Term> termList = HanLP.segment(text);
+//              Logger.d("1111111111","Term:" + termList.toString());
+//              Logger.d("1111111111","简转繁:" + HanLP.convertToTraditionalChinese(text));
+        Logger.d("1111111111","拼音:" + HanLP.convertToPinyinString(text, " ", false));
     }
 
     private void setViewPager() {

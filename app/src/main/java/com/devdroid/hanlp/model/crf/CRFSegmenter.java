@@ -37,7 +37,7 @@ public class CRFSegmenter extends CRFTagger implements Segmenter
 
     public CRFSegmenter() throws IOException
     {
-        this(HanLP.Config.CRFCWSModelPath);
+        this(HanLP.CRFCWSModelPath);
     }
 
     public CRFSegmenter(String modelPath) throws IOException

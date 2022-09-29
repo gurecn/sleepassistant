@@ -54,12 +54,12 @@ public class PersonDictionary
     {
         long start = System.currentTimeMillis();
         dictionary = new NRDictionary();
-        if (!dictionary.load(HanLP.Config.PersonDictionaryPath))
+        if (!dictionary.load(HanLP.PersonDictionaryPath))
         {
-            throw new IllegalArgumentException("人名词典加载失败：" + HanLP.Config.PersonDictionaryPath);
+            throw new IllegalArgumentException("人名词典加载失败：" + HanLP.PersonDictionaryPath);
         }
         transformMatrixDictionary = new TransformMatrixDictionary<NR>(NR.class);
-        transformMatrixDictionary.load(HanLP.Config.PersonDictionaryTrPath);
+        transformMatrixDictionary.load(HanLP.PersonDictionaryTrPath);
         trie = new AhoCorasickDoubleArrayTrie<NRPattern>();
         TreeMap<String, NRPattern> map = new TreeMap<String, NRPattern>();
         for (NRPattern pattern : NRPattern.values())
@@ -67,7 +67,7 @@ public class PersonDictionary
             map.put(pattern.toString(), pattern);
         }
         trie.build(map);
-        logger.info(HanLP.Config.PersonDictionaryPath + "加载成功，耗时" + (System.currentTimeMillis() - start) + "ms");
+        logger.info(HanLP.PersonDictionaryPath + "加载成功，耗时" + (System.currentTimeMillis() - start) + "ms");
     }
 
     /**
@@ -184,7 +184,7 @@ public class PersonDictionary
                 if (isBadCase(name)) return;
 
                 // 正式算它是一个名字
-                if (HanLP.Config.DEBUG)
+                if (HanLP.DEBUG)
                 {
                     System.out.printf("识别出人名：%s %s\n", name, value);
                 }

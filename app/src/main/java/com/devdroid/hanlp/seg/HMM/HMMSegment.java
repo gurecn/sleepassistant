@@ -33,7 +33,7 @@ public class HMMSegment extends CharacterBasedSegment
 
     public HMMSegment()
     {
-        this(HanLP.Config.HMMSegmentModelPath);
+        this(HanLP.HMMSegmentModelPath);
     }
 
     public HMMSegment(String modelPath)

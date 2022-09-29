@@ -68,38 +68,10 @@ public class TheApplication extends FrontiaApplication {
                 //今日诗词初始化
                 JinrishiciFactory.init(getAppContext());
 //              ApplockManager.initSingleton(getAppContext());
-//                initHanLP();
+                HanLP.loadProperties(getAppContext(), "hanlp/hanlp.properties");
             }
         });
     }
-
-    private void initHanLP()
-    {
-        try
-        {
-            Os.setenv("HANLP_ROOT", "", true);
-        }
-        catch (ErrnoException e)
-        {
-            throw new RuntimeException(e);
-        }
-        final AssetManager assetManager = getAssets();
-        HanLP.Config.IOAdapter = new IIOAdapter()
-        {
-            @Override
-            public InputStream open(String path) throws IOException
-            {
-                return assetManager.open(path);
-            }
-
-            @Override
-            public OutputStream create(String path) throws IOException
-            {
-                throw new IllegalAccessError("不支持写入" + path + "！请在编译前将需要的数据放入app/src/main/assets/data");
-            }
-        };
-    }
-
     private void startServerAndReceiver() {
 //        ScreenBroadcastReceiver mScreenReceiver = new ScreenBroadcastReceiver();
 //        final IntentFilter filter = new IntentFilter();

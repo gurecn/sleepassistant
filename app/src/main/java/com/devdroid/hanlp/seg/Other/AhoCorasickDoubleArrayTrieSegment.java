@@ -37,7 +37,7 @@ public class AhoCorasickDoubleArrayTrieSegment extends DictionaryBasedSegment
 
     public AhoCorasickDoubleArrayTrieSegment() throws IOException
     {
-        this(HanLP.Config.CoreDictionaryPath);
+        this(HanLP.CoreDictionaryPath);
     }
 
     public AhoCorasickDoubleArrayTrieSegment(TreeMap<String, CoreDictionary.Attribute> dictionary)

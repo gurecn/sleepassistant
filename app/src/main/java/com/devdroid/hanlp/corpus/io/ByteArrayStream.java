@@ -14,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static com.devdroid.hanlp.HanLP.Config.IOAdapter;
+import static com.devdroid.hanlp.HanLP.IOAdapter;
 import static com.devdroid.hanlp.utility.Predefine.logger;
 
 /**

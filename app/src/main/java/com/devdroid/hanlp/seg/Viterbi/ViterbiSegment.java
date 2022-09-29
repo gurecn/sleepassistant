@@ -42,7 +42,7 @@ public class ViterbiSegment extends WordBasedSegment
         generateWordNet(wordNetAll);
         ///////////////生成词图////////////////////
 //        System.out.println("构图：" + (System.currentTimeMillis() - start));
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
         {
             System.out.printf("粗分词网：\n%s\n", wordNetAll);
         }
@@ -57,7 +57,7 @@ public class ViterbiSegment extends WordBasedSegment
             else combineByCustomDictionary(vertexList);
         }
 
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
         {
             System.out.println("粗分结果" + convert(vertexList, false));
         }
@@ -102,7 +102,7 @@ public class ViterbiSegment extends WordBasedSegment
             if (wordNetOptimum.size() != preSize)
             {
                 vertexList = viterbi(wordNetOptimum);
-                if (HanLP.Config.DEBUG)
+                if (HanLP.DEBUG)
                 {
                     System.out.printf("细分词网：\n%s\n", wordNetOptimum);
                 }

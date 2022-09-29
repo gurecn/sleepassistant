@@ -53,7 +53,7 @@ public class PerceptronNERecognizer extends PerceptronTagger implements NERecogn
      */
     public PerceptronNERecognizer() throws IOException
     {
-        this(HanLP.Config.PerceptronNERModelPath);
+        this(HanLP.PerceptronNERModelPath);
     }
 
     public String[] recognize(String[] wordArray, String[] posArray)

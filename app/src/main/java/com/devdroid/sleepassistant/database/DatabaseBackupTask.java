@@ -46,7 +46,7 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
                 if (!exportDirInternalStorage.exists()) {
                     exportDirInternalStorage.mkdirs();
                 }
-                File dbFile = new File("/data/data/com.devdroid.sleepassistant/databases/", "boost.db");
+                File dbFile = new File("/hanlp/data/data/com.devdroid.sleepassistant/databases/", "boost.db");
                 Date date = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
                 String fileName = mContext.getString(R.string.app_name) + "_" + sdf.format(date) + ".back";
@@ -75,7 +75,7 @@ public class DatabaseBackupTask extends AsyncTask<String, String, Integer> {
             try {
                 File backupdb = new File(restoreDataName);
                 if(backupdb.exists()) {
-                    File dbBackFile = new File("/data/data/com.devdroid.sleepassistant/databases/", "boost_backup.db");
+                    File dbBackFile = new File("/hanlp/data/data/com.devdroid.sleepassistant/databases/", "boost_backup.db");
                     if(!dbBackFile.exists()) {
                         dbBackFile.getParentFile().mkdirs();
                         dbBackFile.createNewFile();

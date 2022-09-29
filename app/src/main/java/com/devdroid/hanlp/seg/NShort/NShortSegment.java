@@ -46,7 +46,7 @@ public class NShortSegment extends WordBasedSegment
         boolean NERexists = false;
         for (List<Vertex> vertexList : coarseResult)
         {
-            if (HanLP.Config.DEBUG)
+            if (HanLP.DEBUG)
             {
                 System.out.println("粗分结果" + convert(vertexList, false));
             }
@@ -90,7 +90,7 @@ public class NShortSegment extends WordBasedSegment
         {
             Graph graph = generateBiGraph(wordNetOptimum);
             vertexList = Dijkstra.compute(graph);
-            if (HanLP.Config.DEBUG)
+            if (HanLP.DEBUG)
             {
                 System.out.printf("细分词网：\n%s\n", wordNetOptimum);
                 System.out.printf("细分词图：%s\n", graph.printByTo());
@@ -143,7 +143,7 @@ public class NShortSegment extends WordBasedSegment
         ///////////////生成词图////////////////////
         Graph graph = generateBiGraph(wordNetAll);
 //        logger.trace(graph.toString());
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
         {
             System.out.printf("打印词图：%s\n", graph.printByTo());
         }

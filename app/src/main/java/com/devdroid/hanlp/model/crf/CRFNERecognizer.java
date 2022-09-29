@@ -39,7 +39,7 @@ public class CRFNERecognizer extends CRFTagger implements NERecognizer
 
     public CRFNERecognizer() throws IOException
     {
-        this(HanLP.Config.CRFNERModelPath);
+        this(HanLP.CRFNERModelPath);
     }
 
     public CRFNERecognizer(String modelPath) throws IOException

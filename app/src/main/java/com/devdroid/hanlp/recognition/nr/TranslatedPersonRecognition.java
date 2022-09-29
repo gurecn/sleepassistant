@@ -59,7 +59,7 @@ public class TranslatedPersonRecognition
                     // 识别结束
                     if (appendTimes > 1)
                     {
-                        if (HanLP.Config.DEBUG)
+                        if (HanLP.DEBUG)
                         {
                             System.out.println("音译人名识别出：" + sbName.toString());
                         }

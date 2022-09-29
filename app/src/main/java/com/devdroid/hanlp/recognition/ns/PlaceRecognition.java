@@ -34,7 +34,7 @@ public class PlaceRecognition
     public static boolean recognition(List<Vertex> pWordSegResult, WordNet wordNetOptimum, WordNet wordNetAll)
     {
         List<EnumItem<NS>> roleTagList = roleTag(pWordSegResult, wordNetAll);
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
         {
             StringBuilder sbLog = new StringBuilder();
             Iterator<Vertex> iterator = pWordSegResult.iterator();
@@ -49,7 +49,7 @@ public class PlaceRecognition
             System.out.printf("地名角色观察：%s\n", sbLog.toString());
         }
         List<NS> NSList = viterbiCompute(roleTagList);
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
         {
             StringBuilder sbLog = new StringBuilder();
             Iterator<Vertex> iterator = pWordSegResult.iterator();

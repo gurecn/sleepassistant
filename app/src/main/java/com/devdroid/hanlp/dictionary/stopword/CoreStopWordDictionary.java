@@ -33,19 +33,19 @@ public class CoreStopWordDictionary
     static StopWordDictionary dictionary;
     static
     {
-        ByteArray byteArray = ByteArray.createByteArray(HanLP.Config.CoreStopWordDictionaryPath + Predefine.BIN_EXT);
+        ByteArray byteArray = ByteArray.createByteArray(HanLP.CoreStopWordDictionaryPath + Predefine.BIN_EXT);
         if (byteArray == null)
         {
             try
             {
-                dictionary = new StopWordDictionary(HanLP.Config.CoreStopWordDictionaryPath);
-                DataOutputStream out = new DataOutputStream(IOUtil.newOutputStream(HanLP.Config.CoreStopWordDictionaryPath + Predefine.BIN_EXT));
+                dictionary = new StopWordDictionary(HanLP.CoreStopWordDictionaryPath);
+                DataOutputStream out = new DataOutputStream(IOUtil.newOutputStream(HanLP.CoreStopWordDictionaryPath + Predefine.BIN_EXT));
                 dictionary.save(out);
                 out.close();
             }
             catch (Exception e)
             {
-                logger.severe("载入停用词词典" + HanLP.Config.CoreStopWordDictionaryPath + "失败"  + TextUtility.exceptionToString(e));
+                logger.severe("载入停用词词典" + HanLP.CoreStopWordDictionaryPath + "失败"  + TextUtility.exceptionToString(e));
             }
         }
         else

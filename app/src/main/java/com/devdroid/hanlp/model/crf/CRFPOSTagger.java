@@ -37,7 +37,7 @@ public class CRFPOSTagger extends CRFTagger implements POSTagger
 
     public CRFPOSTagger() throws IOException
     {
-        this(HanLP.Config.CRFPOSModelPath);
+        this(HanLP.CRFPOSModelPath);
     }
 
     public CRFPOSTagger(String modelPath) throws IOException

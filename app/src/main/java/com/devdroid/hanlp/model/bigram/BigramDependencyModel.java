@@ -35,13 +35,13 @@ public class BigramDependencyModel
     static
     {
         long start = System.currentTimeMillis();
-        if (load(HanLP.Config.WordNatureModelPath))
+        if (load(HanLP.WordNatureModelPath))
         {
-            logger.info("加载依存句法二元模型" + HanLP.Config.WordNatureModelPath + "成功，耗时：" + (System.currentTimeMillis() - start) + " ms");
+            logger.info("加载依存句法二元模型" + HanLP.WordNatureModelPath + "成功，耗时：" + (System.currentTimeMillis() - start) + " ms");
         }
         else
         {
-            logger.warning("加载依存句法二元模型" + HanLP.Config.WordNatureModelPath + "失败，耗时：" + (System.currentTimeMillis() - start) + " ms");
+            logger.warning("加载依存句法二元模型" + HanLP.WordNatureModelPath + "失败，耗时：" + (System.currentTimeMillis() - start) + " ms");
         }
     }
 

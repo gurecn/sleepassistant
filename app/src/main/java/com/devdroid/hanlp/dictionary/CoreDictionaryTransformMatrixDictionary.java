@@ -33,13 +33,13 @@ public class CoreDictionaryTransformMatrixDictionary
             }
         };
         long start = System.currentTimeMillis();
-        if (!transformMatrixDictionary.load(HanLP.Config.CoreDictionaryTransformMatrixDictionaryPath))
+        if (!transformMatrixDictionary.load(HanLP.CoreDictionaryTransformMatrixDictionaryPath))
         {
-            throw new IllegalArgumentException("加载核心词典词性转移矩阵" + HanLP.Config.CoreDictionaryTransformMatrixDictionaryPath + "失败");
+            throw new IllegalArgumentException("加载核心词典词性转移矩阵" + HanLP.CoreDictionaryTransformMatrixDictionaryPath + "失败");
         }
         else
         {
-            logger.info("加载核心词典词性转移矩阵" + HanLP.Config.CoreDictionaryTransformMatrixDictionaryPath + "成功，耗时：" + (System.currentTimeMillis() - start) + " ms");
+            logger.info("加载核心词典词性转移矩阵" + HanLP.CoreDictionaryTransformMatrixDictionaryPath + "成功，耗时：" + (System.currentTimeMillis() - start) + " ms");
         }
     }
 }

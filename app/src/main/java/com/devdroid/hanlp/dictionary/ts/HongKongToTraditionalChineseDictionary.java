@@ -28,11 +28,11 @@ public class HongKongToTraditionalChineseDictionary extends BaseChineseDictionar
     static
     {
         long start = System.currentTimeMillis();
-        String datPath = HanLP.Config.tcDictionaryRoot + "hk2t";
+        String datPath = HanLP.tcDictionaryRoot + "hk2t";
         if (!load(datPath, trie))
         {
             TreeMap<String, String> hk2t = new TreeMap<String, String>();
-            if (!load(hk2t, true, HanLP.Config.tcDictionaryRoot + "t2hk.txt"))
+            if (!load(hk2t, true, HanLP.tcDictionaryRoot + "t2hk.txt"))
             {
                 throw new IllegalArgumentException("香港繁体转繁体加载失败");
             }

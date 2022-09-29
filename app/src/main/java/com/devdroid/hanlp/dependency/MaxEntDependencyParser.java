@@ -43,7 +43,7 @@ public class MaxEntDependencyParser extends MinimumSpanningTreeParser
 
     public MaxEntDependencyParser()
     {
-        String path = HanLP.Config.MaxEntModelPath + Predefine.BIN_EXT;
+        String path = HanLP.MaxEntModelPath + Predefine.BIN_EXT;
         model = GlobalObjectPool.get(path);
         if (model != null) return;
         long start = System.currentTimeMillis();
@@ -54,7 +54,7 @@ public class MaxEntDependencyParser extends MinimumSpanningTreeParser
         }
         else
         {
-            model = MaxEntModel.create(HanLP.Config.MaxEntModelPath);
+            model = MaxEntModel.create(HanLP.MaxEntModelPath);
         }
         if (model != null)
         {

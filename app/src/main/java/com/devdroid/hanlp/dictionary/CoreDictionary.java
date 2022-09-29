@@ -31,7 +31,7 @@ import static com.devdroid.hanlp.utility.Predefine.logger;
 public class CoreDictionary
 {
     public static DoubleArrayTrie<Attribute> trie = new DoubleArrayTrie<Attribute>();
-    public final static String path = HanLP.Config.CoreDictionaryPath;
+    public final static String path = HanLP.CoreDictionaryPath;
     public static final int totalFrequency = 221894;
 
     // 自动加载词典

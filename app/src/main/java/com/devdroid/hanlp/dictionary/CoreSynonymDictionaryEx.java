@@ -36,7 +36,7 @@ public class CoreSynonymDictionaryEx
     {
         try
         {
-            dictionary = CommonSynonymDictionaryEx.create(IOUtil.newInputStream(HanLP.Config.CoreSynonymDictionaryDictionaryPath));
+            dictionary = CommonSynonymDictionaryEx.create(IOUtil.newInputStream(HanLP.CoreSynonymDictionaryDictionaryPath));
         }
         catch (Exception e)
         {

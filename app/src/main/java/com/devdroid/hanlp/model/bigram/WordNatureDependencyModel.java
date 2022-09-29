@@ -178,7 +178,7 @@ public class WordNatureDependencyModel
         {
             attribute = Attribute.NULL;
         }
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
         {
             System.out.println(from + " 到 " + to + " : " + attribute);
         }

@@ -56,7 +56,7 @@ public class PerceptronSegmenter extends PerceptronTagger implements Segmenter
      */
     public PerceptronSegmenter() throws IOException
     {
-        this(HanLP.Config.PerceptronCWSModelPath);
+        this(HanLP.PerceptronCWSModelPath);
     }
 
     public void segment(String text, List<String> output)

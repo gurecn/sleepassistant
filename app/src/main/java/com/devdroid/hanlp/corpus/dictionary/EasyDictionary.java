@@ -18,7 +18,7 @@ import com.devdroid.hanlp.corpus.tag.Nature;
 import java.io.*;
 import java.util.*;
 
-import static com.devdroid.hanlp.HanLP.Config.IOAdapter;
+import static com.devdroid.hanlp.HanLP.IOAdapter;
 import static com.devdroid.hanlp.utility.Predefine.logger;
 
 /**

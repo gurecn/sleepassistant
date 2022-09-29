@@ -28,13 +28,13 @@ public class HongKongToSimplifiedChineseDictionary extends BaseChineseDictionary
     static
     {
         long start = System.currentTimeMillis();
-        String datPath = HanLP.Config.tcDictionaryRoot + "hk2s";
+        String datPath = HanLP.tcDictionaryRoot + "hk2s";
         if (!loadDat(datPath, trie))
         {
             TreeMap<String, String> t2s = new TreeMap<String, String>();
             TreeMap<String, String> hk2t = new TreeMap<String, String>();
-            if (!load(t2s, false, HanLP.Config.tcDictionaryRoot + "t2s.txt") ||
-                    !load(hk2t, true, HanLP.Config.tcDictionaryRoot + "t2hk.txt"))
+            if (!load(t2s, false, HanLP.tcDictionaryRoot + "t2s.txt") ||
+                    !load(hk2t, true, HanLP.tcDictionaryRoot + "t2hk.txt"))
             {
                 throw new IllegalArgumentException("香港繁体转简体加载失败");
             }

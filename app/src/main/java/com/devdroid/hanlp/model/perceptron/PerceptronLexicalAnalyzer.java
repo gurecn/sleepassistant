@@ -92,7 +92,7 @@ public class PerceptronLexicalAnalyzer extends AbstractLexicalAnalyzer
      */
     public PerceptronLexicalAnalyzer() throws IOException
     {
-        this(HanLP.Config.PerceptronCWSModelPath, HanLP.Config.PerceptronPOSModelPath, HanLP.Config.PerceptronNERModelPath);
+        this(HanLP.PerceptronCWSModelPath, HanLP.PerceptronPOSModelPath, HanLP.PerceptronNERModelPath);
     }
 
     /**

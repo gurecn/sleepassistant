@@ -50,7 +50,7 @@ public class Term
     @Override
     public String toString()
     {
-        if (HanLP.Config.ShowTermNature)
+        if (HanLP.ShowTermNature)
             return word + "/" + nature;
         return word;
     }

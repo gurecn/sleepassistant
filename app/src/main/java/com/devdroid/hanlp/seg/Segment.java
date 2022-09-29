@@ -470,7 +470,7 @@ public abstract class Segment
     public List<Term> seg(String text)
     {
         char[] charArray = text.toCharArray();
-        if (HanLP.Config.Normalization)
+        if (HanLP.Normalization)
         {
             CharTable.normalization(charArray);
         }
@@ -566,7 +566,7 @@ public abstract class Segment
     public List<Term> seg(char[] text)
     {
         assert text != null;
-        if (HanLP.Config.Normalization)
+        if (HanLP.Normalization)
         {
             CharTable.normalization(text);
         }

@@ -52,14 +52,14 @@ public class MutualInformationEntropyPhraseExtractor implements IPhraseExtractor
                 };
         for (List<Term> sentence : NotionalTokenizer.seg2sentence(text, filterChain))
         {
-            if (HanLP.Config.DEBUG)
+            if (HanLP.DEBUG)
             {
                 System.out.println(sentence);
             }
             occurrence.addAll(sentence);
         }
         occurrence.compute();
-        if (HanLP.Config.DEBUG)
+        if (HanLP.DEBUG)
         {
             System.out.println(occurrence);
             for (PairFrequency phrase : occurrence.getPhraseByMi())

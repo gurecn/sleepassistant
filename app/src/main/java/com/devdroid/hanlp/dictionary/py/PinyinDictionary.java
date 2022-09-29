@@ -36,12 +36,12 @@ public class PinyinDictionary
     static
     {
         long start = System.currentTimeMillis();
-        if (!load(HanLP.Config.PinyinDictionaryPath))
+        if (!load(HanLP.PinyinDictionaryPath))
         {
-            throw new IllegalArgumentException("拼音词典" + HanLP.Config.PinyinDictionaryPath + "加载失败");
+            throw new IllegalArgumentException("拼音词典" + HanLP.PinyinDictionaryPath + "加载失败");
         }
 
-        logger.info("拼音词典" + HanLP.Config.PinyinDictionaryPath + "加载成功，耗时" + (System.currentTimeMillis() - start) + "ms");
+        logger.info("拼音词典" + HanLP.PinyinDictionaryPath + "加载成功，耗时" + (System.currentTimeMillis() - start) + "ms");
     }
 
     /**

@@ -87,7 +87,7 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
   public static Bitmap mBitmap;
   private ImageView mIvShiciBg;
   private int showType = 0;  //0 诗词；1 注释
-  private boolean hasAnimation = true;
+  private boolean hasAnimation = false;
   private boolean hasPinyin = false;
   private static int PHOTO_PICKER_REQUEST_CODE = 110;
   private static final String LOG_TAG = ShiciActivity.class.getSimpleName();
@@ -233,8 +233,6 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
       }
       mSTvShiciContent.getTAnimation().start();
 
-
-      initHanLP();
     }
   }
 
@@ -316,20 +314,15 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
           int mode = LauncherModel.getInstance().getSharedPreferencesManager().getInt(IPreferencesIds.SPEECH_ENGINE_MODE, 0);
           SpeechManager.getInstance().init(this, mode, status -> {
             if (status == TextToSpeech.SUCCESS) {
-//              String text = mTvShiciContent.getText().toString().trim();
-//              if (text.isEmpty()) {
-//                text = mSTvShiciContent.getText().toString().trim();
-//              }
-//              if (text.isEmpty()) {
-//                text = "无内容";
-//              }
-//              SpeechManager.getInstance().setSpeechRate(1.0f);
-//              SpeechManager.getInstance().say(text);
-              String text = "阿姨阿胶扒开扒手压扁扁舟剥削剥皮长期年长参加参差不齐人参朝阳朝代发财头发干涉干燥干部后面皇后";
-              List<Term> termList = HanLP.segment(text);
-              Logger.d("1111111111","Term:" + termList.toString());
-              Logger.d("1111111111","简转繁:" + HanLP.convertToTraditionalChinese(text));
-              Logger.d("1111111111","拼音:" + HanLP.convertToPinyinString(text, " ", true));
+              String text = mTvShiciContent.getText().toString().trim();
+              if (text.isEmpty()) {
+                text = mSTvShiciContent.getText().toString().trim();
+              }
+              if (text.isEmpty()) {
+                text = "无内容";
+              }
+              SpeechManager.getInstance().setSpeechRate(1.0f);
+              SpeechManager.getInstance().say(text);
             }
           });
 
@@ -337,10 +330,6 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
         }
         break;
     }
-  }
-
-  private void initHanLP() {
-    HanLP.Config.loadProperties(this, "hanlp.properties");
   }
 
   @Override

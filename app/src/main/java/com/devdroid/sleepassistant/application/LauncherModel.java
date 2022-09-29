@@ -25,7 +25,6 @@ public class LauncherModel {
     private LockerDao mLockerDao;
 
     private LauncherModel(Context context) {
-        Log.d("1111111111111", "LauncherModel");
         mContext = context;
         mSharedPreferencesManager = new SharedPreferencesManager(mContext);
         BaseDataProvider dataProvider = new BaseDataProvider(mContext);

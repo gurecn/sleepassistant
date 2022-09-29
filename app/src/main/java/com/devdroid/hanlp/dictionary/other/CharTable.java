@@ -36,7 +36,7 @@ public class CharTable
     static
     {
         long start = System.currentTimeMillis();
-        if (!load(HanLP.Config.CharTablePath))
+        if (!load(HanLP.CharTablePath))
         {
             throw new IllegalArgumentException("字符正规化表加载失败");
         }

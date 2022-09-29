@@ -58,12 +58,12 @@ public class PlaceDictionary
     {
         long start = System.currentTimeMillis();
         dictionary = new NSDictionary();
-        if (dictionary.load(HanLP.Config.PlaceDictionaryPath))
-            logger.info(HanLP.Config.PlaceDictionaryPath + "加载成功，耗时" + (System.currentTimeMillis() - start) + "ms");
+        if (dictionary.load(HanLP.PlaceDictionaryPath))
+            logger.info(HanLP.PlaceDictionaryPath + "加载成功，耗时" + (System.currentTimeMillis() - start) + "ms");
         else
-            throw new IllegalArgumentException(HanLP.Config.PlaceDictionaryPath + "加载失败");
+            throw new IllegalArgumentException(HanLP.PlaceDictionaryPath + "加载失败");
         transformMatrixDictionary = new TransformMatrixDictionary<NS>(NS.class);
-        transformMatrixDictionary.load(HanLP.Config.PlaceDictionaryTrPath);
+        transformMatrixDictionary.load(HanLP.PlaceDictionaryTrPath);
         trie = new AhoCorasickDoubleArrayTrie<String>();
         TreeMap<String, String> patternMap = new TreeMap<String, String>();
         patternMap.put("CH", "CH");
@@ -106,7 +106,7 @@ public class PlaceDictionary
                 if (isBadCase(name)) return;
 
                 // 正式算它是一个名字
-                if (HanLP.Config.DEBUG)
+                if (HanLP.DEBUG)
                 {
                     System.out.printf("识别出地名：%s %s\n", name, value);
                 }
