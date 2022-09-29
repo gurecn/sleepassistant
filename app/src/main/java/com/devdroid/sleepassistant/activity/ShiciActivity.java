@@ -325,9 +325,11 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
 //              }
 //              SpeechManager.getInstance().setSpeechRate(1.0f);
 //              SpeechManager.getInstance().say(text);
-              String text = "9月27日，习近平总书记来到北京展览馆，参观“奋进新时代”主题成就展。总书记曾经以“在人类的伟大时间历史中创造中华民族的伟大历史时间”描述一个奋进的中国，新时代10年，中国大地书写了具有里程碑意义的奋进史诗。";
+              String text = "阿姨阿胶扒开扒手压扁扁舟剥削剥皮长期年长参加参差不齐人参朝阳朝代发财头发干涉干燥干部后面皇后";
               List<Term> termList = HanLP.segment(text);
               Logger.d("1111111111","Term:" + termList.toString());
+              Logger.d("1111111111","简转繁:" + HanLP.convertToTraditionalChinese(text));
+              Logger.d("1111111111","拼音:" + HanLP.convertToPinyinString(text, " ", true));
             }
           });
 
