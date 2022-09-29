@@ -11,6 +11,9 @@
  */
 package com.devdroid.hanlp;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+
 import com.devdroid.hanlp.corpus.dependency.CoNll.CoNLLSentence;
 import com.devdroid.hanlp.corpus.io.IIOAdapter;
 import com.devdroid.hanlp.dependency.nnparser.NeuralNetworkDependencyParser;
@@ -34,6 +37,7 @@ import com.devdroid.hanlp.summary.TextRankSentence;
 import com.devdroid.hanlp.tokenizer.StandardTokenizer;
 import com.devdroid.hanlp.utility.Predefine;
 import com.devdroid.hanlp.utility.TextUtility;
+import com.devdroid.sleepassistant.utils.Logger;
 
 import java.io.*;
 import java.lang.reflect.Constructor;
@@ -61,300 +65,82 @@ public class HanLP
          * 开发模式
          */
         public static boolean DEBUG = false;
-        /**
-         * 核心词典路径
-         */
-        public static String CoreDictionaryPath = "data/dictionary/CoreNatureDictionary.mini.txt";
-        /**
-         * 核心词典词性转移矩阵路径
-         */
-        public static String CoreDictionaryTransformMatrixDictionaryPath = "data/dictionary/CoreNatureDictionary.tr.txt";
-        /**
-         * 用户自定义词典路径
-         */
-        public static String CustomDictionaryPath[] = new String[]{"data/dictionary/custom/CustomDictionary.txt"};
-        /**
-         * 2元语法词典路径
-         */
-        public static String BiGramDictionaryPath = "data/dictionary/CoreNatureDictionary.ngram.mini.txt";
-
-        /**
-         * 停用词词典路径
-         */
-        public static String CoreStopWordDictionaryPath = "data/dictionary/stopwords.txt";
-        /**
-         * 同义词词典路径
-         */
-        public static String CoreSynonymDictionaryDictionaryPath = "data/dictionary/synonym/CoreSynonym.txt";
-        /**
-         * 人名词典路径
-         */
-        public static String PersonDictionaryPath = "data/dictionary/person/nr.txt";
-        /**
-         * 人名词典转移矩阵路径
-         */
-        public static String PersonDictionaryTrPath = "data/dictionary/person/nr.tr.txt";
-        /**
-         * 地名词典路径
-         */
-        public static String PlaceDictionaryPath = "data/dictionary/place/ns.txt";
-        /**
-         * 地名词典转移矩阵路径
-         */
-        public static String PlaceDictionaryTrPath = "data/dictionary/place/ns.tr.txt";
-        /**
-         * 地名词典路径
-         */
-        public static String OrganizationDictionaryPath = "data/dictionary/organization/nt.txt";
-        /**
-         * 地名词典转移矩阵路径
-         */
-        public static String OrganizationDictionaryTrPath = "data/dictionary/organization/nt.tr.txt";
-        /**
-         * 简繁转换词典根目录
-         */
-        public static String tcDictionaryRoot = "data/dictionary/tc/";
-
-        /**
-         * 拼音词典路径
-         */
-        public static String PinyinDictionaryPath = "data/dictionary/pinyin/pinyin.txt";
-
-        /**
-         * 音译人名词典
-         */
-        public static String TranslatedPersonDictionaryPath = "data/dictionary/person/nrf.txt";
-
-        /**
-         * 日本人名词典路径
-         */
-        public static String JapanesePersonDictionaryPath = "data/dictionary/person/nrj.txt";
-
-        /**
-         * 字符类型对应表
-         */
-        public static String CharTypePath = "data/dictionary/other/CharType.bin";
-
-        /**
-         * 字符正规化表（全角转半角，繁体转简体）
-         */
-        public static String CharTablePath = "data/dictionary/other/CharTable.txt";
-
-        /**
-         * 词性标注集描述表，用来进行中英映射（对于Nature词性，可直接参考Nature.java中的注释）
-         */
-        public static String PartOfSpeechTagDictionary = "data/dictionary/other/TagPKU98.csv";
-
-        /**
-         * 词-词性-依存关系模型
-         */
-        public static String WordNatureModelPath = "data/model/dependency/WordNature.txt";
-
-        /**
-         * 最大熵-依存关系模型
-         */
-        public static String MaxEntModelPath = "data/model/dependency/MaxEntModel.txt";
-        /**
-         * 神经网络依存模型路径
-         */
-        public static String NNParserModelPath = "data/model/dependency/NNParserModel.txt";
-        /**
-         * CRF分词模型
-         *
-         * @deprecated 已废弃，请使用{@link CRFLexicalAnalyzer}。未来版本将不再发布该模型，并删除配置项
-         */
-        public static String CRFSegmentModelPath = "data/model/segment/CRFSegmentModel.txt";
-        /**
-         * HMM分词模型
-         *
-         * @deprecated 已废弃，请使用{@link PerceptronLexicalAnalyzer}
-         */
-        public static String HMMSegmentModelPath = "data/model/segment/HMMSegmentModel.bin";
-        /**
-         * CRF分词模型
-         */
-        public static String CRFCWSModelPath = "data/model/crf/pku199801/cws.txt";
-        /**
-         * CRF词性标注模型
-         */
-        public static String CRFPOSModelPath = "data/model/crf/pku199801/pos.txt";
-        /**
-         * CRF命名实体识别模型
-         */
-        public static String CRFNERModelPath = "data/model/crf/pku199801/ner.txt";
-        /**
-         * 感知机分词模型
-         */
-        public static String PerceptronCWSModelPath = "data/model/perceptron/large/cws.bin";
-        /**
-         * 感知机词性标注模型
-         */
-        public static String PerceptronPOSModelPath = "data/model/perceptron/pku199801/pos.bin";
-        /**
-         * 感知机命名实体识别模型
-         */
-        public static String PerceptronNERModelPath = "data/model/perceptron/pku199801/ner.bin";
-        /**
-         * 分词结果是否展示词性
-         */
-        public static boolean ShowTermNature = true;
-        /**
-         * 是否执行字符正规化（繁体->简体，全角->半角，大写->小写），切换配置后必须删CustomDictionary.txt.bin缓存
-         */
+        public static String CustomDictionaryPath[];
+        public static String CoreDictionaryPath,CoreDictionaryTransformMatrixDictionaryPath,BiGramDictionaryPath,CoreStopWordDictionaryPath,CoreSynonymDictionaryDictionaryPath,PersonDictionaryPath;
+        public static String PersonDictionaryTrPath,PlaceDictionaryPath,PlaceDictionaryTrPath,OrganizationDictionaryPath,OrganizationDictionaryTrPath,tcDictionaryRoot,
+            PinyinDictionaryPath,JapanesePersonDictionaryPath,TranslatedPersonDictionaryPath,PartOfSpeechTagDictionary;
+        public static String CharTypePath,CharTablePath,WordNatureModelPath,MaxEntModelPath,NNParserModelPath,CRFSegmentModelPath,HMMSegmentModelPath;
+        public static String CRFCWSModelPath,CRFPOSModelPath,CRFNERModelPath,PerceptronCWSModelPath,PerceptronPOSModelPath,PerceptronNERModelPath;
+        public static boolean ShowTermNature;
         public static boolean Normalization = false;
-        /**
-         * IO适配器（默认null，表示从本地文件系统读取），实现com.hankcs.hanlp.corpus.io.IIOAdapter接口
-         * 以在不同的平台（Hadoop、Redis等）上运行HanLP
-         */
+
         public static IIOAdapter IOAdapter;
 
-        static
-        {
+        /**
+         * 加载配置
+         */
+        public static void loadProperties(Context context, String hanlpPath) {
+
             // 自动读取配置
             Properties p = new Properties();
-            try
-            {
-                ClassLoader loader = Thread.currentThread().getContextClassLoader();
-                if (loader == null)
-                {  // IKVM (v.0.44.0.5) doesn't set context classloader
-                    loader = Config.class.getClassLoader();
-                }
-                try
-                {
-                    p.load(new InputStreamReader(Predefine.HANLP_PROPERTIES_PATH == null ?
-                                                     loader.getResourceAsStream("hanlp.properties") :
-                                                     new FileInputStream(Predefine.HANLP_PROPERTIES_PATH)
-                        , "UTF-8"));
-                }
-                catch (Exception e)
-                {
-                    String HANLP_ROOT = System.getenv("HANLP_ROOT");
-                    if (HANLP_ROOT != null)
-                    {
-                        HANLP_ROOT = HANLP_ROOT.trim();
-                        p = new Properties();
-                        p.setProperty("root", HANLP_ROOT);
-                        logger.info("使用环境变量 HANLP_ROOT=" + HANLP_ROOT);
-                    }
-                    else throw e;
-                }
-                String root = p.getProperty("root", "").replaceAll("\\\\", "/");
-                if (root.length() > 0 && !root.endsWith("/")) root += "/";
-                CoreDictionaryPath = root + p.getProperty("CoreDictionaryPath", CoreDictionaryPath);
-                CoreDictionaryTransformMatrixDictionaryPath = root + p.getProperty("CoreDictionaryTransformMatrixDictionaryPath", CoreDictionaryTransformMatrixDictionaryPath);
-                BiGramDictionaryPath = root + p.getProperty("BiGramDictionaryPath", BiGramDictionaryPath);
-                CoreStopWordDictionaryPath = root + p.getProperty("CoreStopWordDictionaryPath", CoreStopWordDictionaryPath);
-                CoreSynonymDictionaryDictionaryPath = root + p.getProperty("CoreSynonymDictionaryDictionaryPath", CoreSynonymDictionaryDictionaryPath);
-                PersonDictionaryPath = root + p.getProperty("PersonDictionaryPath", PersonDictionaryPath);
-                PersonDictionaryTrPath = root + p.getProperty("PersonDictionaryTrPath", PersonDictionaryTrPath);
-                String[] pathArray = p.getProperty("CustomDictionaryPath", "data/dictionary/custom/CustomDictionary.txt").split(";");
-                String prePath = root;
-                for (int i = 0; i < pathArray.length; ++i)
-                {
-                    if (pathArray[i].startsWith(" "))
-                    {
-                        pathArray[i] = prePath + pathArray[i].trim();
-                    }
-                    else
-                    {
-                        pathArray[i] = root + pathArray[i];
-                        int lastSplash = pathArray[i].lastIndexOf('/');
-                        if (lastSplash != -1)
-                        {
-                            prePath = pathArray[i].substring(0, lastSplash + 1);
-                        }
-                    }
-                }
-                CustomDictionaryPath = pathArray;
-                tcDictionaryRoot = root + p.getProperty("tcDictionaryRoot", tcDictionaryRoot);
+            try {
+                InputStream inputStream = context.getAssets().open(hanlpPath);
+                p.load(inputStream);
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.severe("没有找到hanlp.properties，可能会导致找不到data");
+                return;
+            }
+            try {
+                CoreDictionaryPath = p.getProperty("CoreDictionaryPath", CoreDictionaryPath);
+                CoreDictionaryTransformMatrixDictionaryPath = p.getProperty("CoreDictionaryTransformMatrixDictionaryPath", CoreDictionaryTransformMatrixDictionaryPath);
+                BiGramDictionaryPath = p.getProperty("BiGramDictionaryPath", BiGramDictionaryPath);
+                CoreStopWordDictionaryPath = p.getProperty("CoreStopWordDictionaryPath", CoreStopWordDictionaryPath);
+                CoreSynonymDictionaryDictionaryPath = p.getProperty("CoreSynonymDictionaryDictionaryPath", CoreSynonymDictionaryDictionaryPath);
+                PersonDictionaryPath = p.getProperty("PersonDictionaryPath", PersonDictionaryPath);
+                PersonDictionaryTrPath = p.getProperty("PersonDictionaryTrPath", PersonDictionaryTrPath);
+                CustomDictionaryPath = p.getProperty("CustomDictionaryPath", "data/dictionary/custom/CustomDictionary.txt").split(";");
+                tcDictionaryRoot = p.getProperty("tcDictionaryRoot", tcDictionaryRoot);
                 if (!tcDictionaryRoot.endsWith("/")) tcDictionaryRoot += '/';
-                PinyinDictionaryPath = root + p.getProperty("PinyinDictionaryPath", PinyinDictionaryPath);
-                TranslatedPersonDictionaryPath = root + p.getProperty("TranslatedPersonDictionaryPath", TranslatedPersonDictionaryPath);
-                JapanesePersonDictionaryPath = root + p.getProperty("JapanesePersonDictionaryPath", JapanesePersonDictionaryPath);
-                PlaceDictionaryPath = root + p.getProperty("PlaceDictionaryPath", PlaceDictionaryPath);
-                PlaceDictionaryTrPath = root + p.getProperty("PlaceDictionaryTrPath", PlaceDictionaryTrPath);
-                OrganizationDictionaryPath = root + p.getProperty("OrganizationDictionaryPath", OrganizationDictionaryPath);
-                OrganizationDictionaryTrPath = root + p.getProperty("OrganizationDictionaryTrPath", OrganizationDictionaryTrPath);
-                CharTypePath = root + p.getProperty("CharTypePath", CharTypePath);
-                CharTablePath = root + p.getProperty("CharTablePath", CharTablePath);
-                PartOfSpeechTagDictionary = root + p.getProperty("PartOfSpeechTagDictionary", PartOfSpeechTagDictionary);
-                WordNatureModelPath = root + p.getProperty("WordNatureModelPath", WordNatureModelPath);
-                MaxEntModelPath = root + p.getProperty("MaxEntModelPath", MaxEntModelPath);
-                NNParserModelPath = root + p.getProperty("NNParserModelPath", NNParserModelPath);
-                CRFSegmentModelPath = root + p.getProperty("CRFSegmentModelPath", CRFSegmentModelPath);
-                HMMSegmentModelPath = root + p.getProperty("HMMSegmentModelPath", HMMSegmentModelPath);
-                CRFCWSModelPath = root + p.getProperty("CRFCWSModelPath", CRFCWSModelPath);
-                CRFPOSModelPath = root + p.getProperty("CRFPOSModelPath", CRFPOSModelPath);
-                CRFNERModelPath = root + p.getProperty("CRFNERModelPath", CRFNERModelPath);
-                PerceptronCWSModelPath = root + p.getProperty("PerceptronCWSModelPath", PerceptronCWSModelPath);
-                PerceptronPOSModelPath = root + p.getProperty("PerceptronPOSModelPath", PerceptronPOSModelPath);
-                PerceptronNERModelPath = root + p.getProperty("PerceptronNERModelPath", PerceptronNERModelPath);
+                PinyinDictionaryPath = p.getProperty("PinyinDictionaryPath", PinyinDictionaryPath);
+                TranslatedPersonDictionaryPath = p.getProperty("TranslatedPersonDictionaryPath", TranslatedPersonDictionaryPath);
+                JapanesePersonDictionaryPath = p.getProperty("JapanesePersonDictionaryPath", JapanesePersonDictionaryPath);
+                PlaceDictionaryPath = p.getProperty("PlaceDictionaryPath", PlaceDictionaryPath);
+                PlaceDictionaryTrPath = p.getProperty("PlaceDictionaryTrPath", PlaceDictionaryTrPath);
+                OrganizationDictionaryPath = p.getProperty("OrganizationDictionaryPath", OrganizationDictionaryPath);
+                OrganizationDictionaryTrPath = p.getProperty("OrganizationDictionaryTrPath", OrganizationDictionaryTrPath);
+                CharTypePath = p.getProperty("CharTypePath", CharTypePath);
+                CharTablePath = p.getProperty("CharTablePath", CharTablePath);
+                PartOfSpeechTagDictionary = p.getProperty("PartOfSpeechTagDictionary", PartOfSpeechTagDictionary);
+                WordNatureModelPath = p.getProperty("WordNatureModelPath", WordNatureModelPath);
+                MaxEntModelPath = p.getProperty("MaxEntModelPath", MaxEntModelPath);
+                NNParserModelPath = p.getProperty("NNParserModelPath", NNParserModelPath);
+                CRFSegmentModelPath = p.getProperty("CRFSegmentModelPath", CRFSegmentModelPath);
+                HMMSegmentModelPath = p.getProperty("HMMSegmentModelPath", HMMSegmentModelPath);
+                CRFCWSModelPath = p.getProperty("CRFCWSModelPath", CRFCWSModelPath);
+                CRFPOSModelPath = p.getProperty("CRFPOSModelPath", CRFPOSModelPath);
+                CRFNERModelPath = p.getProperty("CRFNERModelPath", CRFNERModelPath);
+                PerceptronCWSModelPath = p.getProperty("PerceptronCWSModelPath", PerceptronCWSModelPath);
+                PerceptronPOSModelPath = p.getProperty("PerceptronPOSModelPath", PerceptronPOSModelPath);
+                PerceptronNERModelPath = p.getProperty("PerceptronNERModelPath", PerceptronNERModelPath);
                 ShowTermNature = "true".equals(p.getProperty("ShowTermNature", "true"));
                 Normalization = "true".equals(p.getProperty("Normalization", "false"));
-                String ioAdapterClassName = p.getProperty("IOAdapter");
-                if (ioAdapterClassName != null)
-                {
-                    try
-                    {
-                        Class<?> clazz = Class.forName(ioAdapterClassName);
-                        Constructor<?> ctor = clazz.getConstructor();
-                        Object instance = ctor.newInstance();
-                        if (instance != null) IOAdapter = (IIOAdapter) instance;
+                IOAdapter = new IIOAdapter() {
+                    @Override
+                    public InputStream open(String path) throws IOException {
+                        Logger.d("1111111111","IIOAdapter open：" + path);
+                        return context.getAssets().open(path);
                     }
-                    catch (ClassNotFoundException e)
-                    {
-                        logger.warning(String.format("找不到IO适配器类： %s ，请检查第三方插件jar包", ioAdapterClassName));
+
+                    @Override
+                    public OutputStream create(String path) {
+                        Logger.d("1111111111","IIOAdapter create：" + path);
+                        throw new IllegalAccessError("不支持写入" + path);
                     }
-                    catch (NoSuchMethodException e)
-                    {
-                        logger.warning(String.format("工厂类[%s]没有默认构造方法，不符合要求", ioAdapterClassName));
-                    }
-                    catch (SecurityException e)
-                    {
-                        logger.warning(String.format("工厂类[%s]默认构造方法无法访问，不符合要求", ioAdapterClassName));
-                    }
-                    catch (Exception e)
-                    {
-                        logger.warning(String.format("工厂类[%s]构造失败：%s\n", ioAdapterClassName, TextUtility.exceptionToString(e)));
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                if (new File("data/dictionary/CoreNatureDictionary.tr.txt").isFile())
-                {
-                    logger.info("使用当前目录下的data");
-                }
-                else
-                {
-                    StringBuilder sbInfo = new StringBuilder("========Tips========\n请将hanlp.properties放在下列目录：\n"); // 打印一些友好的tips
-                    if (new File("src/main/java").isDirectory())
-                    {
-                        sbInfo.append("src/main/resources");
-                    }
-                    else
-                    {
-                        String classPath = (String) System.getProperties().get("java.class.path");
-                        if (classPath != null)
-                        {
-                            for (String path : classPath.split(File.pathSeparator))
-                            {
-                                if (new File(path).isDirectory())
-                                {
-                                    sbInfo.append(path).append('\n');
-                                }
-                            }
-                        }
-                        sbInfo.append("Web项目则请放到下列目录：\n" +
-                                          "Webapp/WEB-INF/lib\n" +
-                                          "Webapp/WEB-INF/classes\n" +
-                                          "Appserver/lib\n" +
-                                          "JRE/lib\n");
-                        sbInfo.append("并且编辑root=PARENT/path/to/your/data\n");
-                        sbInfo.append("现在HanLP将尝试从").append(System.getProperties().get("user.dir")).append("读取data……");
-                    }
-                    logger.severe("没有找到hanlp.properties，可能会导致找不到data\n" + sbInfo);
-                }
+                };
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
