@@ -14,8 +14,8 @@ import com.devdroid.sleepassistant.utils.AppUtils;
 import com.devdroid.sleepassistant.utils.CrashHandler;
 import com.devdroid.sleepassistant.utils.LockerManagerUtils;
 import com.devdroid.sleepassistant.utils.thread.ThreadPoolUtils;
-import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.corpus.io.IIOAdapter;
+import com.devdroid.hanlp.HanLP;
+import com.devdroid.hanlp.corpus.io.IIOAdapter;
 import com.jinrishici.sdk.android.factory.JinrishiciFactory;
 
 import java.io.IOException;

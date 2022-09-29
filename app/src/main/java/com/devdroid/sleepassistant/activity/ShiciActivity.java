@@ -54,9 +54,9 @@ import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.Logger;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
-import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.corpus.io.IIOAdapter;
-import com.hankcs.hanlp.seg.common.Term;
+import com.devdroid.hanlp.HanLP;
+import com.devdroid.hanlp.corpus.io.IIOAdapter;
+import com.devdroid.hanlp.seg.common.Term;
 import com.jinrishici.sdk.android.model.OriginBean;
 import com.devdroid.speech.local.Speech;
 import com.devdroid.pinyin4j.PinyinHelper;
@@ -325,7 +325,7 @@ public class ShiciActivity extends BaseActivity implements View.OnClickListener,
 //              }
 //              SpeechManager.getInstance().setSpeechRate(1.0f);
 //              SpeechManager.getInstance().say(text);
-              String text = "阿姨阿胶扒开扒手压扁扁舟剥削剥皮长期年长参加参差不齐人参朝阳朝代发财头发干涉干燥干部后面皇后";
+              String text = "阿姨阿胶扒开扒手压扁扁舟剥削剥皮长期年长参加参差不齐人参,朝阳,朝代,发财,头发,干涉,干燥,干部,后面,皇后";
               List<Term> termList = HanLP.segment(text);
               Logger.d("1111111111","Term:" + termList.toString());
               Logger.d("1111111111","简转繁:" + HanLP.convertToTraditionalChinese(text));
