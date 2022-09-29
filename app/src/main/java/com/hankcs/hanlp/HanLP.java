@@ -64,7 +64,7 @@ public class HanLP
         /**
          * 核心词典路径
          */
-        public static String CoreDictionaryPath = "data/dictionary/CoreNatureDictionary.txt";
+        public static String CoreDictionaryPath = "data/dictionary/CoreNatureDictionary.mini.txt";
         /**
          * 核心词典词性转移矩阵路径
          */
@@ -76,7 +76,7 @@ public class HanLP
         /**
          * 2元语法词典路径
          */
-        public static String BiGramDictionaryPath = "data/dictionary/CoreNatureDictionary.ngram.txt";
+        public static String BiGramDictionaryPath = "data/dictionary/CoreNatureDictionary.ngram.mini.txt";
 
         /**
          * 停用词词典路径
