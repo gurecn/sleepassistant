@@ -65,7 +65,7 @@ public class ZhProcessor {
     public ZhProcessor(Context context) {
         try {
             InputStream inputStream =
-                    context.getAssets().open("tensorflowtts/baker_mapper.json");
+                    context.getAssets().open("tensorflowtts2/baker_mapper.json");
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024];
             int len = 0;

@@ -53,8 +53,8 @@ public class TtsManager {
 
     private InputWorker mWorker;
 
-    private final static String FASTSPEECH2_MODULE = "tensorflowtts/fastspeech2_quan.tflite";
-    private final static String MELGAN_MODULE = "tensorflowtts/mb_melgan_new.tflite";
+    private final static String FASTSPEECH2_MODULE = "tensorflowtts2/fastspeech2_quan.tflite";
+    private final static String MELGAN_MODULE = "tensorflowtts2/mb_melgan.tflite";
 
     public void init(Context context, TextToSpeech.OnInitListener onInitListener) {
         if(state == 1 || state == 2){

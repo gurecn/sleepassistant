@@ -70,9 +70,9 @@ public class FirstOrderHiddenMarkovModel extends HiddenMarkovModel
         for (int t = 1; t < observation.length; t++)
         {
             // swap(now, pre)
-            float[] _ = pre;
+            float[] now = pre;
             pre = score;
-            score = _;
+            score = now;
             // end of swap
             for (int s = 0; s < max_s; ++s)
             {
