@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:label="正式版本"
+        android:icon="@mipmap/icon_2_launcher"
+        android:roundIcon="@mipmap/icon_2_launcher_round">
+        android:hardwareAccelerated="@bool/useHardwareAcceleration">
+    </application>
+</manifest>

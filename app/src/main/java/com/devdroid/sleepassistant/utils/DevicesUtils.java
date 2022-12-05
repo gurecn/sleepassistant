@@ -3,6 +3,7 @@ package com.devdroid.sleepassistant.utils;
 import java.io.File;
 import java.util.Properties;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
@@ -145,6 +146,23 @@ public class DevicesUtils {
 			e.printStackTrace();
 		}
 		return mCrashProperties;
+	}
+
+	/**
+	 * 获取渠道的方法
+	 *
+	 * @param ctx  上下文Context
+	 * @return 渠道名
+	 */
+	public static String getChannelName(Context ctx) {
+		String sChannel;
+		try {
+			ApplicationInfo appInfo = ctx.getPackageManager().getApplicationInfo(ctx.getPackageName(), PackageManager.GET_META_DATA);
+			sChannel = appInfo.metaData.getString("channel");
+		} catch (Exception e) {
+			sChannel = "404";
+		}
+		return sChannel;
 	}
 	
 	/**

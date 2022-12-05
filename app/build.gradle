@@ -6,7 +6,7 @@ android {
     compileSdkVersion 33
     buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "com.devdroid.sleepassistant"
+        applicationId APP_PACKAGE
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 10
@@ -25,12 +25,6 @@ android {
             storePassword "devdroid110"
             keyAlias "devdroid"
             keyPassword "devdroid110"
-        }
-    }
-    flavorDimensions "default"
-    productFlavors {
-        sleepassistant {
-            applicationId "com.devdroid.sleepassistant"
         }
     }
 
@@ -59,17 +53,46 @@ android {
                 }
             }
         }
+        debug {
+            // 混淆
+            minifyEnabled false
+            // zipAlign优化
+            zipAlignEnabled false
+            // 移除无用的资源文件文件
+            shrinkResources false
+            // 加载默认混淆配置文件，PS:将proguard.cfg放置在主Module目录下
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard.cfg'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.cfg'
+            // 签名
+            signingConfig signingConfigs.release
+            applicationIdSuffix ".beta"
+            // 定义APK名称格式
+            applicationVariants.all { variant ->
+                if (variant.buildType.name == "release") return;
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        def fileName = "Sleepassistant_v${defaultConfig.versionName}_${variant.productFlavors[0].name}_beta_${dateTime()}.apk"
+                        outputFileName = fileName
+                    }
+                }
+            }
+        }
     }
+    sourceSets.debug {
+        manifest.srcFile './config/debug/AndroidManifest.xml'
+    }
+
+    sourceSets.release {
+        manifest.srcFile './config/release/AndroidManifest.xml'
+    }
+
+
+    flavorDimensions "default"
     //渠道Flavors
     productFlavors {
-        zhushou360 {
-            manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "360zhushou"]
-        }
         xiaomi {
             manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "xiaomi"]
-        }
-        wandoujia {
-            manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "wandoujia"]
         }
         huawei {
             manifestPlaceholders = [COM_DEVDROID_CHANNEL_VALUE: "huawei"]
