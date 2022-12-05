@@ -39,6 +39,16 @@
         style="@style/SettingItemDivide"/>
 
     <LinearLayout
+        android:id="@+id/ll_setting_layer_grey"
+        style="@style/SettingItemLinearLayout">
+        <TextView
+            style="@style/SettingItem"
+            android:text="@string/nav_string_layer_grey"/>
+    </LinearLayout>
+    <TextView
+        style="@style/SettingItemDivide"/>
+
+    <LinearLayout
         android:id="@+id/ll_setting_receive_process_text"
         style="@style/SettingItemLinearLayout">
         <TextView

@@ -42,4 +42,6 @@ public class IPreferencesIds {
 
 
     public final static String SPEECH_ENGINE_MODE = "speech_engine_mode"; //TTS引擎模式
+
+    public final static String KEY_APP_LAYER_TYPE_GREY = "app_layer_type_grey"; //应用置灰处理
 }

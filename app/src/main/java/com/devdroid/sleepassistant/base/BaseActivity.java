@@ -4,6 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -17,8 +21,10 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.devdroid.sleepassistant.R;
+import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.listener.OnScreenShotListener;
 import com.devdroid.sleepassistant.observer.MediaContentObserver;
+import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.AppUtils;
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -36,6 +42,13 @@ public class BaseActivity extends AppCompatActivity implements OnScreenShotListe
 		Application application = getApplication();
 		if (application instanceof IApplication) {
 			((IApplication) application).addActivityToStack(this);
+		}
+		if(LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_APP_LAYER_TYPE_GREY, false)) {
+			Paint paint = new Paint();
+			ColorMatrix colorMatrix = new ColorMatrix();
+			colorMatrix.setSaturation(0);
+			paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
+			getWindow().getDecorView().setLayerType(View.LAYER_TYPE_HARDWARE, paint);
 		}
 	}
 

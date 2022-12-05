@@ -1,6 +1,7 @@
 package com.devdroid.sleepassistant.activity;
 
 import android.app.Activity;
+import android.app.Application;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -21,9 +22,11 @@ import com.devdroid.sleepassistant.R;
 import com.devdroid.sleepassistant.application.LauncherModel;
 import com.devdroid.sleepassistant.application.TheApplication;
 import com.devdroid.sleepassistant.base.BaseActivity;
+import com.devdroid.sleepassistant.base.IApplication;
 import com.devdroid.sleepassistant.constant.CustomConstant;
 import com.devdroid.sleepassistant.database.DatabaseBackupTask;
 import com.devdroid.sleepassistant.eventbus.OnUpdateProgressBackup;
+import com.devdroid.sleepassistant.preferences.IPreferencesIds;
 import com.devdroid.sleepassistant.utils.FileUtils;
 public class SettingsActivity extends BaseActivity {
     private DatabaseBackupTask mBackupTask;
@@ -110,17 +113,27 @@ public class SettingsActivity extends BaseActivity {
             case R.id.ll_setting_logout:
                 finish();
                 break;
+
+            case R.id.ll_setting_layer_grey:
+                boolean isLayerGrey = LauncherModel.getInstance().getSharedPreferencesManager().getBoolean(IPreferencesIds.KEY_APP_LAYER_TYPE_GREY, false);
+                LauncherModel.getInstance().getSharedPreferencesManager().commitBoolean(IPreferencesIds.KEY_APP_LAYER_TYPE_GREY, !isLayerGrey);
+                Application application = getApplication();
+                if (application instanceof IApplication) {
+                    ((IApplication) application).finishAllActivity();
+                }
+                break;
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 1111:
                 if (resultCode == RESULT_OK) {
                     Uri uri = data.getData();
                     final String path = FileUtils.getPath(this, uri);
-                    if(path != null && path.endsWith(".back")) {
+                    if (path != null && path.endsWith(".back")) {
                         showBackupDialog(path);
                     } else {
                         Toast.makeText(this, getString(R.string.restore_data_select_error), Toast.LENGTH_SHORT).show();
