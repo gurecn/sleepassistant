@@ -48,7 +48,9 @@ public class BaseActivity extends AppCompatActivity implements OnScreenShotListe
 			ColorMatrix colorMatrix = new ColorMatrix();
 			colorMatrix.setSaturation(0);
 			paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix));
-			getWindow().getDecorView().setLayerType(View.LAYER_TYPE_HARDWARE, paint);
+			View decorView = getWindow().getDecorView();
+			int layerType = decorView.getLayerType() == View.LAYER_TYPE_NONE?View.LAYER_TYPE_HARDWARE:decorView.getLayerType();
+			decorView.setLayerType(layerType, paint);
 		}
 	}
 
