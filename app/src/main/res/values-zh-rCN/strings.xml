@@ -107,4 +107,8 @@
     <string name="local_speech_engine">手机内置引擎</string>
     <string name="tensorflow_speech_engine">TensorFlowTTS引擎</string>
 
+
+    <string name="action_speech">语音</string>
+
+
 </resources>

@@ -9,35 +9,28 @@
         android:name=".application.TheApplication"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <meta-data
-            android:name="android.max_aspect"
-            android:value="2.4" />
-        <!--适配华为（huawei）刘海屏-->
-        <meta-data
-            android:name="android.notch_support"
-            android:value="true"/>
-        <!--适配小米（xiaomi）刘海屏-->
-        <meta-data
-            android:name="notch.config"
-            android:value="portrait|landscape" />
+
         <activity
             android:enabled="false"
-            android:name=".activity.ReceiveProcessTextActivity"
+            android:exported="true"
             android:label="@string/app_name"
-            android:exported="true" >
+            android:name=".activity.ReceiveProcessTextActivity">
             <intent-filter>
                 <action android:name="android.intent.action.PROCESS_TEXT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
-        </activity>
+        </activity> <!-- 适配华为（huawei）刘海屏 -->
         <activity
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:name=".activity.ShiciActivity" />
+            android:name=".activity.ShiciActivity"
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- 适配小米（xiaomi）刘海屏 -->
         <activity
             android:exported="true"
             android:name=".activity.WebActivity" />
+
         <activity
             android:label="@string/nav_string_feedback"
             android:name=".activity.FeedbackTXActivity" />
@@ -51,16 +44,56 @@
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter android:label="@string/app_name">
                 <category android:name="android.intent.category.ALTERNATIVE" />
                 <category android:name="android.intent.category.SELECTED_ALTERNATIVE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
+        <activity
+            android:exported="true"
+            android:label="@string/nav_string_about"
+            android:name=".activity.AboutActivity" />
+        <activity
+            android:exported="true"
+            android:label="@string/nav_string_feedback"
+            android:name=".activity.FeedbackActivity" />
+        <activity
+            android:exported="true"
+            android:label="@string/nav_string_chart"
+            android:name=".activity.ChartActivity" />
+
+        <activity
+            android:exported="true"
+            android:label="@string/nav_string_restriction"
+            android:name=".activity.RestrictionActivity" />
+
+        <activity
+            android:exported="true"
+            android:label="@string/action_settings"
+            android:name=".activity.SettingsActivity" />
+        <activity
+            android:exported="true"
+            android:label="@string/action_applock_settings"
+            android:name=".activity.AppLockTimeActivity" />
+        <activity
+            android:exported="true"
+            android:label="@string/activity_agreement_lable"
+            android:name=".activity.AgreementAvtivity" />
+        <activity
+            android:exported="true"
+            android:name=".activity.ImageActivity" />
+
+        <activity
+            android:exported="true"
+            android:label="@string/action_speech"
+            android:name=".activity.SpeechActivity" />
         <activity-alias
             android:enabled="false"
             android:exported="true"
@@ -70,43 +103,23 @@
             android:targetActivity=".activity.GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity-alias>
-        <activity
-            android:label="@string/nav_string_about"
-            android:exported="true"
-            android:name=".activity.AboutActivity" />
-        <activity
-            android:label="@string/nav_string_feedback"
-            android:exported="true"
-            android:name=".activity.FeedbackActivity" />
-        <activity
-            android:label="@string/nav_string_chart"
-            android:exported="true"
-            android:name=".activity.ChartActivity" />
-        <activity
-            android:label="@string/nav_string_restriction"
-            android:exported="true"
-            android:name=".activity.RestrictionActivity" />
-        <activity
-            android:label="@string/action_settings"
-            android:exported="true"
-            android:name=".activity.SettingsActivity" />
-        <activity
-            android:label="@string/action_applock_settings"
-            android:exported="true"
-            android:name=".activity.AppLockTimeActivity" />
-        <activity
-            android:label="@string/activity_agreement_lable"
-            android:exported="true"
-            android:name=".activity.AgreementAvtivity" />
-        <activity
-            android:exported="true"
-            android:name=".activity.ImageActivity" />
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
 
         <meta-data
             android:name="com.google.android.backup.api_key"
@@ -120,6 +133,33 @@
             android:exported="true"
             android:name=".receiver.AlarmReceiver" />
 
+        <receiver
+            android:exported="true"
+            android:label="@string/widget_i_shici"
+            android:name=".widget.ShiciWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.devdroid.sleepassistant.widget.ACTION_PLAY_PAUSE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_shici" />
+        </receiver>
+
+        <receiver
+            android:exported="true"
+            android:label="@string/widget_i_sleep"
+            android:name=".widget.SleepWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.devdroid.sleepassistant.widget.ACTION_SLEEP" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_i_sleep" />
+        </receiver>
         <service
             android:enabled="true"
             android:exported="true"
@@ -131,50 +171,24 @@
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
         </service>
-
-        <receiver
-            android:label="@string/widget_i_shici"
-            android:name=".widget.ShiciWidgetProvider"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="com.devdroid.sleepassistant.widget.ACTION_PLAY_PAUSE"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_shici"/>
-        </receiver>
-
-        <receiver
-            android:label="@string/widget_i_sleep"
-            android:name=".widget.SleepWidgetProvider"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="com.devdroid.sleepassistant.widget.ACTION_SLEEP"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_i_sleep"/>
-        </receiver>
-
     </application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 获取正在运行的任务列表权限，智能预加载需要权限 -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <!--
-     充许用户在设置(设置 -> 安全 -> 高级 -> 有权查看使用情况的应用(Apps with
-	 * usage access))中授权后可访问用户的应用使用统计信息，如识当前打开的应用
-    -->
-    <!-- Android 11 queries declaration -->
     <queries>
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>
     </queries>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 获取正在运行的任务列表权限，智能预加载需要权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--
+     充许用户在设置(设置 -> 安全 -> 高级 -> 有权查看使用情况的应用(Apps with
+	 * usage access))中授权后可访问用户的应用使用统计信息，如识当前打开的应用
+    -->
+    <!-- Android 11 queries declaration -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />

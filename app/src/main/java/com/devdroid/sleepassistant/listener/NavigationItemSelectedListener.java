@@ -17,6 +17,7 @@ import com.devdroid.sleepassistant.activity.FeedbackTXActivity;
 import com.devdroid.sleepassistant.activity.MainActivity;
 import com.devdroid.sleepassistant.activity.RestrictionActivity;
 import com.devdroid.sleepassistant.activity.SettingsActivity;
+import com.devdroid.sleepassistant.activity.SpeechActivity;
 import com.devdroid.sleepassistant.activity.WebActivity;
 import com.devdroid.sleepassistant.utils.AppUtils;
 import com.google.android.material.navigation.NavigationView;
@@ -63,6 +64,9 @@ public class NavigationItemSelectedListener  implements NavigationView.OnNavigat
                 break;
             case R.id.nav_about :
                 mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, AboutActivity.class));
+                break;
+            case R.id.nav_speech :
+                mAppCompatActivity.startActivity(new Intent(mAppCompatActivity, SpeechActivity.class));
                 break;
         }
         item.setCheckable(false);

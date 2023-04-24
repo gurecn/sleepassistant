@@ -19,6 +19,10 @@
             android:id="@+id/nav_set"
             android:icon="@drawable/ic_menu_set"
             android:title="@string/action_settings" />
+        <item
+            android:id="@+id/nav_speech"
+            android:icon="@drawable/ic_menu_set"
+            android:title="@string/action_speech" />
     </group>
 
     <item android:title="Communicate">

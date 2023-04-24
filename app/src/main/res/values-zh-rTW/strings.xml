@@ -82,4 +82,6 @@
     <string name="dialog_lock_time_ok">立即開啟</string>
     <string name="dialog_lock_time_cancel">暫不使用</string>
 
+
+    <string name="action_speech">语音</string>
 </resources>
