@@ -10,6 +10,8 @@ public class CustomConstant {
     private CustomConstant() {}
     public final static String PACKAGE_NAME = BuildConfig.APPLICATION_ID;
     public final static String PROCESS_NAME_MAIN = PACKAGE_NAME;
+    public final static String IFLYTEK_SPEECH_APPID = "appid=5dd162a1";
+
 
 
     //数据备份相关变量

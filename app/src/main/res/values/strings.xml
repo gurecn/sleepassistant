@@ -111,4 +111,19 @@
 
 
     <string name="action_speech">语音</string>
+
+    <string-array name="voicer_cloud_entries">
+        <item>小燕—女青、中英、普通话</item>
+        <item>许久—男青、中英、普通话</item>
+        <item>小萍—女青、中英、普通话</item>
+        <item>小婧—女青、中英、普通话</item>
+        <item>许小宝—男青、中英、普通话</item>
+    </string-array>
+    <string-array name="voicer_cloud_values">
+        <item>xiaoyan</item>
+        <item>aisjiuxu</item>
+        <item>aisxping</item>
+        <item>aisjinger</item>
+        <item>aisbabyxu</item>
+    </string-array>
 </resources>
